@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<head>
+  
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-PPZPQ6');</script>
+  <!-- End Google Tag Manager -->
+    <title>Application Acceleration</title>
+  
+
+  <meta charset="utf-8">
+  <!-- Twitter Bootstrap viewport setting -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- F5 metadata -->
+  <meta name="title" content="Application Acceleration"/>
+  <meta name="product" content="Unofficial - F5 Certification Exam Prep Material"/>
+  <meta name="version" content=""/>
+  <meta name="updated_date"  content="2024-05-22 12:12:26"/>
+  <meta name="archived" content="Archived documents excluded"/>
+  <meta name="doc_type" content="Manual"/>
+  <meta name="lifecycle" content="release"/>
+  <meta name="Unofficial - F5 Certification Exam Prep Material" content=""/>
+
+
+  
+
+  
+  <link href="https://cdn.f5.com/favicon.ico" rel="icon">
+
+</head>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Application Acceleration &#8212; Unofficial - F5 Certification Exam Prep Material  documentation</title>
+    <link rel="stylesheet" href="../../_static/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/f5.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/f5-theme.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/CoveoFullSearch.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/21fb8a09c3.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script type="text/javascript" src="../../_static/clipboard.min.js"></script>
+    <script type="text/javascript" src="../../_static/copybutton.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Securing Web Applications" href="lab3.html" />
+    <link rel="prev" title="Working with Profiles" href="lab1.html" /> 
+  </head><body>
+  <div id="clouddocs-header"></div>
+
+    <div id="sidebar" class="section-nav">
+      
+      <!--  version selector ------------------>
+      <div id="version_selector_wrapper">
+      </div>
+      <nav class="nav-sidebartoc">
+
+        
+         <h5>Unofficial - F5 Certification Exam Prep Material  </h5>
+        
+
+        <hr>
+        <span class="nav-sidebartoc">
+            <p class="caption"><span class="caption-text">Intro:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Getting Started with the F5 Certification Program - Created 03/29/19</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - 101 Certification Exam Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../class1/class1.html">F5 101 - App Delivery Fundamentals Exam Study Guide - Created 03/06/20</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - 201 Certification Exam Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../class3/class3.html">F5 201 - TMOS Administration Exam Study Guide - New One Not Created Yet</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - 201 Certification Lab:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../class4/class4.html">F5 201 - TMOS Administration Labs (V13.1)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - 202 Certification Exam Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../class5/class5.html">F5 202 - Pre-Sales Fundamentals Exam Study Guide - Created 11/01/19</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - 301A Certification Exam Resources:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../class7/class7.html">F5 301A - BIG-IP LTM Specialist: Architect, Set-Up &amp; Deploy Exam Study Guide - Created 11/01/19</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../class8.html">F5 301A - BIG-IP LTM Specialist Labs - Created 11/01/19</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - 301B Certification Exam Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../class9/class9.html">F5 301B - BIG-IP LTM Specialist: Maintain and Troubleshoot Exam Study Guide - Created 11/01/19</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - 302 Certification Exam Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../class11/class11.html">F5 302 - BIG-IP DNS Specialist Exam Study Guide - NOT CREATED</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - 303 Certification Exam Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../class13/class13.html">F5 303 - BIG-IP ASM Specialist Study Guide - NOT CREATED</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - 304 Certification Exam Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../class15/class15.html">F5 304 - BIG-IP APM Specialist Study Guide - NOT CREATED</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - 401 Certification Exam Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../class17/class17.html">F5 401 - Security Solution Expert Study Guide - Created 09/26/18</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - 402 Certification Exam Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../class19/class19.html">F5 402 - Cloud Solutions Study Guide - NOT CREATED</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - Nginx OSS Certification Exam Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../class21/class21.html">F5 N1-N4 - NGINX OSS - NOT CREATED</a></li>
+</ul>
+
+        </span><!-- Use this file to add extra links to the bottom of the ToC sidebar -->
+<hr>
+  <span class="nav-sidebartoc">
+ <!-- insert content here -->
+  </span>
+      </nav>
+    </div>
+
+
+    <div id="right-sidebar">
+      <h7 style="font-weight:normal">On this page:</h7>
+      <nav class="nav-sidebartoc">
+        <span class="nav-sidebartoc">
+            <ul>
+<li><a class="reference internal" href="#">Application Acceleration</a><ul>
+<li><a class="reference internal" href="#tcp-express">TCP Express</a></li>
+<li><a class="reference internal" href="#http-optimization-ramcache-lab">HTTP Optimization - RamCache Lab</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#http-optimization-http-compression-lab">HTTP Optimization - HTTP Compression Lab</a></li>
+</ul>
+
+         </span>
+      </nav>
+    </div>
+
+
+
+
+
+  
+  <div class="main active" id="content" >
+    <article class="docs-container site-article-inner">
+              <!-- custom breadcrumb -->
+        <h5>
+            <a href="../../index.html">Unofficial - F5 Certification Exam Prep Material</a>
+              &gt; <a href="../class8.html">F5 301A - BIG-IP LTM Specialist Labs - Created 11/01/19</a>
+              &gt; <a href="module02.html">Lab 2 - Profiles</a>
+
+          <span class="right">
+             <a href="../../_sources/class8/module02/lab2.rst.txt" rel="nofollow">Source</a> |
+             <a href="https://github.com/f5devcentral/f5-agility-labs-cert">Edit on <i class="fa fa-github" aria-hidden="true"></i></a>
+          </span>
+        </h5>
+        <!-- end custom breadcrumb -->
+      
+
+
+    <!--a title="Export PDF" id="export-pdf" class="btn btn btn-link pull-right">View PDF</a-->
+    <button type="button" id="export-pdf" class="btn btn-link right">PDF</button>
+
+
+    
+     
+         <div class="sidebar" id="version-warning" style="display: none;">
+           <p class="first sidebar-title">
+           <span class="icon fa fa-info-circle fa-lg"></span> Version notice:</p>
+           <p class="last" id="currentVersion"></p>
+          </div>
+
+
+     <div role="main">
+        
+  <div class="section" id="application-acceleration">
+<h1>Application Acceleration<a class="headerlink" href="#application-acceleration" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="tcp-express">
+<h2>TCP Express<a class="headerlink" href="#tcp-express" title="Permalink to this headline">¶</a></h2>
+<p>Set client-side and server-side TCP profiles on your virtual server
+properties.</p>
+<p>From the drop-down menus place the <strong>tcp-wan-optimized</strong> profile on the
+client-side and the <strong>tcp-lan-optimized</strong> profile on the server-side.</p>
+<p>Note the custom boxes in each of the TCP profiles you used.</p>
+<p><em>Q1. What is the idle timeout in each profile? Why might you want to
+change it?</em></p>
+<p><em>Q2. What is the Nagle selection in the default TCP, tcp-wan-optimized
+and tcp-lan-optimized profiles? Why might you want to change it?</em></p>
+<p><em>Q3. What happens if you increase the proxy buffer sizes?</em></p>
+</div>
+<div class="section" id="http-optimization-ramcache-lab">
+<h2>HTTP Optimization - RamCache Lab<a class="headerlink" href="#http-optimization-ramcache-lab" title="Permalink to this headline">¶</a></h2>
+<p>Go to your virtual server and refresh server times. Note the Source Node
+for the pictures of the BIG-IPs. They change depending on where the
+connection is coming from. The Source Node information is part of the
+picture.</p>
+<p>Go to <strong>Local Traffic &gt; Profiles &gt; Services &gt; Web Acceleration</strong> or
+<strong>Acceleration &gt; Profiles &gt; Web Acceleration</strong></p>
+<p>Create a new profile named <strong>www-opt-caching</strong> using
+<strong>optimized-caching</strong> as the Parent Profile.</p>
+<p>Take all the defaults, no other changes are required.</p>
+<p><em>Q1. What resource would be consumed if you increased the</em> <strong>Cache Size</strong> <em>setting?</em></p>
+<p>Open up your <strong>www_vs</strong> virtual server.</p>
+<p>At the HTTP Profile drop down menu make sure http is selected.</p>
+<p>Under <strong>Acceleration</strong> at <strong>Web</strong> <strong>Acceleration</strong> <strong>Profile</strong> select
+your new caching profile; <strong>www-opt-caching</strong></p>
+<p>Clear the statistics on the <strong>www_pool</strong>.</p>
+<p>Browse to <strong>http://10.1.10.100</strong>. Refresh the main web page several times.</p>
+<p><em>Q2. The pictures do not change. Why do you think that is?</em></p>
+<p><em>Q3. Go to your pool. Are all pool members taking connections?</em></p>
+<p>Now go to <strong>Statistics &gt; Module Statistics &gt; Local Traffic</strong> on the sidebar,
+from the <strong>Statistics Type</strong> drop down menu select <strong>Profiles Summary</strong>
+and select the <strong>Web Acceleration</strong> profile view link. Note the
+information.</p>
+<p>You can get more detailed information on Web Acceleration profils and cache entries at the
+CLI level</p>
+<p>Log onto the CLI of your BIG-IP via SSH using the root account (root/default).</p>
+<p>At the CLI go into <strong>tmsh</strong> at the (tmos)# prompt and enter:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">show</span> <span class="n">ltm</span> <span class="n">profile</span> <span class="n">ramcache</span> <span class="n">www</span><span class="o">-</span><span class="n">opt</span><span class="o">-</span><span class="n">caching</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="http-optimization-http-compression-lab">
+<h1>HTTP Optimization - HTTP Compression Lab<a class="headerlink" href="#http-optimization-http-compression-lab" title="Permalink to this headline">¶</a></h1>
+<p>Browse to <strong>http://10.1.10.100</strong>. On the web page under, <strong>HTTP Request and
+Response Information</strong> select the <strong>Request and Response Headers</strong> link.</p>
+<p><em>Q1. Does the browser accept compression?</em></p>
+<p>Go to Local <strong>Traffic &gt; Profiles &gt; Service &gt; HTTP</strong> <strong>Compression</strong> or
+<strong>Acceleration &gt; Profiles &gt; HTTP Compression</strong></p>
+<p>Create a new profile, named <strong>www-compress</strong> using the
+<strong>wan-optimized-compression</strong> default profile.</p>
+<p><em>Q2. At what point would the BIG-IP quit compressing responses?</em></p>
+<p>Open up your <strong>www_vs</strong> virtual server.</p>
+<p>At the <strong>Web Acceleration</strong> drop down menu select <strong>None</strong></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">For purpose of this lab we don’t want caching interfering with our
+response headers.</p>
+</div>
+<p>At the <strong>HTTP Compression</strong> drop down menu select the HTTP compression
+profile you just created.</p>
+<p>Browse the virtual server web site and on the web page under <strong>Content Examples
+on This Host</strong> select the <strong>HTTP Compress Example</strong> and <strong>Plaintext
+Compress Example</strong> link.</p>
+<p>Now off to <strong>Statistics</strong> on the sidebar, under the <strong>Local Traffic</strong>
+drop down menu select <strong>Profiles Summary</strong></p>
+<p>Select the <strong>View</strong> link next to the <strong>HTTP Compression</strong> profile type</p>
+<p>On the web page under, <strong>HTTP Request and Response Information</strong> select
+the <strong>Request and Response Headers</strong> link. Notice you no longer see the
+<strong>Accept-Encoding</strong> header in the <strong>Request Headers Received</strong> at the
+Server section.</p>
+<p>You can also browse to <strong>https://10.1.10.115</strong> and note what the
+request/response looks like unchanged.</p>
+</div>
+
+
+     </div>
+    
+     <div class="row next-prev-btn-row">
+       <div class="col-lg-12">
+       
+        <a href="lab1.html" title="Working with Profiles" accesskey="p" class="btn btn-primary left"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Previous</a>
+       
+       
+          <a href="lab3.html" title="Securing Web Applications" accesskey="n" class="btn btn-primary right">Next <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
+       
+     </div>
+     </div>
+    
+
+    </article>
+  </div>
+
+</div>
+
+
+  <div id="clouddocs-footer"></div>
+  <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+
+  <script src="../../_static/js/index.js"></script>
+  <script src="../../_static/js/jquery.appear.js"></script>
+  <script src="../../_static/js/printThis.js"></script>
+  <script src="../../_static/js/bootstrap.min.js"></script>
+  <script src="../../_static/js/clouddocs.js"></script>
+  <script src="../../_static/js/CoveoJsSearch.Lazy.min.js"></script>
+  </body>
+</html>

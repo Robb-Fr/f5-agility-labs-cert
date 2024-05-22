@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<head>
+  
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-PPZPQ6');</script>
+  <!-- End Google Tag Manager -->
+    <title>Module 2 - Virtual Server and Pool Behavior and Status</title>
+  
+
+  <meta charset="utf-8">
+  <!-- Twitter Bootstrap viewport setting -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- F5 metadata -->
+  <meta name="title" content="Module 2 - Virtual Server and Pool Behavior and Status"/>
+  <meta name="product" content="Unofficial - F5 Certification Exam Prep Material"/>
+  <meta name="version" content=""/>
+  <meta name="updated_date"  content="2024-05-22 12:12:26"/>
+  <meta name="archived" content="Archived documents excluded"/>
+  <meta name="doc_type" content="Manual"/>
+  <meta name="lifecycle" content="release"/>
+  <meta name="Unofficial - F5 Certification Exam Prep Material" content=""/>
+
+
+  
+
+  
+  <link href="https://cdn.f5.com/favicon.ico" rel="icon">
+
+</head>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Module 2 - Virtual Server and Pool Behavior and Status &#8212; Unofficial - F5 Certification Exam Prep Material  documentation</title>
+    <link rel="stylesheet" href="../../_static/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/f5.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/f5-theme.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/CoveoFullSearch.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/21fb8a09c3.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script type="text/javascript" src="../../_static/clipboard.min.js"></script>
+    <script type="text/javascript" src="../../_static/copybutton.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Module 3 – Administering the System Configuration" href="lab3.html" />
+    <link rel="prev" title="Module 1 – Accessing the Lab, Networking and BIG-IP Traffic Flow" href="lab1.html" /> 
+  </head><body>
+  <div id="clouddocs-header"></div>
+
+    <div id="sidebar" class="section-nav">
+      
+      <!--  version selector ------------------>
+      <div id="version_selector_wrapper">
+      </div>
+      <nav class="nav-sidebartoc">
+
+        
+         <h5>Unofficial - F5 Certification Exam Prep Material  </h5>
+        
+
+        <hr>
+        <span class="nav-sidebartoc">
+            <p class="caption"><span class="caption-text">Intro:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Getting Started with the F5 Certification Program - Created 03/29/19</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - 101 Certification Exam Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../class1/class1.html">F5 101 - App Delivery Fundamentals Exam Study Guide - Created 03/06/20</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - 201 Certification Exam Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../class3/class3.html">F5 201 - TMOS Administration Exam Study Guide - New One Not Created Yet</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - 201 Certification Lab:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../class4.html">F5 201 - TMOS Administration Labs (V13.1)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - 202 Certification Exam Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../class5/class5.html">F5 202 - Pre-Sales Fundamentals Exam Study Guide - Created 11/01/19</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - 301A Certification Exam Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../class7/class7.html">F5 301A - BIG-IP LTM Specialist: Architect, Set-Up &amp; Deploy Exam Study Guide - Created 11/01/19</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../class8/class8.html">F5 301A - BIG-IP LTM Specialist Labs - Created 11/01/19</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - 301B Certification Exam Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../class9/class9.html">F5 301B - BIG-IP LTM Specialist: Maintain and Troubleshoot Exam Study Guide - Created 11/01/19</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - 302 Certification Exam Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../class11/class11.html">F5 302 - BIG-IP DNS Specialist Exam Study Guide - NOT CREATED</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - 303 Certification Exam Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../class13/class13.html">F5 303 - BIG-IP ASM Specialist Study Guide - NOT CREATED</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - 304 Certification Exam Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../class15/class15.html">F5 304 - BIG-IP APM Specialist Study Guide - NOT CREATED</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - 401 Certification Exam Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../class17/class17.html">F5 401 - Security Solution Expert Study Guide - Created 09/26/18</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - 402 Certification Exam Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../class19/class19.html">F5 402 - Cloud Solutions Study Guide - NOT CREATED</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - Nginx OSS Certification Exam Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../class21/class21.html">F5 N1-N4 - NGINX OSS - NOT CREATED</a></li>
+</ul>
+
+        </span><!-- Use this file to add extra links to the bottom of the ToC sidebar -->
+<hr>
+  <span class="nav-sidebartoc">
+ <!-- insert content here -->
+  </span>
+      </nav>
+    </div>
+
+
+    <div id="right-sidebar">
+      <h7 style="font-weight:normal">On this page:</h7>
+      <nav class="nav-sidebartoc">
+        <span class="nav-sidebartoc">
+            <ul>
+<li><a class="reference internal" href="#">Module 2 - Virtual Server and Pool Behavior and Status</a><ul>
+<li><a class="reference internal" href="#virtual-server-status">Virtual Server Status</a><ul>
+<li><a class="reference internal" href="#test-disabled-virtual-server">Test Disabled Virtual Server</a></li>
+<li><a class="reference internal" href="#virtual-server-connection-limits-and-status">Virtual Server Connection Limits and Status</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pool-member-and-virtual-servers">Pool Member and Virtual Servers</a><ul>
+<li><a class="reference internal" href="#effects-of-monitors-on-members-pools-and-virtual-servers">Effects of Monitors on Members, Pools and Virtual Servers</a></li>
+<li><a class="reference internal" href="#more-on-status-and-member-specific-monitors">More on status and member specific monitors</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#load-balancing">Load Balancing</a><ul>
+<li><a class="reference internal" href="#id1">Load Balancing</a></li>
+<li><a class="reference internal" href="#priority-group-activation">Priority Group Activation</a></li>
+<li><a class="reference internal" href="#the-effects-of-persistence-on-load-balancing">The Effects of Persistence on Load Balancing</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+         </span>
+      </nav>
+    </div>
+
+
+
+
+
+  
+  <div class="main active" id="content" >
+    <article class="docs-container site-article-inner">
+              <!-- custom breadcrumb -->
+        <h5>
+            <a href="../../index.html">Unofficial - F5 Certification Exam Prep Material</a>
+              &gt; <a href="../class4.html">F5 201 - TMOS Administration Labs (V13.1)</a>
+              &gt; <a href="module5.html">Appendix I - Answer Key</a>
+
+          <span class="right">
+             <a href="../../_sources/class4/module5/lab2.rst.txt" rel="nofollow">Source</a> |
+             <a href="https://github.com/f5devcentral/f5-agility-labs-cert">Edit on <i class="fa fa-github" aria-hidden="true"></i></a>
+          </span>
+        </h5>
+        <!-- end custom breadcrumb -->
+      
+
+
+    <!--a title="Export PDF" id="export-pdf" class="btn btn btn-link pull-right">View PDF</a-->
+    <button type="button" id="export-pdf" class="btn btn-link right">PDF</button>
+
+
+    
+     
+         <div class="sidebar" id="version-warning" style="display: none;">
+           <p class="first sidebar-title">
+           <span class="icon fa fa-info-circle fa-lg"></span> Version notice:</p>
+           <p class="last" id="currentVersion"></p>
+          </div>
+
+
+     <div role="main">
+        
+  <div class="section" id="module-2-virtual-server-and-pool-behavior-and-status">
+<h1>Module 2 - Virtual Server and Pool Behavior and Status<a class="headerlink" href="#module-2-virtual-server-and-pool-behavior-and-status" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="virtual-server-status">
+<h2>Virtual Server Status<a class="headerlink" href="#virtual-server-status" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="test-disabled-virtual-server">
+<h3>Test Disabled Virtual Server<a class="headerlink" href="#test-disabled-virtual-server" title="Permalink to this headline">¶</a></h3>
+<p><em>Q1. What is the Availability of</em> <strong>www_vs</strong><em>? What is the State?</em></p>
+<p>Availability: available, State: disabled</p>
+<p><em>Q2. What symbol is used to represent</em> <strong>www_vs</strong> <em>status?</em></p>
+<p>Black Circle</p>
+<p><em>Q3. Would you expect browsing to http://10.1.10.100 to work?</em></p>
+<p>No</p>
+<p><em>Q4. Can you ping the virtual IP?</em></p>
+<p>Yes, the virtual address still responds to pings</p>
+<p><em>Q5. Did the site work? What did the tcpdump show?</em></p>
+<p>No, the tcpdump showed the virtual server 10.1.10.100:80 responding to
+SYNs with Resets</p>
+<p><em>Q6. Did statistics counters for any virtual increment?</em></p>
+<p>No</p>
+<p><em>Q7. Why do you think the</em> <strong>wildcard_vs</strong> <em>didn’t pick up the packets?</em></p>
+<p>www_vs was the most specific virtual server so it responded. Because the www_vs was disabled the response was to reset the connection.  This make sense if you think about it.  What good would it do to disable a virtual server just to have another virtual server pick up the traffic either process incorrectly or send it to servers you just tried to prevent traffic from going too.</p>
+<p><em>Q8. What symbol is used to represent</em> <strong>wildcard_vs</strong><em>? Why is symbol a
+square?</em></p>
+<p>The status symbol is a black square. Black because the virtual server
+was administratively disabled and square because there is no monitor and
+the state is Unknown</p>
+<p><em>Q9. What is the reason given for current state?</em></p>
+<p>The children pool member(s) either don’t have service checking enabled,
+or service check results are not available yet. Availability: unknown
+State: disabled</p>
+<p><em>Q10. Does ftp session still work? Why?</em></p>
+<p>Disabling a configuration item (node, pool or virtual server) does not
+affect existing connections.</p>
+<p><em>Q11. Did new ftp session establish connection? Why not?</em></p>
+<p>No, a disabled virtual server will not process new connections.</p>
+</div>
+<div class="section" id="virtual-server-connection-limits-and-status">
+<h3>Virtual Server Connection Limits and Status<a class="headerlink" href="#virtual-server-connection-limits-and-status" title="Permalink to this headline">¶</a></h3>
+<p><em>Q1. Does ftp session work?</em></p>
+<p>Yes</p>
+<p><em>Q2. What is the virtual server status of ftp_vs?</em></p>
+<p>Yellow Triangle - Availability: unavailable - State: enabled</p>
+<p><em>Q3. Did new ftp session establish connection? Why not?</em></p>
+<p>No, the virtual server’s connection limit has been reached.</p>
+<p><em>Q4. Did tcpdump capture show a connection reset?</em></p>
+<p>Yes, tcpdump revealed <strong>R</strong> TCP reset the connection.</p>
+<p><em>Q5. Quit all FTP sessions and note</em> <strong>ftp_vs</strong> <em>status.</em></p>
+<p>Once all the FTP have been terminated and you have drop below the maximum connection limit the virtual server should become <strong>Available</strong></p>
+</div>
+</div>
+<div class="section" id="pool-member-and-virtual-servers">
+<h2>Pool Member and Virtual Servers<a class="headerlink" href="#pool-member-and-virtual-servers" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="effects-of-monitors-on-members-pools-and-virtual-servers">
+<h3>Effects of Monitors on Members, Pools and Virtual Servers<a class="headerlink" href="#effects-of-monitors-on-members-pools-and-virtual-servers" title="Permalink to this headline">¶</a></h3>
+<p><em>Q1. Since the</em> <strong>mysql_monitor</strong> <em>will fail, how long will it take to
+mark the pool offline?</em></p>
+<p>60 seconds, the monitor will have to fail 4 times at 15 second intervals
+before it exceeds the 46 second timeout value.</p>
+<p><em>Q2. What is the icon and status of</em> <strong>www_vs</strong><em>?</em></p>
+<p>Red Diamond - Availability: offline - State: enabled - The children pool
+member(s) are down</p>
+<p><em>Q3. What is the icon and status of</em> <strong>www_pool</strong><em>?</em></p>
+<p>Red Diamond - Availability: offline - State: enabled - The children pool
+member(s) are down</p>
+<p><em>Q4. What is the icon and status of the</em> <strong>www_pool</strong> <em>members?</em></p>
+<p>Red Diamond - Availability: offline - State: enabled - Pool member has
+been marked down by a monitor</p>
+<p><em>Q5. How does the status of the pool configuration effect the virtual
+server status?</em></p>
+<p>The status of the pool members can affect the status of the virtual
+server.  If all the the pool members are offline, then the pool is offline and therefore the virtual server goes offline.</p>
+<p><em>Q6. What is the icon and status of</em> <strong>www_vs</strong><em>?</em></p>
+<p>Black Diamond - Availability: offline - State: disabled - The children
+pool member(s) are down</p>
+<p><em>Q7. Did traffic counters increment for</em> <strong>www_vs</strong><em>?</em></p>
+<p>No</p>
+<p><em>Q8. What is the difference in the tcpdumps between Offline (Disabled) vs
+Offline (Enabled)?</em></p>
+<p>Offline (Disabled) - immediate connection reset, you will see no virtual
+server statistics.</p>
+<p>Offline (Enabled) - initial connection accepted then reset, the virtual server stats are
+incremented</p>
+</div>
+<div class="section" id="more-on-status-and-member-specific-monitors">
+<h3>More on status and member specific monitors<a class="headerlink" href="#more-on-status-and-member-specific-monitors" title="Permalink to this headline">¶</a></h3>
+<p><em>Q1. What is the status of the Pool Member and the monitors assigned to
+it?</em></p>
+<p>Red Diamond - Red Diamond - Availability: offline - State: enabled -
+Pool member has been marked down by a monitor</p>
+<p>http - Green Circle, mysql_monitor - Red Diamond</p>
+<p><em>Q2. What is the status of</em> <strong>www_vs</strong>, <strong>www_pool</strong> <em>and the pool
+members? Why?</em></p>
+<p>Green, Green, Red, Red, Green. One pool member available, marks the pool
+available and since the pool is available, the virtual server is
+available</p>
+<p><em>Q3. Did the site work?</em></p>
+<p>Yes</p>
+<p><em>Q4. Which</em> <strong>www_pool</strong> <em>members was traffic sent to?</em></p>
+<p>Traffic was distributed to availble pool members.</p>
+</div>
+</div>
+<div class="section" id="load-balancing">
+<h2>Load Balancing<a class="headerlink" href="#load-balancing" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h3>Load Balancing<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p><em>Q1. Which</em> <strong>www_pool</strong> <em>members was traffic sent to?</em></p>
+<p>Traffic was distributed to 10.1.20.12 and 10.1.20.13</p>
+<p><em>Q2. Did member 10.1.20.12 receive the most traffic? Why not?</em></p>
+<p>No, because LB method is Round Robin, Ratio and Priority Group
+configurations on pool members do not apply.</p>
+<p><em>Q3. Which</em> <strong>www_pool</strong> <em>members was traffic sent to?</em></p>
+<p>Traffic was distributed to 10.1.20.12 and 10.1.20.13</p>
+<p><em>Q4. Did member 10.1.20.12 receive the most traffic?</em></p>
+<p>10.1.20.12 received 5x more traffic than 10.1.20.12</p>
+</div>
+<div class="section" id="priority-group-activation">
+<h3>Priority Group Activation<a class="headerlink" href="#priority-group-activation" title="Permalink to this headline">¶</a></h3>
+<p><em>Q1. Which</em> <strong>www_pool</strong> <em>members was traffic sent</em> to?</p>
+<p>Traffic was distributed to 10.1.20.11 and 10.1.20.12</p>
+<p><em>Q2. Which</em> <strong>www_pool</strong> <em>members was traffic sent to? Why?</em></p>
+<p>Traffic was distributed to 10.1.20.12 and 10.1.20.13. Pool member
+availability dropped below 2 available members in the highest priority
+group and the next lowest priority group was activated.</p>
+<p><em>Q3. Would the results have been different if 10.1.20.11:80 had been
+marked offline or marked with a yellow triangle?</em></p>
+<p>No, both mark the member as Unavailable, dropping the Available members
+below 2.</p>
+</div>
+<div class="section" id="the-effects-of-persistence-on-load-balancing">
+<h3>The Effects of Persistence on Load Balancing<a class="headerlink" href="#the-effects-of-persistence-on-load-balancing" title="Permalink to this headline">¶</a></h3>
+<p><em>Q1. Why was a http profile required?</em></p>
+<p>The http profile was required to tell the BIG-IP to parse the http
+request/response sequence for the virtual server so it could insert and
+read cookies in the http headers.</p>
+<p><em>Q2. Was traffic evenly distributed to all</em> <strong>www_pool</strong> <em>members? Why
+not?</em></p>
+<p>Traffic went to only on pool member because of persistence,</p>
+<p><em>Q3. Did you persist to the Disabled member? Why?</em></p>
+<p>Yes, a Disable pool member will still receive new connections if a
+persistence record points to it.</p>
+<p><em>Q4. Does traffic continue to persist to the member Forced Offline?</em></p>
+<p>No, another available member was selected and a new persistence record
+was created</p>
+<p><em>Q5. If cookies were disable on your browser would persistence still
+work? Why?</em></p>
+<p>Yes, source address persistence would be used to persist to a pool
+member</p>
+</div>
+</div>
+</div>
+
+
+     </div>
+    
+     <div class="row next-prev-btn-row">
+       <div class="col-lg-12">
+       
+        <a href="lab1.html" title="Module 1 – Accessing the Lab, Networking and BIG-IP Traffic Flow" accesskey="p" class="btn btn-primary left"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Previous</a>
+       
+       
+          <a href="lab3.html" title="Module 3 – Administering the System Configuration" accesskey="n" class="btn btn-primary right">Next <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
+       
+     </div>
+     </div>
+    
+
+    </article>
+  </div>
+
+</div>
+
+
+  <div id="clouddocs-footer"></div>
+  <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+
+  <script src="../../_static/js/index.js"></script>
+  <script src="../../_static/js/jquery.appear.js"></script>
+  <script src="../../_static/js/printThis.js"></script>
+  <script src="../../_static/js/bootstrap.min.js"></script>
+  <script src="../../_static/js/clouddocs.js"></script>
+  <script src="../../_static/js/CoveoJsSearch.Lazy.min.js"></script>
+  </body>
+</html>

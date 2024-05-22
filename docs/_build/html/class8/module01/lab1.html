@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<head>
+  
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-PPZPQ6');</script>
+  <!-- End Google Tag Manager -->
+    <title>Basic set up using TMSH</title>
+  
+
+  <meta charset="utf-8">
+  <!-- Twitter Bootstrap viewport setting -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- F5 metadata -->
+  <meta name="title" content="Basic set up using TMSH"/>
+  <meta name="product" content="Unofficial - F5 Certification Exam Prep Material"/>
+  <meta name="version" content=""/>
+  <meta name="updated_date"  content="2024-05-22 12:12:26"/>
+  <meta name="archived" content="Archived documents excluded"/>
+  <meta name="doc_type" content="Manual"/>
+  <meta name="lifecycle" content="release"/>
+  <meta name="Unofficial - F5 Certification Exam Prep Material" content=""/>
+
+
+  
+
+  
+  <link href="https://cdn.f5.com/favicon.ico" rel="icon">
+
+</head>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Basic set up using TMSH &#8212; Unofficial - F5 Certification Exam Prep Material  documentation</title>
+    <link rel="stylesheet" href="../../_static/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/f5.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/f5-theme.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/CoveoFullSearch.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/21fb8a09c3.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script type="text/javascript" src="../../_static/clipboard.min.js"></script>
+    <script type="text/javascript" src="../../_static/copybutton.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Lab 2 - Profiles" href="../module02/module02.html" />
+    <link rel="prev" title="Lab 1 - Basic Setup, TMSH and SNATs" href="module01.html" /> 
+  </head><body>
+  <div id="clouddocs-header"></div>
+
+    <div id="sidebar" class="section-nav">
+      
+      <!--  version selector ------------------>
+      <div id="version_selector_wrapper">
+      </div>
+      <nav class="nav-sidebartoc">
+
+        
+         <h5>Unofficial - F5 Certification Exam Prep Material  </h5>
+        
+
+        <hr>
+        <span class="nav-sidebartoc">
+            <p class="caption"><span class="caption-text">Intro:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Getting Started with the F5 Certification Program - Created 03/29/19</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - 101 Certification Exam Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../class1/class1.html">F5 101 - App Delivery Fundamentals Exam Study Guide - Created 03/06/20</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - 201 Certification Exam Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../class3/class3.html">F5 201 - TMOS Administration Exam Study Guide - New One Not Created Yet</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - 201 Certification Lab:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../class4/class4.html">F5 201 - TMOS Administration Labs (V13.1)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - 202 Certification Exam Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../class5/class5.html">F5 202 - Pre-Sales Fundamentals Exam Study Guide - Created 11/01/19</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - 301A Certification Exam Resources:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../class7/class7.html">F5 301A - BIG-IP LTM Specialist: Architect, Set-Up &amp; Deploy Exam Study Guide - Created 11/01/19</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../class8.html">F5 301A - BIG-IP LTM Specialist Labs - Created 11/01/19</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - 301B Certification Exam Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../class9/class9.html">F5 301B - BIG-IP LTM Specialist: Maintain and Troubleshoot Exam Study Guide - Created 11/01/19</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - 302 Certification Exam Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../class11/class11.html">F5 302 - BIG-IP DNS Specialist Exam Study Guide - NOT CREATED</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - 303 Certification Exam Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../class13/class13.html">F5 303 - BIG-IP ASM Specialist Study Guide - NOT CREATED</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - 304 Certification Exam Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../class15/class15.html">F5 304 - BIG-IP APM Specialist Study Guide - NOT CREATED</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - 401 Certification Exam Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../class17/class17.html">F5 401 - Security Solution Expert Study Guide - Created 09/26/18</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - 402 Certification Exam Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../class19/class19.html">F5 402 - Cloud Solutions Study Guide - NOT CREATED</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - Nginx OSS Certification Exam Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../class21/class21.html">F5 N1-N4 - NGINX OSS - NOT CREATED</a></li>
+</ul>
+
+        </span><!-- Use this file to add extra links to the bottom of the ToC sidebar -->
+<hr>
+  <span class="nav-sidebartoc">
+ <!-- insert content here -->
+  </span>
+      </nav>
+    </div>
+
+
+    <div id="right-sidebar">
+      <h7 style="font-weight:normal">On this page:</h7>
+      <nav class="nav-sidebartoc">
+        <span class="nav-sidebartoc">
+            <ul>
+<li><a class="reference internal" href="#">Basic set up using TMSH</a><ul>
+<li><a class="reference internal" href="#tmsh-challenge">TMSH challenge</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#snats-and-nats">SNATs and NATs</a><ul>
+<li><a class="reference internal" href="#snat-pools">SNAT Pools</a></li>
+<li><a class="reference internal" href="#more-snats-and-nats">More SNATs and NATs</a></li>
+</ul>
+</li>
+</ul>
+
+         </span>
+      </nav>
+    </div>
+
+
+
+
+
+  
+  <div class="main active" id="content" >
+    <article class="docs-container site-article-inner">
+              <!-- custom breadcrumb -->
+        <h5>
+            <a href="../../index.html">Unofficial - F5 Certification Exam Prep Material</a>
+              &gt; <a href="../class8.html">F5 301A - BIG-IP LTM Specialist Labs - Created 11/01/19</a>
+              &gt; <a href="module01.html">Lab 1 - Basic Setup, TMSH and SNATs</a>
+
+          <span class="right">
+             <a href="../../_sources/class8/module01/lab1.rst.txt" rel="nofollow">Source</a> |
+             <a href="https://github.com/f5devcentral/f5-agility-labs-cert">Edit on <i class="fa fa-github" aria-hidden="true"></i></a>
+          </span>
+        </h5>
+        <!-- end custom breadcrumb -->
+      
+
+
+    <!--a title="Export PDF" id="export-pdf" class="btn btn btn-link pull-right">View PDF</a-->
+    <button type="button" id="export-pdf" class="btn btn-link right">PDF</button>
+
+
+    
+     
+         <div class="sidebar" id="version-warning" style="display: none;">
+           <p class="first sidebar-title">
+           <span class="icon fa fa-info-circle fa-lg"></span> Version notice:</p>
+           <p class="last" id="currentVersion"></p>
+          </div>
+
+
+     <div role="main">
+        
+  <div class="section" id="basic-set-up-using-tmsh">
+<h1>Basic set up using TMSH<a class="headerlink" href="#basic-set-up-using-tmsh" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="tmsh-challenge">
+<h2>TMSH challenge<a class="headerlink" href="#tmsh-challenge" title="Permalink to this headline">¶</a></h2>
+<p>Access your BIG-IP, perform a basic build of networking, pool and
+virtual server and establish that your environment is working. <strong>If you
+are unfamiliar with TMSH this is a good opportunity to get a feel for it.</strong></p>
+<p>For BIG-IP WebUI access open a browser and access <strong>https://10.1.1.4</strong>. Log into the BIG-IP VE system using the following credentials:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Username</span><span class="p">:</span> <span class="n">admin</span>
+<span class="n">Password</span><span class="p">:</span> <span class="n">admin</span><span class="o">.</span><span class="n">F5demo</span><span class="o">.</span><span class="n">com</span>
+</pre></div>
+</div>
+<p>For BIG-IP terminal access, you have two options:</p>
+<ul>
+<li><p class="first">SSH Access from a Linux terminal window. Open a terminal window and
+type the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ssh</span> <span class="n">root</span><span class="o">@</span><span class="mf">10.1</span><span class="o">.</span><span class="mf">1.4</span>
+<span class="n">Password</span><span class="p">:</span> <span class="n">default</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Select the PuTTY icon on the bottom task bar and select <strong>bigip01</strong></p>
+</li>
+</ul>
+<p>Given the following information, network the BIG-IP and build a basic pool and
+virtual server using SNAT automap.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="21%" />
+<col width="19%" />
+<col width="21%" />
+<col width="20%" />
+<col width="20%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>VLANs</td>
+<td>Name:</td>
+<td>client_vlan</td>
+<td>server_vlan</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>&#160;</td>
+<td>Interface:</td>
+<td>1.1</td>
+<td>1.2</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>IP Addressing</td>
+<td>Name:</td>
+<td>client_ip</td>
+<td>server_ip</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>&#160;</td>
+<td>IP Address:</td>
+<td>10.1.10.245</td>
+<td>10.1.20.245</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>&#160;</td>
+<td>Netmask:</td>
+<td>255.255.255.0</td>
+<td>255.255.255.0</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>&#160;</td>
+<td>VLAN:</td>
+<td>client_vlan</td>
+<td>server_vlan</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>Pool</td>
+<td>Name:</td>
+<td>www_pool</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>&#160;</td>
+<td>Members</td>
+<td>10.1.20.11:80</td>
+<td>10.1.20.12:80</td>
+<td>10.1.20.13:80</td>
+</tr>
+<tr class="row-even"><td>Virtual Server</td>
+<td>Name:</td>
+<td>www_vs</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>&#160;</td>
+<td>Destination:</td>
+<td>10.1.10.100:80</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>&#160;</td>
+<td>Pool</td>
+<td>www_pool</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<p>Here are example TMSH command to help you:</p>
+<p>Command examples for networking:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">create</span> <span class="n">net</span> <span class="n">vlan</span> <span class="o">&lt;</span><span class="n">vlan</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;</span> <span class="n">interfaces</span> <span class="n">add</span> <span class="p">{</span> <span class="o">&lt;</span><span class="n">interface</span><span class="o">&gt;</span> <span class="p">{</span> <span class="n">untagged</span> <span class="p">}</span> <span class="p">}</span>
+
+<span class="n">create</span> <span class="n">net</span> <span class="bp">self</span> <span class="o">&lt;</span><span class="n">ip_name</span><span class="o">&gt;</span> <span class="n">address</span> <span class="o">&lt;</span><span class="n">ip</span><span class="o">/</span><span class="n">mask</span><span class="o">&gt;</span> <span class="n">vlan</span> <span class="o">&lt;</span><span class="n">vlan_name</span><span class="o">&gt;</span>
+
+<span class="n">create</span> <span class="n">net</span> <span class="n">route</span> <span class="n">def_gw</span> <span class="n">network</span> <span class="mf">0.0</span><span class="o">.</span><span class="mf">0.0</span><span class="o">/</span><span class="mi">0</span> <span class="n">gw</span> <span class="mf">10.1</span><span class="o">.</span><span class="mf">10.1</span>
+</pre></div>
+</div>
+<p>Command example for creating pool:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">create</span> <span class="n">ltm</span> <span class="n">pool</span> <span class="o">&lt;</span><span class="n">pool</span> <span class="n">name</span><span class="o">&gt;</span> <span class="n">members</span> <span class="n">add</span> <span class="p">{</span> <span class="o">&lt;</span><span class="n">ip</span><span class="p">:</span><span class="n">port</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">ip</span><span class="p">:</span><span class="n">port</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">etc</span><span class="o">&gt;</span> <span class="p">}</span> <span class="n">monitor</span> <span class="n">http</span>
+</pre></div>
+</div>
+<p>Command example for creating a standard virtual server:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">create</span> <span class="n">ltm</span> <span class="n">virtual</span> <span class="o">&lt;</span><span class="n">vs</span> <span class="n">name</span><span class="o">&gt;</span> <span class="n">destination</span> <span class="o">&lt;</span><span class="n">ip</span><span class="p">:</span><span class="n">port</span><span class="o">&gt;</span> <span class="n">pool</span> <span class="o">&lt;</span><span class="n">pool</span> <span class="n">name</span><span class="o">&gt;</span> <span class="n">ip</span><span class="o">-</span><span class="n">protocol</span> <span class="n">tcp</span> <span class="n">source</span><span class="o">-</span><span class="n">address</span><span class="o">-</span><span class="n">translation</span> <span class="p">{</span> <span class="nb">type</span> <span class="n">automap</span> <span class="p">}</span>
+</pre></div>
+</div>
+<p>Write your configuration to disk and create an archive:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">save</span> <span class="n">sys</span> <span class="n">config</span>
+<span class="n">save</span> <span class="n">sys</span> <span class="n">ucs</span> <span class="n">lab1</span><span class="o">-</span><span class="n">base</span><span class="o">-</span><span class="n">config</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The tmsh commands to build the base configuration can be found in <strong>Module 3.12</strong>.</p>
+</div>
+<p>Log on to the BIG-IP WebUI and verify your virtual server is <strong>Available</strong> (green circle).</p>
+<p>Using a new browser window (preferably a private browser window) access
+the web site at <a class="reference external" href="http://10.1.10.100">http://10.1.10.100</a></p>
+<p><em>Q1. In</em> <strong>Request Detail</strong> <em>at the top of the page, what is the client
+IP address and why?</em></p>
+</div>
+</div>
+<div class="section" id="snats-and-nats">
+<h1>SNATs and NATs<a class="headerlink" href="#snats-and-nats" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="snat-pools">
+<h2>SNAT Pools<a class="headerlink" href="#snat-pools" title="Permalink to this headline">¶</a></h2>
+<p>You will build a new FTP application, to take a closer look at SNATs and
+SNAT Pools using the <strong>tcpdump</strong> tool and view the connection table.</p>
+<p>When building the FTP application you will use the default
+<strong>FTP</strong> profile and use <strong>Auto Map</strong> for the Source Translation address.</p>
+<p>Go to <strong>Local Traffic &gt; Pools</strong> and create a new pool.</p>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="57%" />
+<col width="43%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Name</td>
+<td><strong>ftp_pool</strong></td>
+</tr>
+<tr class="row-even"><td>Health Monitor</td>
+<td><strong>tcp</strong></td>
+</tr>
+<tr class="row-odd"><td>Address</td>
+<td><strong>10.1.20.15</strong></td>
+</tr>
+<tr class="row-even"><td>Service Port</td>
+<td><strong>21</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Go to <strong>Local Traffic &gt; Virtual Servers</strong> and create a new virtual server.</p>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="57%" />
+<col width="43%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Name</td>
+<td><strong>ftp_vs</strong></td>
+</tr>
+<tr class="row-even"><td>Destination Address</td>
+<td><strong>10.1.10.100</strong></td>
+</tr>
+<tr class="row-odd"><td>Service Port</td>
+<td><strong>21</strong></td>
+</tr>
+<tr class="row-even"><td>FTP Profile</td>
+<td><strong>ftp</strong></td>
+</tr>
+<tr class="row-odd"><td>Source Address Translation</td>
+<td><strong>Auto Map</strong></td>
+</tr>
+<tr class="row-even"><td>Default Pool</td>
+<td><strong>ftp_pool</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Verify your FTP virtual server and pool are <strong>Available</strong>.</p>
+<p>Open up a terminal window and SSH to the BIG-IP:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ssh</span> <span class="n">root</span><span class="o">@</span><span class="mf">10.1</span><span class="o">.</span><span class="mf">1.4</span>
+<span class="n">Password</span><span class="p">:</span> <span class="n">default</span>
+</pre></div>
+</div>
+<p>Or use PuTTY:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Username</span><span class="p">:</span> <span class="n">root</span>
+<span class="n">Passwood</span><span class="p">:</span> <span class="n">default</span>
+</pre></div>
+</div>
+<p>At the BIG-IP CLI prompt do a tcpdump of the server-side traffic and
+watch the FTP pool member:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tcpdump</span> <span class="o">-</span><span class="n">nni</span> <span class="n">server_vlan</span> <span class="n">host</span> <span class="mf">10.1</span><span class="o">.</span><span class="mf">20.15</span>
+</pre></div>
+</div>
+<p>From a Linux terminal window FTP to 10.1.10.100. The logon credentials
+are <strong>root/default</strong>. It may take 15-20 to connect.</p>
+<p><em>Q1. Do you see traffic destined for the for the FTP server? What is the source IP?</em></p>
+<p>Imagine a dozen virtual servers using
+using Auto Map. It would be extremely difficult to watch for particular
+client traffic from a particular virtual server. Not to mention a SNAT IP address can only handle 65535. SNAT pools can make
+management and debugging a little easier and keep port exhaustion at bay.</p>
+<p>Create a SNAT pool and assign it to the FTP server.</p>
+<p>Go to <strong>Address Translation</strong> on the sidebar and select <strong>SNAT Pool List</strong>
+and create a new SNAT pool named <strong>SNATpool_249</strong> with <strong>10.1.20.249</strong>
+as a member.</p>
+<p><em>Q2. Why might you require more than one IP address in the SNAT pool?</em></p>
+<p>Go to the <strong>ftp_vs</strong> and change the <strong>Source Address Translation</strong> to
+the <strong>SNATpool_249</strong> pool.</p>
+<p>Let’s tried the tcpdump we did earlier, but have it limited to the pool
+member and SNAT pool IP:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tcpdump</span> <span class="o">-</span><span class="n">nni</span> <span class="n">server_vlan</span> <span class="n">host</span> <span class="mf">10.1</span><span class="o">.</span><span class="mf">20.15</span> <span class="ow">and</span> <span class="mf">10.1</span><span class="o">.</span><span class="mf">20.249</span>
+</pre></div>
+</div>
+<p>Now there is no extraneous traffic being seen. Open a terminal window
+and ftp to <strong>10.1.10.100</strong> and log on to the ftp server. User: <strong>root</strong>
+Password: <strong>default</strong></p>
+<p><em>Q3. What is the client IP that shows up in the tcpdump?</em></p>
+<p>Open up another SSH session to the BIG-IP, go into <strong>TMSH</strong> and dump the
+connection table:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">show</span> <span class="n">sys</span> <span class="n">connection</span>
+</pre></div>
+</div>
+<p>Find the connection with your client IP 10.1.10.51 and the SNAT pool IP.</p>
+<p><em>Q4. What are the ephemeral port numbers on your client-side source IP
+and server-side source IP?</em></p>
+</div>
+<div class="section" id="more-snats-and-nats">
+<h2>More SNATs and NATs<a class="headerlink" href="#more-snats-and-nats" title="Permalink to this headline">¶</a></h2>
+<p>Let’s take a look at using SNATs to allow internal resources to access
+external resources more securely and the difference between a SNAT and
+a NAT.</p>
+<p>The <strong>LAMP</strong> server used for the internal server farm has a default gateway
+of <strong>10.1.20.240</strong> and has no external access at this time, but you can SSH
+to it via the out-of-band management network at <strong>10.1.1.252</strong>.</p>
+<p>On the BIG-IP, add a new self IP address named <strong>server_gw</strong> to the VLAN
+<strong>server_vlan</strong>, with an IP address of <strong>10.1.20.240</strong> and netmask of <strong>255.255.255.0</strong></p>
+<p>From the jumpbox, SSH to the LAMP server at <strong>10.1.1.252</strong>. You can open PuTTY, load the LAMP (10.1.1.252) server profile and SSH to the LAMP server or open a terminal window and <strong>ssh root&#64;10.1.1.252</strong>.  The username is <strong>f5</strong> no other credentials are required, it may take up to 30 seconds to login.</p>
+<p>Once logged in, change yourself to root:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">su</span> <span class="n">root</span>
+<span class="n">Password</span><span class="p">:</span> <span class="n">default</span>
+</pre></div>
+</div>
+<p>At the command prompt, attempt to hit the Google open DNS server:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dig</span> <span class="o">@</span><span class="mf">8.8</span><span class="o">.</span><span class="mf">4.4</span>
+</pre></div>
+</div>
+<p><em>Q1. Did the command succeed?</em></p>
+<p>On the BIG-IP, open the <strong>SNAT List</strong> and select <strong>Create</strong></p>
+<p>Create a new SNAT translation Name: <strong>server_snat,</strong> used the IP
+address <strong>10.1.10.248</strong> for the Translation and limit the allowed
+ingress traffic to VLAN <strong>server_vlan</strong>.</p>
+<p>In a BIG-IP terminal window, do a <strong>tcpdump</strong> on the <strong>client_vlan</strong>,
+limited to the <strong>10.1.10.248</strong> and <strong>8.8.4.4</strong>.</p>
+<p>From the LAMP server try the <strong>dig</strong> command again and the try to <strong>ping
+8.8.4.4</strong> from the LAMP server.</p>
+<p><em>Q2. Did the dig work? What was the source IP?. Did the ping work? What
+was the result?</em></p>
+<p>From the Linux prompt attempt to FTP to <strong>10.1.10.248</strong>.</p>
+<p><em>Q3. What happened when you try to FTP to the SNAT address?</em></p>
+<p>Go to <strong>Statistics &gt;&gt; Module Statistics &gt;&gt; Local Traffic</strong> and select
+<strong>Statistics Type: SNAT Translations</strong> and review the information.</p>
+<p>Under <strong>Address Translation</strong> go to the <strong>NAT List</strong> and create a NAT
+named <strong>server_15_nat</strong> with a <strong>NAT Address</strong> of <strong>10.1.10.15</strong> and
+an <strong>Origin Address</strong> of <strong>10.1.20.15</strong>.</p>
+<p>Attempt to FTP to 10.1.10.15. Attempt to ping 10.1.10.15.</p>
+<p><em>Q4. When you attempted to FTP and ping 10.1.10.15 and access 10.1.20.15
+behind the BIG-IP were you successful?</em></p>
+</div>
+</div>
+
+
+     </div>
+    
+     <div class="row next-prev-btn-row">
+       <div class="col-lg-12">
+       
+        <a href="module01.html" title="Lab 1 - Basic Setup, TMSH and SNATs" accesskey="p" class="btn btn-primary left"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Previous</a>
+       
+       
+          <a href="../module02/module02.html" title="Lab 2 - Profiles" accesskey="n" class="btn btn-primary right">Next <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
+       
+     </div>
+     </div>
+    
+
+    </article>
+  </div>
+
+</div>
+
+
+  <div id="clouddocs-footer"></div>
+  <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+
+  <script src="../../_static/js/index.js"></script>
+  <script src="../../_static/js/jquery.appear.js"></script>
+  <script src="../../_static/js/printThis.js"></script>
+  <script src="../../_static/js/bootstrap.min.js"></script>
+  <script src="../../_static/js/clouddocs.js"></script>
+  <script src="../../_static/js/CoveoJsSearch.Lazy.min.js"></script>
+  </body>
+</html>

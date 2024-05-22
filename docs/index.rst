@@ -107,3 +107,9 @@ Welcome to the |classbold| last updated on 10/20/20
 
    class19/class19
 
+.. toctree::
+   :maxdepth: 1
+   :caption: Unofficial - Nginx OSS Certification Exam Resources:
+   :glob:
+
+   class21/class21

@@ -24,11 +24,13 @@ for NGINX 1.26.0.
 knowledge required to pass the exam.**
 
 *This study guide is a collection of information and therefore not a completely
-original work.* The majority of the information is compiled from nginx.org
-sources and *TODO* that are located on Internet. All of the information
-locations are referenced at the top of each topic instead of in an Appendix of
-this document. This was done to help the reader access the reference the linked
-information easier without having to search through a formal appendix.
+original work.* The majority of the information is compiled from `nginx.org
+<https://nginx.org/en/docs/>`_ and `nginx.com <https://docs.nginx.com/>`_
+sources that are located on Internet, as well as the `printed references`_. All
+of the information locations are referenced at the top of each topic instead of
+in an Appendix of this document. This was done to help the reader access the
+reference the linked information easier without having to search through a
+formal appendix.
 
 There is not other certification standing pre-requisite to this exam.
 
@@ -41,10 +43,18 @@ document and is *not* supported by F5.
 
 **Reading = Knowledge = Power**
 
+.. _printed references:
+
 **Printed References**
 
-These referenced books are and important and should be considered basic reading
-material for this exam.
+Note that the nginx.org web page contains a `list of book references
+<https://nginx.org/en/books.html>`_. Notably, the referenced book serves as a
+main reference and can be downloaded for free from F5:
+`https://www.f5.com/go/ebook/complete-nginx-cookbook
+<https://www.f5.com/go/ebook/complete-nginx-cookbook>`_
+
+(Ref:1) DEJONGHE, DEREK. NGINX COOKBOOK Advanced Recipes for High -Performance
+Load Balancing. [S.l.]: O’REILLY MEDIA, 2024.
 
 .. toctree::
    :maxdepth: 1

@@ -17,6 +17,8 @@ Objective - 1.1 Given a scenario identify when to use NGINX
 
 **1.1 - Describe NGINX as a web server**
 
+Slide 11 from https://f5u.csod.com/ui/lms-learning-details/app/course/f62cdc17-e0df-4117-820c-6270100981a2
+
 *TODO*
 
 |
@@ -28,12 +30,6 @@ Objective - 1.1 Given a scenario identify when to use NGINX
 |
 
 **1.1 - Describe NGINX as a load balancer**
-
-*TODO*
-
-|
-
-**1.1 - Describe NGINX as a caching solution**
 
 *TODO*
 

@@ -39,12 +39,6 @@ Objective - 1.1 Given a scenario identify when to use NGINX
 
 |
 
-**1.1 - Describe NGINX as a caching solution**
-
-*TODO*
-
-|
-
 **1.1 - Describe NGINX as an API gateway**
 
 *TODO*

@@ -17,11 +17,28 @@ Objective - 1.1 Given a scenario identify when to use NGINX
 
 **1.1 - Describe NGINX as a web server**
 
+https://nginx.org/en/
+
+https://docs.nginx.com/nginx/admin-guide/web-server/web-server/
+
+Slide 11 https://f5u.csod.com/ui/lms-learning-details/app/course/f62cdc17-e0df-4117-820c-6270100981a2
+
+**NGINX handling web protocols**
+
+One of NGINX's key feature is its web server functionnalité. NGINX software
+indeed implements many features related to the HTTP (web) protocol.
+
 *TODO*
 
 |
 
 **1.1 - Describe NGINX as a reverse proxy**
+
+https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/
+
+https://nginx.org/en/docs/http/ngx_http_proxy_module.html
+
+Slide 8 and 13 https://f5u.csod.com/ui/lms-learning-details/app/course/f62cdc17-e0df-4117-820c-6270100981a2
 
 *TODO*
 
@@ -29,17 +46,29 @@ Objective - 1.1 Given a scenario identify when to use NGINX
 
 **1.1 - Describe NGINX as a load balancer**
 
+https://nginx.org/en/docs/http/load_balancing.html
+
+https://docs.nginx.com/nginx/admin-guide/load-balancer/
+
+Slide 14 https://f5u.csod.com/ui/lms-learning-details/app/course/f62cdc17-e0df-4117-820c-6270100981a2
+
 *TODO*
 
 |
 
 **1.1 - Describe NGINX as a caching solution**
 
+https://docs.nginx.com/nginx/admin-guide/content-cache/content-caching/
+
+https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache
+
 *TODO*
 
 |
 
 **1.1 - Describe NGINX as an API gateway**
+
+https://www.f5.com/company/blog/nginx/deploying-nginx-plus-as-an-api-gateway-part-1
 
 *TODO*
 

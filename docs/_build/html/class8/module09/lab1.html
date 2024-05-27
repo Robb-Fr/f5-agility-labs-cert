@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<head>
+  
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-PPZPQ6');</script>
+  <!-- End Google Tag Manager -->
+    <title>Roles and Partitions</title>
+  
+
+  <meta charset="utf-8">
+  <!-- Twitter Bootstrap viewport setting -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- F5 metadata -->
+  <meta name="title" content="Roles and Partitions"/>
+  <meta name="product" content="Unofficial - F5 Certification Exam Prep Material"/>
+  <meta name="version" content=""/>
+  <meta name="updated_date"  content="2024-05-22 12:12:26"/>
+  <meta name="archived" content="Archived documents excluded"/>
+  <meta name="doc_type" content="Manual"/>
+  <meta name="lifecycle" content="release"/>
+  <meta name="Unofficial - F5 Certification Exam Prep Material" content=""/>
+
+
+  
+
+  
+  <link href="https://cdn.f5.com/favicon.ico" rel="icon">
+
+</head>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Roles and Partitions &#8212; Unofficial - F5 Certification Exam Prep Material  documentation</title>
+    <link rel="stylesheet" href="../../_static/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/f5.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/f5-theme.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/CoveoFullSearch.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/21fb8a09c3.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script type="text/javascript" src="../../_static/clipboard.min.js"></script>
+    <script type="text/javascript" src="../../_static/copybutton.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Remote Authentication" href="lab2.html" />
+    <link rel="prev" title="Lab 9 - Roles and Partitions" href="module09.html" /> 
+  </head><body>
+  <div id="clouddocs-header"></div>
+
+    <div id="sidebar" class="section-nav">
+      
+      <!--  version selector ------------------>
+      <div id="version_selector_wrapper">
+      </div>
+      <nav class="nav-sidebartoc">
+
+        
+         <h5>Unofficial - F5 Certification Exam Prep Material  </h5>
+        
+
+        <hr>
+        <span class="nav-sidebartoc">
+            <p class="caption"><span class="caption-text">Intro:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Getting Started with the F5 Certification Program - Created 03/29/19</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - 101 Certification Exam Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../class1/class1.html">F5 101 - App Delivery Fundamentals Exam Study Guide - Created 03/06/20</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - 201 Certification Exam Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../class3/class3.html">F5 201 - TMOS Administration Exam Study Guide - New One Not Created Yet</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - 201 Certification Lab:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../class4/class4.html">F5 201 - TMOS Administration Labs (V13.1)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - 202 Certification Exam Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../class5/class5.html">F5 202 - Pre-Sales Fundamentals Exam Study Guide - Created 11/01/19</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - 301A Certification Exam Resources:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../class7/class7.html">F5 301A - BIG-IP LTM Specialist: Architect, Set-Up &amp; Deploy Exam Study Guide - Created 11/01/19</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../class8.html">F5 301A - BIG-IP LTM Specialist Labs - Created 11/01/19</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - 301B Certification Exam Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../class9/class9.html">F5 301B - BIG-IP LTM Specialist: Maintain and Troubleshoot Exam Study Guide - Created 11/01/19</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - 302 Certification Exam Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../class11/class11.html">F5 302 - BIG-IP DNS Specialist Exam Study Guide - NOT CREATED</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - 303 Certification Exam Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../class13/class13.html">F5 303 - BIG-IP ASM Specialist Study Guide - NOT CREATED</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - 304 Certification Exam Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../class15/class15.html">F5 304 - BIG-IP APM Specialist Study Guide - NOT CREATED</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - 401 Certification Exam Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../class17/class17.html">F5 401 - Security Solution Expert Study Guide - Created 09/26/18</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - 402 Certification Exam Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../class19/class19.html">F5 402 - Cloud Solutions Study Guide - NOT CREATED</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Unofficial - Nginx OSS Certification Exam Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../class21/class21.html">F5 N1-N4 - NGINX OSS - NOT CREATED</a></li>
+</ul>
+
+        </span><!-- Use this file to add extra links to the bottom of the ToC sidebar -->
+<hr>
+  <span class="nav-sidebartoc">
+ <!-- insert content here -->
+  </span>
+      </nav>
+    </div>
+
+
+    <div id="right-sidebar">
+      <h7 style="font-weight:normal">On this page:</h7>
+      <nav class="nav-sidebartoc">
+        <span class="nav-sidebartoc">
+            <ul>
+<li><a class="reference internal" href="#">Roles and Partitions</a><ul>
+<li><a class="reference internal" href="#create-a-partition">Create a partition</a></li>
+<li><a class="reference internal" href="#create-and-place-a-user-in-a-partition">Create and place a user in a partition</a></li>
+</ul>
+</li>
+</ul>
+
+         </span>
+      </nav>
+    </div>
+
+
+
+
+
+  
+  <div class="main active" id="content" >
+    <article class="docs-container site-article-inner">
+              <!-- custom breadcrumb -->
+        <h5>
+            <a href="../../index.html">Unofficial - F5 Certification Exam Prep Material</a>
+              &gt; <a href="../class8.html">F5 301A - BIG-IP LTM Specialist Labs - Created 11/01/19</a>
+              &gt; <a href="module09.html">Lab 9 - Roles and Partitions</a>
+
+          <span class="right">
+             <a href="../../_sources/class8/module09/lab1.rst.txt" rel="nofollow">Source</a> |
+             <a href="https://github.com/f5devcentral/f5-agility-labs-cert">Edit on <i class="fa fa-github" aria-hidden="true"></i></a>
+          </span>
+        </h5>
+        <!-- end custom breadcrumb -->
+      
+
+
+    <!--a title="Export PDF" id="export-pdf" class="btn btn btn-link pull-right">View PDF</a-->
+    <button type="button" id="export-pdf" class="btn btn-link right">PDF</button>
+
+
+    
+     
+         <div class="sidebar" id="version-warning" style="display: none;">
+           <p class="first sidebar-title">
+           <span class="icon fa fa-info-circle fa-lg"></span> Version notice:</p>
+           <p class="last" id="currentVersion"></p>
+          </div>
+
+
+     <div role="main">
+        
+  <div class="section" id="roles-and-partitions">
+<h1>Roles and Partitions<a class="headerlink" href="#roles-and-partitions" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="create-a-partition">
+<h2>Create a partition<a class="headerlink" href="#create-a-partition" title="Permalink to this headline">¶</a></h2>
+<p>Partitions are basically configuration containers. Users assigned to a
+partition can only view their partition configuration and configuration items in the <strong>Common</strong> partition. Depending on their role a user may modify and create configuration items within their partition and use (but not modify) configuration items in
+the common partition.</p>
+<p>To create a new partition, go to <strong>System &gt; Users &gt; Partition List</strong> and
+select create</p>
+<p>Create a new partition named <strong>my_partition</strong>. There is really not a
+whole lot to it.</p>
+</div>
+<div class="section" id="create-and-place-a-user-in-a-partition">
+<h2>Create and place a user in a partition<a class="headerlink" href="#create-and-place-a-user-in-a-partition" title="Permalink to this headline">¶</a></h2>
+<p>Create a new local user by going to <strong>System &gt; Users &gt; User List</strong> and
+selecting create.</p>
+<p>Create a new user <strong>testuser</strong> with <strong>testpass</strong> as the password and set
+their <strong>Role</strong> to <strong>Manager</strong>, assign them to the <strong>test_partition</strong>
+partition and give them <strong>tmsh Terminal Access</strong></p>
+<p>Open a new private browser to the BIG-IP, or log out and log back in
+under your current browser as the new user <strong>testuser/testpass</strong>.</p>
+<p><em>Q1. In the upper right of the BIG-IP WebUI what partition are you in?</em></p>
+<p>Look at the virtual servers. You can see these because they were all
+built in the Common partition, but you cannot modify them. If you go
+into a virtual server you will see the selections greyed out.</p>
+<p>As you can see, you can view but not change things in common. But you
+can use things in the <strong>Common</strong> partition to build your own configuration.</p>
+<p>Build a new HTTP virtual server named <strong>test_vs</strong>, with a destination
+IP of <strong>10.1.10.120</strong> and used the <strong>www_pool</strong> in the <strong>/Common</strong>
+partition as the default pool.</p>
+<p>In this case we are taking advantage of the <strong>Common</strong> partition nodes and
+pools to build are virtual server.</p>
+<p>Log out and log in as <strong>admin</strong> (or go to your other browser window that is
+logged in as admin)</p>
+<p>Go to the <strong>Virtual Server List</strong>.</p>
+<p><em>Q2. Do you see the</em> <strong>test_vs</strong> <em>just created?</em></p>
+<p>Go to the upper right-hand corner and select <strong>test_partition</strong>. You
+can now see the <strong>test_vs</strong> virtual server. Since you are an admin you
+can also modify the virtual server as necessary</p>
+<p>SSH to your BIG-IP and log in with the new user name and password.  You should be
+taken directly into the <strong>tmsh</strong>.</p>
+<p>Note the prompt, your partition name is there.</p>
+<p>Now let’s make a change to the test_vs:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mod</span> <span class="n">ltm</span> <span class="n">virtual</span> <span class="n">test</span>\<span class="n">_vs</span> <span class="n">description</span> <span class="s2">&quot;Partition Testing&quot;</span>
+</pre></div>
+</div>
+<p>In the BIG-IP WebUI go to your <strong>test_vs</strong> virtual server.</p>
+<p><em>Q3. Do you see your change? Is your change permanent?</em></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><strong>The following lab portion is probably not on the 301, but as I have you playing with
+partitions this is something if feel you should know.</strong></p>
+</div>
+<p>SSH to the BIG-IP and log in as <strong>root</strong>. <strong>cat</strong> or <strong>more</strong> bigip.conf
+and look for you <strong>test_vs</strong> virtual:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cat</span> <span class="n">bigip</span><span class="o">.</span><span class="n">conf</span>
+<span class="n">more</span> <span class="n">bigip</span><span class="o">.</span><span class="n">conf</span>
+</pre></div>
+</div>
+<p><em>Q4. Did you find it in /config/bigip.conf?</em></p>
+<p>Each partition gets its own “folder” where its configuration is stored
+under the <strong>partitions</strong> directory in the <strong>/config</strong> directory. At the
+BIG-IP CLI prompt:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">/</span><span class="n">config</span><span class="o">/</span><span class="n">partitions</span><span class="o">/</span><span class="n">test_partition</span>
+<span class="n">ls</span>
+<span class="n">cat</span> <span class="n">bigip</span><span class="o">.</span><span class="n">conf</span>
+</pre></div>
+</div>
+<p><em>Q5. Did you find your virtual server? Is the tmsh change you made in
+there?</em></p>
+<p>As <strong>testuser</strong> at the tmsh prompt type: <strong>save sys config</strong></p>
+<p>Look at your <strong>bigip.conf</strong> in the <strong>test_partition</strong>.</p>
+<p><strong>Q6. Do you see the change now?</strong></p>
+<p>Attempt to exit tmsh to get to the Linux CLI.</p>
+<p><em>Q7. Where you able to?</em></p>
+</div>
+</div>
+
+
+     </div>
+    
+     <div class="row next-prev-btn-row">
+       <div class="col-lg-12">
+       
+        <a href="module09.html" title="Lab 9 - Roles and Partitions" accesskey="p" class="btn btn-primary left"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Previous</a>
+       
+       
+          <a href="lab2.html" title="Remote Authentication" accesskey="n" class="btn btn-primary right">Next <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
+       
+     </div>
+     </div>
+    
+
+    </article>
+  </div>
+
+</div>
+
+
+  <div id="clouddocs-footer"></div>
+  <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+
+  <script src="../../_static/js/index.js"></script>
+  <script src="../../_static/js/jquery.appear.js"></script>
+  <script src="../../_static/js/printThis.js"></script>
+  <script src="../../_static/js/bootstrap.min.js"></script>
+  <script src="../../_static/js/clouddocs.js"></script>
+  <script src="../../_static/js/CoveoJsSearch.Lazy.min.js"></script>
+  </body>
+</html>

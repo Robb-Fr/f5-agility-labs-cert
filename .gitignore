@@ -1,6 +1,9 @@
-docs/_build/*
+# docs/_build/*
 media/
 .DS_Store
 pdf/*
 .vscode
 *.sublime-*
+# removes python virtual environment directories
+.venv
+venv

@@ -293,24 +293,222 @@ Objective - 1.2 Explain the NGINX configuration directory structure
 
 **1.2 - Identify the default NGINX core config file**
 
-*TODO*
+https://docs.nginx.com/nginx/admin-guide/basic-functionality/managing-configuration-files/
+
+https://stackoverflow.com/questions/19910042/locate-the-nginx-conf-file-my-nginx-is-actually-using
+
+http://hg.nginx.org/pkg-oss/file/tip/debian/debian/nginx.conf
+
+**Default configuration when installing NGINX**
+
+NGINX configuration is managed through configuration file. After freshly
+installing NGINX, a default core config file will be created and configure a
+default NGINX web server. By default, the file is named `nginx.conf` and for
+NGINX Plus is placed in the `/etc/nginx directory`. (For NGINX Open Source,
+the location depends on the package system used to install NGINX and the
+operating system. It is typically one of `/usr/local/nginx/conf`, `/etc/nginx`,
+or `/usr/local/etc/nginx`).
+
+The default configuration may vary depending on your installation source
+(different distribution maintained APT repositories, NGINX maintained APT
+repositories, ...). The following is installed when NGINX is installed from the
+official NGINX repository on a debian system:
+
+.. code-block:: NGINX
+
+    user  nginx;
+    worker_processes  auto;
+
+    error_log  /var/log/nginx/error.log notice;
+    pid        /var/run/nginx.pid;
+
+
+    events {
+        worker_connections  1024;
+    }
+
+
+    http {
+        include       /etc/nginx/mime.types;
+        default_type  application/octet-stream;
+
+        log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                        '$status $body_bytes_sent "$http_referer" '
+                        '"$http_user_agent" "$http_x_forwarded_for"';
+
+        access_log  /var/log/nginx/access.log  main;
+
+        sendfile        on;
+        #tcp_nopush     on;
+
+        keepalive_timeout  65;
+
+        #gzip  on;
+
+        include /etc/nginx/conf.d/*.conf;
+    }
+
+The important bit is that there always is a default configuration installed
+named `nginx.conf` which install location depends on your system. There should
+only be one install point: the commands `nginx -t` or `nginx -V` should display
+the actually loaded configuration by NGINX.
 
 |
 
 **1.2 - Identify the included directories/files**
 
-*TODO*
+http://nginx.org/en/docs/ngx_core_module.html#include
+
+https://docs.nginx.com/nginx/admin-guide/basic-functionality/managing-configuration-files/
+
+https://www.f5.com/company/blog/nginx/deploying-nginx-plus-as-an-api-gateway-part-1#organize-config
+
+https://stackoverflow.com/questions/50107845/what-is-the-order-of-the-config-file-for-nginx
+
+**NGINX configuration across multiple files**
+
+NGINX configuration can be divided into multiple files across multiple
+directories. NGINX has the `include` directive which matches a certain number
+of files (possibly using a wildcard `*` operator for matching multiple file
+names, called a mask) and includes their content at the location of the include
+directive in the configuration file.
+
+The `nginx -T` command shows the list of actually loaded configuration file,
+taking into account the `include` directive.
 
 |
 
 **1.2 - Describe the order of how the included files will be 'merged' into the
 running configuration**
 
-*TODO*
+http://hg.nginx.org/nginx/file/tip/src/core/ngx_conf_file.c#l821
+
+https://stackoverflow.com/questions/50107845/what-is-the-order-of-the-config-file-for-nginx
+
+**NGINX include configuration loading**
+
+When making use of the `include` directive, the included files are merged into
+the core configuration at runtime quite literally. You can figure this as if
+you replaced the line with `include` directive with the full content of the
+included file. This means that:
+
+#. An `include a.conf` directive placed above another `include b.conf` places
+   the content of the `a.conf` file above the content of the `b.conf` file in
+   the running configuration.
+#. Included files inherit the context from which they are loaded.
+
+We will delve into more details on how files are merged and context inherited
+in the next part.
 
 |
 
 **1.2 - Describe directive inheritance and overriding properties**
+
+https://docs.nginx.com/nginx/admin-guide/basic-functionality/managing-configuration-files/#inheritance
+
+
+For example, let us have the following `nginx.conf` file:
+
+.. code-block:: NGINX
+    :emphasize-lines: 31
+
+    # /etc/nginx/nginx.conf
+    user  nginx;
+    worker_processes  auto;
+
+    error_log  /var/log/nginx/error.log notice;
+    pid        /var/run/nginx.pid;
+
+
+    events {
+        worker_connections  1024;
+    }
+
+
+    http {
+        include       /etc/nginx/mime.types;
+        default_type  application/octet-stream;
+
+        log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                        '$status $body_bytes_sent "$http_referer" '
+                        '"$http_user_agent" "$http_x_forwarded_for"';
+
+        access_log  /var/log/nginx/access.log  main;
+
+        sendfile        on;
+        #tcp_nopush     on;
+
+        keepalive_timeout  65;
+
+        #gzip  on;
+
+        include /etc/nginx/conf.d/*.conf;
+    }
+
+and another `web.conf` file:
+
+.. code-block:: NGINX
+
+    # /etc/nginx/conf.d/web.conf
+    server {
+        root /www/data;
+
+        location / {
+        }
+
+    }
+
+At runtime, the NGINX configuration will load the content from the
+`/etc/nginx/conf.d/web.conf` because it matches the mask defined in `include
+/etc/nginx/conf.d/*.conf;`. The `server` block defined in `web.conf` will
+inherit the `http {}` context defined in `nginx.conf`. You can figure the
+runtime configuration to be:
+
+.. code-block:: NGINX
+    :emphasize-lines: 31,32,33,34,35,36,37,38
+
+    # /etc/nginx/nginx.conf
+    user  nginx;
+    worker_processes  auto;
+
+    error_log  /var/log/nginx/error.log notice;
+    pid        /var/run/nginx.pid;
+
+
+    events {
+        worker_connections  1024;
+    }
+
+
+    http {
+        include       /etc/nginx/mime.types;
+        default_type  application/octet-stream;
+
+        log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                        '$status $body_bytes_sent "$http_referer" '
+                        '"$http_user_agent" "$http_x_forwarded_for"';
+
+        access_log  /var/log/nginx/access.log  main;
+
+        sendfile        on;
+        #tcp_nopush     on;
+
+        keepalive_timeout  65;
+
+        #gzip  on;
+
+        # included from /etc/nginx/conf.d/web.conf
+        server {
+            root /www/data;
+
+            location / {
+            }
+
+        }
+    }
+
+where we clearly see that the server defined in `web.conf` inherits the `http
+{}` context.
 
 *TODO*
 

@@ -14,7 +14,7 @@
   <meta name="title" content="F5N1 - Management"/>
   <meta name="product" content="Unofficial - F5 Certification Exam Prep Material"/>
   <meta name="version" content=""/>
-  <meta name="updated_date"  content="2024-05-23 09:50:21"/>
+  <meta name="updated_date"  content="2024-05-27 01:56:36"/>
   <meta name="archived" content="Archived documents excluded"/>
   <meta name="doc_type" content="Manual"/>
   <meta name="lifecycle" content="release"/>
@@ -208,27 +208,284 @@
 <div class="line"><br /></div>
 </div>
 <p><strong>1.1 - Describe NGINX as a web server</strong></p>
-<p><em>TODO</em></p>
+<p><a class="reference external" href="https://nginx.org/en/">https://nginx.org/en/</a></p>
+<p><a class="reference external" href="https://docs.nginx.com/nginx/admin-guide/web-server/web-server/">https://docs.nginx.com/nginx/admin-guide/web-server/web-server/</a></p>
+<p>Slide 11 <a class="reference external" href="https://f5u.csod.com/ui/lms-learning-details/app/course/f62cdc17-e0df-4117-820c-6270100981a2">https://f5u.csod.com/ui/lms-learning-details/app/course/f62cdc17-e0df-4117-820c-6270100981a2</a></p>
+<p><strong>NGINX handling web protocols</strong></p>
+<p>One of NGINX’s key feature is its web server functionality. NGINX software
+indeed implements many features related to the HTTP (web) protocol and can be
+configured to serve web content, making it describable as a web server. At a
+high level, configuring NGINX Plus as a web server is a matter of defining
+which URLs it handles and how it processes HTTP requests for resources at those
+URLs. At a lower level, the configuration defines a set of virtual servers that
+control the processing of requests for particular domains or IP addresses.</p>
+<p>The most basic web server feature that can be handled by NGINX is serving
+static content. The following snippet shows a basic example of NGINX
+configuration file for serving static web content:</p>
+<div class="highlight-NGINX notranslate"><div class="highlight"><pre><span></span><span class="k">http</span> <span class="p">{</span>
+    <span class="kn">server</span> <span class="p">{</span>
+        <span class="kn">root</span> <span class="s">/www/data</span><span class="p">;</span>
+
+        <span class="kn">location</span> <span class="s">/</span> <span class="p">{</span>
+        <span class="p">}</span>
+
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Receiving this configuration file, NGINX would listen to the HTTP port 80 on
+the host machine for incoming connections. Upon receiving HTTP request, it
+would serve content from the host’s <cite>/www/data</cite> directory (for example, a
+<cite>/www/data/index.html</cite> file).</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p><strong>1.1 - Describe NGINX as a reverse proxy</strong></p>
-<p><em>TODO</em></p>
+<p><a class="reference external" href="https://www.cloudflare.com/learning/cdn/glossary/reverse-proxy/">https://www.cloudflare.com/learning/cdn/glossary/reverse-proxy/</a></p>
+<p><a class="reference external" href="https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/">https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/</a></p>
+<p><a class="reference external" href="https://nginx.org/en/docs/http/ngx_http_proxy_module.html">https://nginx.org/en/docs/http/ngx_http_proxy_module.html</a></p>
+<p>Slide 8 and 13 <a class="reference external" href="https://f5u.csod.com/ui/lms-learning-details/app/course/f62cdc17-e0df-4117-820c-6270100981a2">https://f5u.csod.com/ui/lms-learning-details/app/course/f62cdc17-e0df-4117-820c-6270100981a2</a></p>
+<p><strong>What is reverse proxying and why do so</strong></p>
+<p>A reverse proxy is a server that sits in front of web servers and forwards
+client (e.g. web browser) requests to those web servers. Reverse proxies are
+typically implemented to help increase security, performance, and reliability.</p>
+<p>Proxying is typically used to distribute the load among several servers,
+seamlessly show content from different websites, or pass requests for
+processing to application servers over protocols other than HTTP.</p>
+<img alt="Reverse proxy flow" src="../../_images/reverse_proxy_flow.jpg" />
+<p>Reverse proxy flow illustrated. A reverse proxy sits just before the
+application servers in the classic client-server network architecture. (from
+<a class="reference external" href="https://www.cloudflare.com/learning/cdn/glossary/reverse-proxy/">https://www.cloudflare.com/learning/cdn/glossary/reverse-proxy/</a>).</p>
+<p><strong>How can NGINX be a reverse proxy</strong></p>
+<p>When NGINX proxies a request, it sends the request to a specified proxied
+server, fetches the response, and sends it back to the client. It is possible
+to proxy requests to an HTTP server (another NGINX server or any other server)
+or a non-HTTP server (which can run an application developed with a specific
+framework, such as PHP or Python) using a specified protocol. Supported
+protocols include FastCGI, uwsgi, SCGI, and memcached.</p>
+<p>To pass a request to an HTTP proxied server, the proxy_pass directive is
+specified inside a location.</p>
+<div class="highlight-NGINX notranslate"><div class="highlight"><pre><span></span><span class="k">location</span> <span class="s">/some/path/</span> <span class="p">{</span>
+    <span class="kn">proxy_pass</span> <span class="s">http://www.example.com/link/</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This example configuration results in passing all requests processed in this
+location to the proxied server at the specified address. This address can be
+specified as a domain name or an IP address.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p><strong>1.1 - Describe NGINX as a load balancer</strong></p>
+<p><a class="reference external" href="https://www.cloudflare.com/learning/performance/what-is-load-balancing/">https://www.cloudflare.com/learning/performance/what-is-load-balancing/</a></p>
+<p><a class="reference external" href="https://nginx.org/en/docs/http/load_balancing.html">https://nginx.org/en/docs/http/load_balancing.html</a></p>
+<p><a class="reference external" href="https://docs.nginx.com/nginx/admin-guide/load-balancer/">https://docs.nginx.com/nginx/admin-guide/load-balancer/</a></p>
+<p>Slide 14 <a class="reference external" href="https://f5u.csod.com/ui/lms-learning-details/app/course/f62cdc17-e0df-4117-820c-6270100981a2">https://f5u.csod.com/ui/lms-learning-details/app/course/f62cdc17-e0df-4117-820c-6270100981a2</a></p>
+<p><strong>What is load balancing in the context of networking and web server</strong></p>
+<p>Load balancing is the practice of distributing computational workloads between
+two or more computers. On the Internet, load balancing is often employed to
+divide network traffic among several servers. This reduces the strain on each
+server and makes the servers more efficient, speeding up performance and
+reducing latency. Load balancing is essential for most Internet applications to
+function properly.</p>
+<a class="reference internal image-reference" href="../../_images/without_load_balancing_diagram.png"><img alt="Without load balancing diagram" src="../../_images/without_load_balancing_diagram.png" style="height: 500px;" /></a>
+<a class="reference internal image-reference" href="../../_images/with_load_balancing_diagram.png"><img alt="With load balancing diagram" src="../../_images/with_load_balancing_diagram.png" style="height: 500px;" /></a>
+<p><strong>How can NGINX be seen as a load balancer</strong></p>
+<p>It is possible to use nginx as a very efficient HTTP load balancer to
+distribute traffic to several application servers and to improve performance,
+scalability and reliability of web applications with nginx.</p>
+<p>The simplest configuration for load balancing with nginx may look like the
+following:</p>
+<div class="highlight-NGINX notranslate"><div class="highlight"><pre><span></span><span class="k">http</span> <span class="p">{</span>
+    <span class="kn">upstream</span> <span class="s">myapp1</span> <span class="p">{</span>
+        <span class="kn">server</span> <span class="s">srv1.example.com</span><span class="p">;</span>
+        <span class="kn">server</span> <span class="s">srv2.example.com</span><span class="p">;</span>
+        <span class="kn">server</span> <span class="s">srv3.example.com</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kn">server</span> <span class="p">{</span>
+        <span class="kn">listen</span> <span class="mi">80</span><span class="p">;</span>
+
+        <span class="kn">location</span> <span class="s">/</span> <span class="p">{</span>
+            <span class="kn">proxy_pass</span> <span class="s">http://myapp1</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>In the example above, there are 3 instances of the same application running on
+srv1-srv3. When the load balancing method is not specifically configured, it
+defaults to round-robin. All requests are proxied to the server group myapp1,
+and nginx applies HTTP load balancing to distribute the requests.</p>
 <p><em>TODO</em></p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p><strong>1.1 - Describe NGINX as a caching solution</strong></p>
-<p><em>TODO</em></p>
+<p><a class="reference external" href="https://aws.amazon.com/caching/">https://aws.amazon.com/caching/</a></p>
+<p><a class="reference external" href="https://docs.nginx.com/nginx/admin-guide/content-cache/content-caching/">https://docs.nginx.com/nginx/admin-guide/content-cache/content-caching/</a></p>
+<p><a class="reference external" href="https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache">https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache</a></p>
+<p><a class="reference external" href="https://www.f5.com/company/events/webinars/content-caching-nginx-plus">https://www.f5.com/company/events/webinars/content-caching-nginx-plus</a></p>
+<p><strong>Caching in the context of the web</strong></p>
+<p>Caching is a general concept referring to storing data in a high-speed storage
+so that this data can be retrieved faster than possible when reaching its
+original location. In the context of web, caching is crucial and is present at
+many layers between the actual client software (e.g. web browser) and the
+backend server or database, storing the content.</p>
+<a class="reference internal image-reference" href="../../_images/diagram_caching.png"><img alt="Caching on the web diagram" src="../../_images/diagram_caching.png" style="height: 250px;" /></a>
+<table border="1" class="docutils">
+<colgroup>
+<col width="7%" />
+<col width="17%" />
+<col width="7%" />
+<col width="34%" />
+<col width="17%" />
+<col width="19%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Layer</th>
+<th class="head">Client-Side</th>
+<th class="head">DNS</th>
+<th class="head">Web</th>
+<th class="head">App</th>
+<th class="head">Database</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><div class="first last line-block">
+<div class="line">Use Case</div>
+<div class="line"><br /></div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line">Accelerate retrieval of web content</div>
+<div class="line">from websites (browser or device)</div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line">Domain to IP</div>
+<div class="line">Resolution</div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line">Accelerate retrieval of web content from web/app servers. Manage Web</div>
+<div class="line">Sessions (server side) web/app servers. Manage Web Sessions (server side)</div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line">Accelerate application performance</div>
+<div class="line">and data access</div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line">Reduce latency associated with database</div>
+<div class="line">query requests</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><div class="first last line-block">
+<div class="line">Technologies</div>
+<div class="line"><br /></div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line">HTTP Cache Headers, Browsers</div>
+<div class="line"><br /></div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line">DNS Servers</div>
+<div class="line"><br /></div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line">HTTP Cache Headers, CDNs, Reverse Proxies, Web Accelerators,</div>
+<div class="line">Key/Value Stores</div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line">Key/Value data stores, Local caches</div>
+<div class="line"><br /></div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line">Database buffers, Key/Value data stores</div>
+<div class="line"><br /></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<p>The above representation comes from the AWS article about caching
+(<a class="reference external" href="https://aws.amazon.com/caching/">https://aws.amazon.com/caching/</a>) and depicts various levels at which caching
+has influence in the context of web content serving.</p>
+<p><strong>How NGINX can be seen as a caching solution</strong></p>
+<p>NGINX leverages the caching capabilities of the web in multiple ways. Indeed,
+NGINX as a reverse proxy or web server sits in a crucial place of web content
+retrieval pipeline:</p>
+<ul class="simple">
+<li>Client-Side caching: NGINX can set and add HTTP headers helping the client
+side to use caching.</li>
+<li>Web and App content: NGINX can, through its <cite>proxy_cache</cite> directive, cache
+the results of requests to the backend servers. These cached results can be
+directly served to new clients, preventing making additional requests to the
+backend servers. NGINX content caching can be fine-tuned, allowing to best
+match the application logic. For example, highly dynamic pages may not be
+cached to make sure the most up-to-date content is served to the clients,
+while static files can be cached for longer time to prevent requesting the
+backend server multiple times for identical files.</li>
+<li>Web and App connections: another useful caching technique sits at the
+transport layer. Thanks to its <cite>keepalive</cite> directives, NGINX can prevent
+closing TCP sockets too early and reuse existing sockets instead of
+re-negotiating a new connection. For the Transport Layer Security, NGINX also
+has directives to cache SSL sessions and prevent re-negotiating keys and
+certificates and reuse existing parameters with clients.</li>
+</ul>
+<p>These put together allow NGINX to vastly influence the caching of the web
+content served by an application when it acts as a reverse proxy.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p><strong>1.1 - Describe NGINX as an API gateway</strong></p>
-<p><em>TODO</em></p>
+<p><a class="reference external" href="https://www.redhat.com/en/topics/api/what-does-an-api-gateway-do">https://www.redhat.com/en/topics/api/what-does-an-api-gateway-do</a></p>
+<p><a class="reference external" href="https://www.f5.com/company/blog/nginx/deploying-nginx-plus-as-an-api-gateway-part-1">https://www.f5.com/company/blog/nginx/deploying-nginx-plus-as-an-api-gateway-part-1</a></p>
+<p><strong>What is an API gateway</strong></p>
+<p>An API gateway is an API management tool that sits between a client and a
+collection of backend services. In this case, a client is the application on a
+user’s device and the backend services are those on an enterprise’s servers.
+API stands for application programming interface, which is a set of definitions
+and protocols for building and integrating application software.</p>
+<p>An API gateway is a component of application delivery (the combination of
+services that serve an application to users) and acts as a reverse proxy to
+accept all application programming interface (API) calls, aggregate the various
+services required to fulfil them, and return the appropriate result. In
+simpler terms, an API gateway is a piece of software that intercepts API calls
+from a user and routes them to the appropriate backend service.</p>
+<p><strong>How can NGINX be used as an API gateway</strong></p>
+<p>NGINX can be configured as a perfect API gateway through various configuration
+aspects:</p>
+<ul class="simple">
+<li>Load balancing and upstream definition. As seen before, NGINX can be
+configured with an upstream servers pool and perform load balancing between
+the different API servers. This allows to ensure that the API service can
+scale and match different needs.</li>
+<li>API routes definition. NGINX can be used to define the different API routes
+available in the same way it defines static web content serving routes. This
+allows to define broad (using REGEX matching URIs) and precise (using exact
+matching URIs) endpoints, and control the private or restricted endpoint’s
+access.</li>
+<li>Request interception and rewriting for handling breaking changes. NGINX can,
+for example, handle the redirection from legacy API routes to the new ones
+through HTTP redirect and content rewriting.</li>
+<li>Handling errors. NGINX can interpret HTTP errors received from the backend
+and display the desired error pages or messages.</li>
+<li>Authenticating endpoints. NGINX can handle restricting access to some
+endpoints using authentication methods such as API keys or JSON Web Tokens.</li>
+<li>Rate limiting and logging. NGINX can help to secure and enforcing policies on
+endpoints by using its rate limiting or advanced logging features.</li>
+</ul>
+<p>All these aspects make NGINX an efficient and complete solution for placing it
+as an API gateway.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 <div class="line"><br /></div>

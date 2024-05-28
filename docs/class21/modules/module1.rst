@@ -51,8 +51,8 @@ configuration file for serving static web content:
 
 Receiving this configuration file, NGINX would listen to the HTTP port 80 on
 the host machine for incoming connections. Upon receiving HTTP request, it
-would serve content from the host's `/www/data` directory (for example, a
-`/www/data/index.html` file).
+would serve content from the host's ``/www/data`` directory (for example, a
+``/www/data/index.html`` file).
 
 |
 
@@ -214,7 +214,7 @@ retrieval pipeline:
 
 - Client-Side caching: NGINX can set and add HTTP headers helping the client
   side to use caching.
-- Web and App content: NGINX can, through its `proxy_cache` directive, cache
+- Web and App content: NGINX can, through its ``proxy_cache`` directive, cache
   the results of requests to the backend servers. These cached results can be
   directly served to new clients, preventing making additional requests to the
   backend servers. NGINX content caching can be fine-tuned, allowing to best
@@ -223,7 +223,7 @@ retrieval pipeline:
   while static files can be cached for longer time to prevent requesting the
   backend server multiple times for identical files.
 - Web and App connections: another useful caching technique sits at the
-  transport layer. Thanks to its `keepalive` directives, NGINX can prevent
+  transport layer. Thanks to its ``keepalive`` directives, NGINX can prevent
   closing TCP sockets too early and reuse existing sockets instead of
   re-negotiating a new connection. For the Transport Layer Security, NGINX also
   has directives to cache SSL sessions and prevent re-negotiating keys and
@@ -303,11 +303,11 @@ http://hg.nginx.org/pkg-oss/file/tip/debian/debian/nginx.conf
 
 NGINX configuration is managed through configuration file. After freshly
 installing NGINX, a default core config file will be created and configure a
-default NGINX web server. By default, the file is named `nginx.conf` and for
-NGINX Plus is placed in the `/etc/nginx directory`. (For NGINX Open Source,
+default NGINX web server. By default, the file is named ``nginx.conf`` and for
+NGINX Plus is placed in the ``/etc/nginx directory``. (For NGINX Open Source,
 the location depends on the package system used to install NGINX and the
-operating system. It is typically one of `/usr/local/nginx/conf`, `/etc/nginx`,
-or `/usr/local/etc/nginx`).
+operating system. It is typically one of ``/usr/local/nginx/conf``, ``/etc/nginx``,
+or ``/usr/local/etc/nginx``).
 
 The default configuration may vary depending on your installation source
 (different distribution maintained APT repositories, NGINX maintained APT
@@ -349,8 +349,8 @@ official NGINX repository on a debian system:
     }
 
 The important bit is that there always is a default configuration installed
-named `nginx.conf` which install location depends on your system. There should
-only be one install point: the commands `nginx -t` or `nginx -V` should display
+named ``nginx.conf`` which install location depends on your system. There should
+only be one install point: the commands ``nginx -t`` or ``nginx -V`` should display
 the actually loaded configuration by NGINX.
 
 |
@@ -368,13 +368,13 @@ https://stackoverflow.com/questions/50107845/what-is-the-order-of-the-config-fil
 **NGINX configuration across multiple files**
 
 NGINX configuration can be divided into multiple files across multiple
-directories. NGINX has the `include` directive which matches a certain number
-of files (possibly using a wildcard `*` operator for matching multiple file
-names, called a mask) and includes their content at the location of the include
-directive in the configuration file.
+directories. NGINX has the ``include`` directive which matches a certain number
+of files (possibly using a wildcard ``*`` operator for matching multiple file
+names, called a mask) and includes their content at the location of the
+``include`` directive in the configuration file.
 
-The `nginx -T` command shows the list of actually loaded configuration file,
-taking into account the `include` directive.
+The ``nginx -T`` command shows the list of actually loaded configuration file,
+taking into account the ``include`` directive.
 
 |
 
@@ -387,27 +387,17 @@ https://stackoverflow.com/questions/50107845/what-is-the-order-of-the-config-fil
 
 **NGINX include configuration loading**
 
-When making use of the `include` directive, the included files are merged into
+When making use of the ``include`` directive, the included files are merged into
 the core configuration at runtime quite literally. You can figure this as if
-you replaced the line with `include` directive with the full content of the
+you replaced the line with ``include`` directive with the full content of the
 included file. This means that:
 
-#. An `include a.conf` directive placed above another `include b.conf` places
-   the content of the `a.conf` file above the content of the `b.conf` file in
+#. A ``include a.conf`` directive placed above another ``include b.conf`` places
+   the content of the ``a.conf`` file above the content of the ``b.conf`` file in
    the running configuration.
 #. Included files inherit the context from which they are loaded.
 
-We will delve into more details on how files are merged and context inherited
-in the next part.
-
-|
-
-**1.2 - Describe directive inheritance and overriding properties**
-
-https://docs.nginx.com/nginx/admin-guide/basic-functionality/managing-configuration-files/#inheritance
-
-
-For example, let us have the following `nginx.conf` file:
+For example, let us have the following ``nginx.conf`` file:
 
 .. code-block:: NGINX
     :emphasize-lines: 31
@@ -445,7 +435,7 @@ For example, let us have the following `nginx.conf` file:
         include /etc/nginx/conf.d/*.conf;
     }
 
-and another `web.conf` file:
+and another ``web.conf`` file:
 
 .. code-block:: NGINX
 
@@ -459,9 +449,9 @@ and another `web.conf` file:
     }
 
 At runtime, the NGINX configuration will load the content from the
-`/etc/nginx/conf.d/web.conf` because it matches the mask defined in `include
-/etc/nginx/conf.d/*.conf;`. The `server` block defined in `web.conf` will
-inherit the `http {}` context defined in `nginx.conf`. You can figure the
+``/etc/nginx/conf.d/web.conf`` because it matches the mask defined in ``include
+/etc/nginx/conf.d/*.conf;``. The ``server`` block defined in ``web.conf`` will be
+put inside the ``http {}`` context defined in ``nginx.conf``. You can figure the
 runtime configuration to be:
 
 .. code-block:: NGINX
@@ -507,10 +497,167 @@ runtime configuration to be:
         }
     }
 
-where we clearly see that the server defined in `web.conf` inherits the `http
-{}` context.
+Where we clearly see that the server defined in ``web.conf`` is inside the ``http
+{}`` context.
 
-*TODO*
+|
+
+**1.2 - Describe directive inheritance and overriding properties**
+
+https://docs.nginx.com/nginx/admin-guide/basic-functionality/managing-configuration-files/
+
+https://www.slingacademy.com/article/nginx-base-module-directives-complete-guide/#Variables_and_Inheritance_in_NGINX
+
+https://blog.martinfjordvald.com/understanding-the-nginx-configuration-inheritance-model/
+
+https://nginx.org/en/docs/http/request_processing.html
+
+**Elements of an NGINX configuration file**
+
+Directives (simple directives and blocks)
+    The configuration file consists of directives and their parameters.
+    **Simple** (single-line) **directives** each end with a semicolon. Other
+    directives act as “containers” that group together related directives,
+    enclosing them in curly braces (``{}``); these are often referred to as
+    **blocks**. Here are some examples of simple directives:
+
+    .. code-block:: NGINX
+
+        user             nobody;
+        error_log        logs/error.log notice;
+        worker_processes 1;
+
+Contexts
+    A few top-level directives, referred to as contexts, group together the
+    directives that apply to different traffic types:
+    - **events** - General connection processing
+    - **http** - HTTP traffic
+    - **mail** - Mail traffic
+    - **stream** - TCP and UDP traffic
+
+    Directives placed outside these contexts are said to be in the main
+    context. The context defines the available directives and variable to be
+    used for request processing inside the context. For example the
+    ``$request_method`` variable can be used inside a ``http {}`` context block,
+    but not inside a ``stream {}`` context block, as it would not make sense to
+    have an HTTP method inside any TCP/UDP stream.
+
+Virtual Servers
+    In each of the traffic-handling contexts, you include one or more **server
+    blocks** to define virtual servers that control the processing of requests.
+    The directives you can include within a server context vary depending on
+    the traffic type.
+
+    For HTTP traffic (the http context), each server directive controls the
+    processing of requests for resources at particular domains or IP addresses.
+    One or more location contexts in a server context define how to process
+    specific sets of URIs.
+
+    For mail and TCP/UDP traffic (the mail and stream contexts) the server
+    directives each control the processing of traffic arriving at a particular
+    TCP port or UNIX socket.
+
+.. code-block:: NGINX
+
+    user nobody; # a directive in the 'main' context
+
+    events {
+        # configuration of connection processing
+    }
+
+    http {
+        # Configuration specific to HTTP and affecting all virtual servers
+
+        server {
+            # configuration of HTTP virtual server 1
+            location /one {
+                # configuration for processing URIs starting with '/one'
+            }
+            location /two {
+                # configuration for processing URIs starting with '/two'
+            }
+        }
+
+        server {
+            # configuration of HTTP virtual server 2
+        }
+    }
+
+    stream {
+        # Configuration specific to TCP/UDP and affecting all virtual servers
+        server {
+            # configuration of TCP virtual server 1
+        }
+    }
+
+The above code block is a sample configuration, commented with details on the
+different contexts.
+
+**Inheritance and properties overriding**
+
+In general, a **child context** - one contained within another context (its
+parent) - **inherits the settings of directives** included at the parent level.
+Some directives can appear in multiple contexts, in which case you can
+**override** the setting inherited from the parent by including the directive
+in the child context. The following gives an example of override ``root``
+directive:
+
+.. code-block:: NGINX
+
+    server {
+        root /home/user/public_html;
+
+        location /app {
+            root /usr/share; # This directive overrides the root directive from parent context.
+                             # This results in /usr/share/app
+                             # (Full URI is always appended.)
+        }
+
+        location /app2 {
+            # Server context root applies here because it is inherited by
+            # the parent context.
+        }
+    }
+
+This simple rule of thumb however mixes with other NGINX rules which can make
+surprising the understanding of some specific configuration files.
+
+Notably, there can be confusion when writing directives in a nested ``location
+{}`` block: NGINX always processes requests by matching the most specific paths.
+Therefore, although there can be shorter but valid matches, directives in
+locations other than the most specific ones will not get executed. The
+following example shows it:
+
+.. code-block:: NGINX
+
+    server {
+        location /calendar {
+            rewrite ^ /static.php; # Executes unless inner location matches.
+
+            location ~ \.php$ {
+                fastcgi_pass backend; # Outer location context rewrite is not executed.	
+            }
+        }
+    }
+
+Also, using inheritance, one must be careful to take into account the
+documentation and specifications of each directive which may have
+specificities. For example, the ``rewrite`` directive is specifically documented
+as "executed sequentially in order of their appearance in the configuration
+file". This example shows how:
+
+.. code-block:: NGINX
+
+    server {
+        rewrite ^/booking(.*) /calendar$1 permanent; # Always executes.
+
+        location /calendar {
+            rewrite ^ /index.php; # Can execute in addition to and does not replace server context rewrites.
+        }
+    }
+
+Therefore, the directive is not override by the child context redefinition as
+would other directives.
 
 |
 |
@@ -523,13 +670,81 @@ Objective - 1.3 Demonstrate how to manage user permissions
 
 **1.3 - Identify user context (i.e. using the configuration file)**
 
-*TODO*
+https://nginx.org/en/docs/ngx_core_module.html#user
+
+https://stackoverflow.com/questions/42329261/running-nginx-as-non-root-user
+
+**The user directive**
+
+From the documentation, the ``user`` directive allows to define the user and
+group credentials used by worker processes. To be noted, the main processes is
+run by root by default, because listening on port below 1024 (which is often
+done by NGINX) requires root permissions on Linux. There `exist ways
+<https://stackoverflow.com/questions/42329261/running-nginx-as-non-root-user>`
+to run the main process as non-root if you create virtual server only listening
+on ports above 1024.
 
 |
 
 **1.3 - Describe how and when to give read/write/execute access**
 
-*TODO*
+https://www.slingacademy.com/article/nginx-user-and-group-explained-with-examples/
+
+https://linuxize.com/post/chmod-command-in-linux/
+
+**NGINX users and tasks**
+
+As seen before, there are 2 important users (in the sense of a UNIX user) in
+the NGINX system: ``root``, which executes the main process and the workers,
+which user is defined by the ``user`` directive or ``nobody`` by default.
+
+On another side, there are the tasks the these processes must run. The main
+process being run by the system's ``root``, it will have sufficient rights to
+perform its tasks (listening to sockets, parsing and reading configuration
+files, ...).
+
+The worker process need to process the actual requests, meaning they must be
+able to read the static files they are supposed to serve and write logs from
+their request's processing.
+
+**How to give access**
+
+Giving access to certain elements requires following the classic Linux access
+control system: any file or folder has a user owner and a group owner. For the
+owner, the group owner and the other users (everyone), one defines
+authorizations to read, write and execute. Modifying these accesses is as
+simple as using the ``chmod`` and/or ``chown`` commands to respectively modify
+the authorization and owner of files.
+
+For example, the following command modifies the owner of the ``/data/wwww``
+folder and all the files and folders it contains to make it owned by the
+``nginx`` user: 
+
+.. code-block:: bash
+
+    sudo chown -R nginx /data/wwww
+
+The next command makes the file ``/data/www/index.html`` readable, writeable
+and executable for the owner, but only readable and executable for the group
+owner and for everyone else:
+
+.. code-block:: bash
+
+    sudo chown 755 /data/wwww/index.html
+
+For more information, one should check the referenced links about changing the
+access rights of Linux files.
+
+**When and to what give access**
+
+The last step is understanding which accesses should be given. The answer is
+simply "enough for the workers to do their job" basically. This means that the
+worker should have at least the read permission to get the content of the files
+they are serving, and write access to the log files they write their logs to.
+
+Many possible configuration are possible: one should only make sure that the
+choice of user for the worker does not prevent them from accessing the files
+they need to access.
 
 |
 

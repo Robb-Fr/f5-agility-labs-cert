@@ -14,7 +14,7 @@
   <meta name="title" content="F5N1 - Management"/>
   <meta name="product" content="Unofficial - F5 Certification Exam Prep Material"/>
   <meta name="version" content=""/>
-  <meta name="updated_date"  content="2024-05-27 01:56:36"/>
+  <meta name="updated_date"  content="2024-05-28 02:04:41"/>
   <meta name="archived" content="Archived documents excluded"/>
   <meta name="doc_type" content="Manual"/>
   <meta name="lifecycle" content="release"/>
@@ -235,8 +235,8 @@ configuration file for serving static web content:</p>
 </div>
 <p>Receiving this configuration file, NGINX would listen to the HTTP port 80 on
 the host machine for incoming connections. Upon receiving HTTP request, it
-would serve content from the host’s <cite>/www/data</cite> directory (for example, a
-<cite>/www/data/index.html</cite> file).</p>
+would serve content from the host’s <code class="docutils literal notranslate"><span class="pre">/www/data</span></code> directory (for example, a
+<code class="docutils literal notranslate"><span class="pre">/www/data/index.html</span></code> file).</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -426,7 +426,7 @@ retrieval pipeline:</p>
 <ul class="simple">
 <li>Client-Side caching: NGINX can set and add HTTP headers helping the client
 side to use caching.</li>
-<li>Web and App content: NGINX can, through its <cite>proxy_cache</cite> directive, cache
+<li>Web and App content: NGINX can, through its <code class="docutils literal notranslate"><span class="pre">proxy_cache</span></code> directive, cache
 the results of requests to the backend servers. These cached results can be
 directly served to new clients, preventing making additional requests to the
 backend servers. NGINX content caching can be fine-tuned, allowing to best
@@ -435,7 +435,7 @@ cached to make sure the most up-to-date content is served to the clients,
 while static files can be cached for longer time to prevent requesting the
 backend server multiple times for identical files.</li>
 <li>Web and App connections: another useful caching technique sits at the
-transport layer. Thanks to its <cite>keepalive</cite> directives, NGINX can prevent
+transport layer. Thanks to its <code class="docutils literal notranslate"><span class="pre">keepalive</span></code> directives, NGINX can prevent
 closing TCP sockets too early and reuse existing sockets instead of
 re-negotiating a new connection. For the Transport Layer Security, NGINX also
 has directives to cache SSL sessions and prevent re-negotiating keys and
@@ -498,23 +498,327 @@ as an API gateway.</p>
 <div class="line"><br /></div>
 </div>
 <p><strong>1.2 - Identify the default NGINX core config file</strong></p>
-<p><em>TODO</em></p>
+<p><a class="reference external" href="https://docs.nginx.com/nginx/admin-guide/basic-functionality/managing-configuration-files/">https://docs.nginx.com/nginx/admin-guide/basic-functionality/managing-configuration-files/</a></p>
+<p><a class="reference external" href="https://stackoverflow.com/questions/19910042/locate-the-nginx-conf-file-my-nginx-is-actually-using">https://stackoverflow.com/questions/19910042/locate-the-nginx-conf-file-my-nginx-is-actually-using</a></p>
+<p><a class="reference external" href="http://hg.nginx.org/pkg-oss/file/tip/debian/debian/nginx.conf">http://hg.nginx.org/pkg-oss/file/tip/debian/debian/nginx.conf</a></p>
+<p><strong>Default configuration when installing NGINX</strong></p>
+<p>NGINX configuration is managed through configuration file. After freshly
+installing NGINX, a default core config file will be created and configure a
+default NGINX web server. By default, the file is named <code class="docutils literal notranslate"><span class="pre">nginx.conf</span></code> and for
+NGINX Plus is placed in the <code class="docutils literal notranslate"><span class="pre">/etc/nginx</span> <span class="pre">directory</span></code>. (For NGINX Open Source,
+the location depends on the package system used to install NGINX and the
+operating system. It is typically one of <code class="docutils literal notranslate"><span class="pre">/usr/local/nginx/conf</span></code>, <code class="docutils literal notranslate"><span class="pre">/etc/nginx</span></code>,
+or <code class="docutils literal notranslate"><span class="pre">/usr/local/etc/nginx</span></code>).</p>
+<p>The default configuration may vary depending on your installation source
+(different distribution maintained APT repositories, NGINX maintained APT
+repositories, …). The following is installed when NGINX is installed from the
+official NGINX repository on a debian system:</p>
+<div class="highlight-NGINX notranslate"><div class="highlight"><pre><span></span><span class="k">user</span>  <span class="s">nginx</span><span class="p">;</span>
+<span class="k">worker_processes</span>  <span class="s">auto</span><span class="p">;</span>
+
+<span class="k">error_log</span>  <span class="s">/var/log/nginx/error.log</span> <span class="s">notice</span><span class="p">;</span>
+<span class="k">pid</span>        <span class="s">/var/run/nginx.pid</span><span class="p">;</span>
+
+
+<span class="k">events</span> <span class="p">{</span>
+    <span class="kn">worker_connections</span>  <span class="mi">1024</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+<span class="k">http</span> <span class="p">{</span>
+    <span class="kn">include</span>       <span class="s">/etc/nginx/mime.types</span><span class="p">;</span>
+    <span class="kn">default_type</span>  <span class="s">application/octet-stream</span><span class="p">;</span>
+
+    <span class="kn">log_format</span>  <span class="s">main</span>  <span class="s">&#39;</span><span class="nv">$remote_addr</span> <span class="s">-</span> <span class="nv">$remote_user</span> <span class="s">[</span><span class="nv">$time_local]</span> <span class="s">&quot;</span><span class="nv">$request&quot;</span> <span class="s">&#39;</span>
+                    <span class="s">&#39;</span><span class="nv">$status</span> <span class="nv">$body_bytes_sent</span> <span class="s">&quot;</span><span class="nv">$http_referer&quot;</span> <span class="s">&#39;</span>
+                    <span class="s">&#39;&quot;</span><span class="nv">$http_user_agent&quot;</span> <span class="s">&quot;</span><span class="nv">$http_x_forwarded_for&quot;&#39;</span><span class="p">;</span>
+
+    <span class="kn">access_log</span>  <span class="s">/var/log/nginx/access.log</span>  <span class="s">main</span><span class="p">;</span>
+
+    <span class="kn">sendfile</span>        <span class="no">on</span><span class="p">;</span>
+    <span class="c1">#tcp_nopush     on;</span>
+
+    <span class="kn">keepalive_timeout</span>  <span class="mi">65</span><span class="p">;</span>
+
+    <span class="c1">#gzip  on;</span>
+
+    <span class="kn">include</span> <span class="s">/etc/nginx/conf.d/*.conf</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The important bit is that there always is a default configuration installed
+named <code class="docutils literal notranslate"><span class="pre">nginx.conf</span></code> which install location depends on your system. There should
+only be one install point: the commands <code class="docutils literal notranslate"><span class="pre">nginx</span> <span class="pre">-t</span></code> or <code class="docutils literal notranslate"><span class="pre">nginx</span> <span class="pre">-V</span></code> should display
+the actually loaded configuration by NGINX.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p><strong>1.2 - Identify the included directories/files</strong></p>
-<p><em>TODO</em></p>
+<p><a class="reference external" href="http://nginx.org/en/docs/ngx_core_module.html#include">http://nginx.org/en/docs/ngx_core_module.html#include</a></p>
+<p><a class="reference external" href="https://docs.nginx.com/nginx/admin-guide/basic-functionality/managing-configuration-files/">https://docs.nginx.com/nginx/admin-guide/basic-functionality/managing-configuration-files/</a></p>
+<p><a class="reference external" href="https://www.f5.com/company/blog/nginx/deploying-nginx-plus-as-an-api-gateway-part-1#organize-config">https://www.f5.com/company/blog/nginx/deploying-nginx-plus-as-an-api-gateway-part-1#organize-config</a></p>
+<p><a class="reference external" href="https://stackoverflow.com/questions/50107845/what-is-the-order-of-the-config-file-for-nginx">https://stackoverflow.com/questions/50107845/what-is-the-order-of-the-config-file-for-nginx</a></p>
+<p><strong>NGINX configuration across multiple files</strong></p>
+<p>NGINX configuration can be divided into multiple files across multiple
+directories. NGINX has the <code class="docutils literal notranslate"><span class="pre">include</span></code> directive which matches a certain number
+of files (possibly using a wildcard <code class="docutils literal notranslate"><span class="pre">*</span></code> operator for matching multiple file
+names, called a mask) and includes their content at the location of the
+<code class="docutils literal notranslate"><span class="pre">include</span></code> directive in the configuration file.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">nginx</span> <span class="pre">-T</span></code> command shows the list of actually loaded configuration file,
+taking into account the <code class="docutils literal notranslate"><span class="pre">include</span></code> directive.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p><strong>1.2 - Describe the order of how the included files will be ‘merged’ into the
 running configuration</strong></p>
-<p><em>TODO</em></p>
+<p><a class="reference external" href="http://hg.nginx.org/nginx/file/tip/src/core/ngx_conf_file.c#l821">http://hg.nginx.org/nginx/file/tip/src/core/ngx_conf_file.c#l821</a></p>
+<p><a class="reference external" href="https://stackoverflow.com/questions/50107845/what-is-the-order-of-the-config-file-for-nginx">https://stackoverflow.com/questions/50107845/what-is-the-order-of-the-config-file-for-nginx</a></p>
+<p><strong>NGINX include configuration loading</strong></p>
+<p>When making use of the <code class="docutils literal notranslate"><span class="pre">include</span></code> directive, the included files are merged into
+the core configuration at runtime quite literally. You can figure this as if
+you replaced the line with <code class="docutils literal notranslate"><span class="pre">include</span></code> directive with the full content of the
+included file. This means that:</p>
+<ol class="arabic simple">
+<li>A <code class="docutils literal notranslate"><span class="pre">include</span> <span class="pre">a.conf</span></code> directive placed above another <code class="docutils literal notranslate"><span class="pre">include</span> <span class="pre">b.conf</span></code> places
+the content of the <code class="docutils literal notranslate"><span class="pre">a.conf</span></code> file above the content of the <code class="docutils literal notranslate"><span class="pre">b.conf</span></code> file in
+the running configuration.</li>
+<li>Included files inherit the context from which they are loaded.</li>
+</ol>
+<p>For example, let us have the following <code class="docutils literal notranslate"><span class="pre">nginx.conf</span></code> file:</p>
+<div class="highlight-NGINX notranslate"><div class="highlight"><pre><span></span><span class="c1"># /etc/nginx/nginx.conf</span>
+<span class="k">user</span>  <span class="s">nginx</span><span class="p">;</span>
+<span class="k">worker_processes</span>  <span class="s">auto</span><span class="p">;</span>
+
+<span class="k">error_log</span>  <span class="s">/var/log/nginx/error.log</span> <span class="s">notice</span><span class="p">;</span>
+<span class="k">pid</span>        <span class="s">/var/run/nginx.pid</span><span class="p">;</span>
+
+
+<span class="k">events</span> <span class="p">{</span>
+    <span class="kn">worker_connections</span>  <span class="mi">1024</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+<span class="k">http</span> <span class="p">{</span>
+    <span class="kn">include</span>       <span class="s">/etc/nginx/mime.types</span><span class="p">;</span>
+    <span class="kn">default_type</span>  <span class="s">application/octet-stream</span><span class="p">;</span>
+
+    <span class="kn">log_format</span>  <span class="s">main</span>  <span class="s">&#39;</span><span class="nv">$remote_addr</span> <span class="s">-</span> <span class="nv">$remote_user</span> <span class="s">[</span><span class="nv">$time_local]</span> <span class="s">&quot;</span><span class="nv">$request&quot;</span> <span class="s">&#39;</span>
+                    <span class="s">&#39;</span><span class="nv">$status</span> <span class="nv">$body_bytes_sent</span> <span class="s">&quot;</span><span class="nv">$http_referer&quot;</span> <span class="s">&#39;</span>
+                    <span class="s">&#39;&quot;</span><span class="nv">$http_user_agent&quot;</span> <span class="s">&quot;</span><span class="nv">$http_x_forwarded_for&quot;&#39;</span><span class="p">;</span>
+
+    <span class="kn">access_log</span>  <span class="s">/var/log/nginx/access.log</span>  <span class="s">main</span><span class="p">;</span>
+
+    <span class="kn">sendfile</span>        <span class="no">on</span><span class="p">;</span>
+    <span class="c1">#tcp_nopush     on;</span>
+
+    <span class="kn">keepalive_timeout</span>  <span class="mi">65</span><span class="p">;</span>
+
+    <span class="c1">#gzip  on;</span>
+
+<span class="hll">    <span class="kn">include</span> <span class="s">/etc/nginx/conf.d/*.conf</span><span class="p">;</span>
+</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>and another <code class="docutils literal notranslate"><span class="pre">web.conf</span></code> file:</p>
+<div class="highlight-NGINX notranslate"><div class="highlight"><pre><span></span><span class="c1"># /etc/nginx/conf.d/web.conf</span>
+<span class="k">server</span> <span class="p">{</span>
+    <span class="kn">root</span> <span class="s">/www/data</span><span class="p">;</span>
+
+    <span class="kn">location</span> <span class="s">/</span> <span class="p">{</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>At runtime, the NGINX configuration will load the content from the
+<code class="docutils literal notranslate"><span class="pre">/etc/nginx/conf.d/web.conf</span></code> because it matches the mask defined in <code class="docutils literal notranslate"><span class="pre">include</span>
+<span class="pre">/etc/nginx/conf.d/*.conf;</span></code>. The <code class="docutils literal notranslate"><span class="pre">server</span></code> block defined in <code class="docutils literal notranslate"><span class="pre">web.conf</span></code> will be
+put inside the <code class="docutils literal notranslate"><span class="pre">http</span> <span class="pre">{}</span></code> context defined in <code class="docutils literal notranslate"><span class="pre">nginx.conf</span></code>. You can figure the
+runtime configuration to be:</p>
+<div class="highlight-NGINX notranslate"><div class="highlight"><pre><span></span><span class="c1"># /etc/nginx/nginx.conf</span>
+<span class="k">user</span>  <span class="s">nginx</span><span class="p">;</span>
+<span class="k">worker_processes</span>  <span class="s">auto</span><span class="p">;</span>
+
+<span class="k">error_log</span>  <span class="s">/var/log/nginx/error.log</span> <span class="s">notice</span><span class="p">;</span>
+<span class="k">pid</span>        <span class="s">/var/run/nginx.pid</span><span class="p">;</span>
+
+
+<span class="k">events</span> <span class="p">{</span>
+    <span class="kn">worker_connections</span>  <span class="mi">1024</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+<span class="k">http</span> <span class="p">{</span>
+    <span class="kn">include</span>       <span class="s">/etc/nginx/mime.types</span><span class="p">;</span>
+    <span class="kn">default_type</span>  <span class="s">application/octet-stream</span><span class="p">;</span>
+
+    <span class="kn">log_format</span>  <span class="s">main</span>  <span class="s">&#39;</span><span class="nv">$remote_addr</span> <span class="s">-</span> <span class="nv">$remote_user</span> <span class="s">[</span><span class="nv">$time_local]</span> <span class="s">&quot;</span><span class="nv">$request&quot;</span> <span class="s">&#39;</span>
+                    <span class="s">&#39;</span><span class="nv">$status</span> <span class="nv">$body_bytes_sent</span> <span class="s">&quot;</span><span class="nv">$http_referer&quot;</span> <span class="s">&#39;</span>
+                    <span class="s">&#39;&quot;</span><span class="nv">$http_user_agent&quot;</span> <span class="s">&quot;</span><span class="nv">$http_x_forwarded_for&quot;&#39;</span><span class="p">;</span>
+
+    <span class="kn">access_log</span>  <span class="s">/var/log/nginx/access.log</span>  <span class="s">main</span><span class="p">;</span>
+
+    <span class="kn">sendfile</span>        <span class="no">on</span><span class="p">;</span>
+    <span class="c1">#tcp_nopush     on;</span>
+
+    <span class="kn">keepalive_timeout</span>  <span class="mi">65</span><span class="p">;</span>
+
+    <span class="c1">#gzip  on;</span>
+
+<span class="hll">    <span class="c1"># included from /etc/nginx/conf.d/web.conf</span>
+</span><span class="hll">    <span class="kn">server</span> <span class="p">{</span>
+</span><span class="hll">        <span class="kn">root</span> <span class="s">/www/data</span><span class="p">;</span>
+</span><span class="hll">
+</span><span class="hll">        <span class="kn">location</span> <span class="s">/</span> <span class="p">{</span>
+</span><span class="hll">        <span class="p">}</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="p">}</span>
+</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Where we clearly see that the server defined in <code class="docutils literal notranslate"><span class="pre">web.conf</span></code> is inside the <code class="docutils literal notranslate"><span class="pre">http</span>
+<span class="pre">{}</span></code> context.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p><strong>1.2 - Describe directive inheritance and overriding properties</strong></p>
-<p><em>TODO</em></p>
+<p><a class="reference external" href="https://docs.nginx.com/nginx/admin-guide/basic-functionality/managing-configuration-files/">https://docs.nginx.com/nginx/admin-guide/basic-functionality/managing-configuration-files/</a></p>
+<p><a class="reference external" href="https://www.slingacademy.com/article/nginx-base-module-directives-complete-guide/#Variables_and_Inheritance_in_NGINX">https://www.slingacademy.com/article/nginx-base-module-directives-complete-guide/#Variables_and_Inheritance_in_NGINX</a></p>
+<p><a class="reference external" href="https://blog.martinfjordvald.com/understanding-the-nginx-configuration-inheritance-model/">https://blog.martinfjordvald.com/understanding-the-nginx-configuration-inheritance-model/</a></p>
+<p><a class="reference external" href="https://nginx.org/en/docs/http/request_processing.html">https://nginx.org/en/docs/http/request_processing.html</a></p>
+<p><strong>Elements of an NGINX configuration file</strong></p>
+<dl class="docutils">
+<dt>Directives (simple directives and blocks)</dt>
+<dd><p class="first">The configuration file consists of directives and their parameters.
+<strong>Simple</strong> (single-line) <strong>directives</strong> each end with a semicolon. Other
+directives act as “containers” that group together related directives,
+enclosing them in curly braces (<code class="docutils literal notranslate"><span class="pre">{}</span></code>); these are often referred to as
+<strong>blocks</strong>. Here are some examples of simple directives:</p>
+<div class="last highlight-NGINX notranslate"><div class="highlight"><pre><span></span><span class="k">user</span>             <span class="s">nobody</span><span class="p">;</span>
+<span class="k">error_log</span>        <span class="s">logs/error.log</span> <span class="s">notice</span><span class="p">;</span>
+<span class="k">worker_processes</span> <span class="mi">1</span><span class="p">;</span>
+</pre></div>
+</div>
+</dd>
+<dt>Contexts</dt>
+<dd><p class="first">A few top-level directives, referred to as contexts, group together the
+directives that apply to different traffic types:
+- <strong>events</strong> - General connection processing
+- <strong>http</strong> - HTTP traffic
+- <strong>mail</strong> - Mail traffic
+- <strong>stream</strong> - TCP and UDP traffic</p>
+<p class="last">Directives placed outside these contexts are said to be in the main
+context. The context defines the available directives and variable to be
+used for request processing inside the context. For example the
+<code class="docutils literal notranslate"><span class="pre">$request_method</span></code> variable can be used inside a <code class="docutils literal notranslate"><span class="pre">http</span> <span class="pre">{}</span></code> context block,
+but not inside a <code class="docutils literal notranslate"><span class="pre">stream</span> <span class="pre">{}</span></code> context block, as it would not make sense to
+have an HTTP method inside any TCP/UDP stream.</p>
+</dd>
+<dt>Virtual Servers</dt>
+<dd><p class="first">In each of the traffic-handling contexts, you include one or more <strong>server
+blocks</strong> to define virtual servers that control the processing of requests.
+The directives you can include within a server context vary depending on
+the traffic type.</p>
+<p>For HTTP traffic (the http context), each server directive controls the
+processing of requests for resources at particular domains or IP addresses.
+One or more location contexts in a server context define how to process
+specific sets of URIs.</p>
+<p class="last">For mail and TCP/UDP traffic (the mail and stream contexts) the server
+directives each control the processing of traffic arriving at a particular
+TCP port or UNIX socket.</p>
+</dd>
+</dl>
+<div class="highlight-NGINX notranslate"><div class="highlight"><pre><span></span><span class="k">user</span> <span class="s">nobody</span><span class="p">;</span> <span class="c1"># a directive in the &#39;main&#39; context</span>
+
+<span class="k">events</span> <span class="p">{</span>
+    <span class="c1"># configuration of connection processing</span>
+<span class="p">}</span>
+
+<span class="k">http</span> <span class="p">{</span>
+    <span class="c1"># Configuration specific to HTTP and affecting all virtual servers</span>
+
+    <span class="kn">server</span> <span class="p">{</span>
+        <span class="c1"># configuration of HTTP virtual server 1</span>
+        <span class="kn">location</span> <span class="s">/one</span> <span class="p">{</span>
+            <span class="c1"># configuration for processing URIs starting with &#39;/one&#39;</span>
+        <span class="p">}</span>
+        <span class="kn">location</span> <span class="s">/two</span> <span class="p">{</span>
+            <span class="c1"># configuration for processing URIs starting with &#39;/two&#39;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="kn">server</span> <span class="p">{</span>
+        <span class="c1"># configuration of HTTP virtual server 2</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">stream</span> <span class="p">{</span>
+    <span class="c1"># Configuration specific to TCP/UDP and affecting all virtual servers</span>
+    <span class="kn">server</span> <span class="p">{</span>
+        <span class="c1"># configuration of TCP virtual server 1</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The above code block is a sample configuration, commented with details on the
+different contexts.</p>
+<p><strong>Inheritance and properties overriding</strong></p>
+<p>In general, a <strong>child context</strong> - one contained within another context (its
+parent) - <strong>inherits the settings of directives</strong> included at the parent level.
+Some directives can appear in multiple contexts, in which case you can
+<strong>override</strong> the setting inherited from the parent by including the directive
+in the child context. The following gives an example of override <code class="docutils literal notranslate"><span class="pre">root</span></code>
+directive:</p>
+<div class="highlight-NGINX notranslate"><div class="highlight"><pre><span></span><span class="k">server</span> <span class="p">{</span>
+    <span class="kn">root</span> <span class="s">/home/user/public_html</span><span class="p">;</span>
+
+    <span class="kn">location</span> <span class="s">/app</span> <span class="p">{</span>
+        <span class="kn">root</span> <span class="s">/usr/share</span><span class="p">;</span> <span class="c1"># This directive overrides the root directive from parent context.</span>
+                         <span class="c1"># This results in /usr/share/app</span>
+                         <span class="c1"># (Full URI is always appended.)</span>
+    <span class="p">}</span>
+
+    <span class="kn">location</span> <span class="s">/app2</span> <span class="p">{</span>
+        <span class="c1"># Server context root applies here because it is inherited by</span>
+        <span class="c1"># the parent context.</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This simple rule of thumb however mixes with other NGINX rules which can make
+surprising the understanding of some specific configuration files.</p>
+<p>Notably, there can be confusion when writing directives in a nested <code class="docutils literal notranslate"><span class="pre">location</span>
+<span class="pre">{}</span></code> block: NGINX always processes requests by matching the most specific paths.
+Therefore, although there can be shorter but valid matches, directives in
+locations other than the most specific ones will not get executed. The
+following example shows it:</p>
+<div class="highlight-NGINX notranslate"><div class="highlight"><pre><span></span><span class="k">server</span> <span class="p">{</span>
+    <span class="kn">location</span> <span class="s">/calendar</span> <span class="p">{</span>
+        <span class="kn">rewrite</span> <span class="s">^</span> <span class="s">/static.php</span><span class="p">;</span> <span class="c1"># Executes unless inner location matches.</span>
+
+        <span class="kn">location</span> <span class="p">~</span> <span class="sr">\.php$</span> <span class="p">{</span>
+            <span class="kn">fastcgi_pass</span> <span class="s">backend</span><span class="p">;</span> <span class="c1"># Outer location context rewrite is not executed.</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Also, using inheritance, one must be careful to take into account the
+documentation and specifications of each directive which may have
+specificities. For example, the <code class="docutils literal notranslate"><span class="pre">rewrite</span></code> directive is specifically documented
+as “executed sequentially in order of their appearance in the configuration
+file”. This example shows how:</p>
+<div class="highlight-NGINX notranslate"><div class="highlight"><pre><span></span><span class="k">server</span> <span class="p">{</span>
+    <span class="kn">rewrite</span> <span class="s">^/booking(.*)</span> <span class="s">/calendar</span><span class="nv">$1</span> <span class="s">permanent</span><span class="p">;</span> <span class="c1"># Always executes.</span>
+
+    <span class="kn">location</span> <span class="s">/calendar</span> <span class="p">{</span>
+        <span class="kn">rewrite</span> <span class="s">^</span> <span class="s">/index.php</span><span class="p">;</span> <span class="c1"># Can execute in addition to and does not replace server context rewrites.</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Therefore, the directive is not override by the child context redefinition as
+would other directives.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 <div class="line"><br /></div>
@@ -526,23 +830,117 @@ running configuration</strong></p>
 <div class="line"><br /></div>
 <div class="line"><br /></div>
 </div>
-<p><strong>1.3 - Identify user context (i.e. using the configuration file)</strong></p>
-<p><em>TODO</em></p>
+<p id="user-context-identification"><strong>1.3 - Identify user context (i.e. using the configuration file)</strong></p>
+<p><a class="reference external" href="https://nginx.org/en/docs/ngx_core_module.html#user">https://nginx.org/en/docs/ngx_core_module.html#user</a></p>
+<p><a class="reference external" href="https://stackoverflow.com/questions/42329261/running-nginx-as-non-root-user">https://stackoverflow.com/questions/42329261/running-nginx-as-non-root-user</a></p>
+<p><strong>The user directive</strong></p>
+<p>From the documentation, the <code class="docutils literal notranslate"><span class="pre">user</span></code> directive allows to define the user and
+group credentials used by worker processes. To be noted, the main processes is
+run by root by default, because listening on port below 1024 (which is often
+done by NGINX) requires root permissions on Linux. There <cite>exist ways
+&lt;https://stackoverflow.com/questions/42329261/running-nginx-as-non-root-user&gt;</cite>
+to run the main process as non-root if you create virtual server only listening
+on ports above 1024.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p><strong>1.3 - Describe how and when to give read/write/execute access</strong></p>
-<p><em>TODO</em></p>
+<p><a class="reference external" href="https://www.slingacademy.com/article/nginx-user-and-group-explained-with-examples/">https://www.slingacademy.com/article/nginx-user-and-group-explained-with-examples/</a></p>
+<p><a class="reference external" href="https://linuxize.com/post/chmod-command-in-linux/">https://linuxize.com/post/chmod-command-in-linux/</a></p>
+<p><strong>NGINX users and tasks</strong></p>
+<p>As seen before, there are 2 important users (in the sense of a UNIX user) in
+the NGINX system: <code class="docutils literal notranslate"><span class="pre">root</span></code>, which executes the main process and the workers,
+which user is defined by the <code class="docutils literal notranslate"><span class="pre">user</span></code> directive or <code class="docutils literal notranslate"><span class="pre">nobody</span></code> by default.</p>
+<p>On another side, there are the tasks the these processes must run. The main
+process being run by the system’s <code class="docutils literal notranslate"><span class="pre">root</span></code>, it will have sufficient rights to
+perform its tasks (listening to sockets, parsing and reading configuration
+files, …).</p>
+<p>The worker process need to process the actual requests, meaning they must be
+able to read the static files they are supposed to serve and write logs from
+their request’s processing.</p>
+<p><strong>How to give access</strong></p>
+<p>Giving access to certain elements requires following the classic Linux access
+control system: any file or folder has a user owner and a group owner. For the
+owner, the group owner and the other users (everyone), one defines
+authorizations to read, write and execute. Modifying these accesses is as
+simple as using the <code class="docutils literal notranslate"><span class="pre">chmod</span></code> and/or <code class="docutils literal notranslate"><span class="pre">chown</span></code> commands to respectively modify
+the authorization and owner of files.</p>
+<p>For example, the following command modifies the owner of the <code class="docutils literal notranslate"><span class="pre">/data/wwww</span></code>
+folder and all the files and folders it contains to make it owned by the
+<code class="docutils literal notranslate"><span class="pre">nginx</span></code> user:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo chown -R nginx /data/wwww
+</pre></div>
+</div>
+<p>The next command makes the file <code class="docutils literal notranslate"><span class="pre">/data/www/index.html</span></code> readable, writeable
+and executable for the owner, but only readable and executable for the group
+owner and for everyone else:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo chown <span class="m">755</span> /data/wwww/index.html
+</pre></div>
+</div>
+<p>For more information, one should check the referenced links about changing the
+access rights of Linux files.</p>
+<p><strong>When and to what give access</strong></p>
+<p>The last step is understanding which accesses should be given. The answer is
+simply “enough for the workers to do their job” basically. This means that the
+worker should have at least the read permission to get the content of the files
+they are serving, and write access to the log files they write their logs to.</p>
+<p>Many possible configurations are possible: one should only make sure that the
+choice of user for the worker does not prevent them from accessing the files
+they need to access.</p>
+<p>Note that observing the logs from the <code class="docutils literal notranslate"><span class="pre">nginx</span> <span class="pre">-t</span></code> command to check the
+configuration will give you information about problematic access write
+(unwritable access logs for example).</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p><strong>1.3 - Describe how to run NGINX as a specific user type</strong></p>
-<p><em>TODO</em></p>
+<p>As describe in <a class="reference internal" href="#user-context-identification">user context identification</a>, the <code class="docutils literal notranslate"><span class="pre">user</span></code> directive in the
+configuration file defines the Linux user under which the NGINX worker will
+run. Changing this to the desired user allows to run the NGINX as a specific
+user. Doing this, one must make sure the access rights are updated accordingly
+for the system to run.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p><strong>1.3 - Describe the relationship between NGINX processes and users</strong></p>
-<p><em>TODO</em></p>
+<p><a class="reference external" href="http://haifux.org/lectures/84-sil/users-processes-files-and-permissions/users-perms-lec.html">http://haifux.org/lectures/84-sil/users-processes-files-and-permissions/users-perms-lec.html</a></p>
+<p><a class="reference external" href="http://nginx.org/en/docs/control.html">http://nginx.org/en/docs/control.html</a></p>
+<p><strong>Linux processes</strong></p>
+<p>In order to understand this aspect, the reader must first make sure they
+understand the Linux users and process system. Here are a few reminders from
+the cited sources.</p>
+<ul class="simple">
+<li>Every process running on a Linux system, executes on behalf of a given User.</li>
+<li>Thus, the process may do what this User is allowed to do.</li>
+<li>The process may access the Files that its User-owner may access.</li>
+<li>Every process has unique process ID (= pid), which can be used to control the
+process.</li>
+</ul>
+<p>There of course exist many other subtleties in the Linux files and access
+managements (symbolic links, set UID and set GID flags) which deserve their own
+lessons and could not be covered here. The reader may however read through the
+cited source to learn more.</p>
+<p><strong>NGINX processes</strong></p>
+<p>You can run the following command on your system running NGINX:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ps axw -o pid,ppid,user,%cpu,vsz,wchan,command <span class="p">|</span> egrep <span class="s1">&#39;(nginx|PID)&#39;</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">ps</span></code> is the Linux process listing command, the <code class="docutils literal notranslate"><span class="pre">axu</span></code> option lists all the
+processes running on the current system, the <code class="docutils literal notranslate"><span class="pre">-o</span>
+<span class="pre">pid,ppid,user,%cpu,vsz,wchan,command</span></code> flag specifies the display format
+columns to show as output and finally, the <code class="docutils literal notranslate"><span class="pre">egrep</span></code> command filters the lines
+from the output that refer to NGINX or the first line (containing ‘PID’).</p>
+<p>This should give an output looking more or less like this:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>  PID    PPID USER     %CPU    VSZ WCHAN  COMMAND
+<span class="m">12146</span>       <span class="m">1</span> root      <span class="m">0</span>.0  <span class="m">75440</span> sigsus nginx: master process /usr/sbin/nginx -c /etc/nginx/nginx.conf
+<span class="m">13050</span>   <span class="m">12146</span> nginx     <span class="m">0</span>.0 <span class="m">182548</span> do_epo nginx: worker process
+<span class="m">13051</span>   <span class="m">12146</span> nginx     <span class="m">0</span>.0  <span class="m">76032</span> do_epo nginx: worker process
+</pre></div>
+</div>
+<p>You can here see the main process, running under the <code class="docutils literal notranslate"><span class="pre">root</span></code> user, while 2
+worker processes are running under the <code class="docutils literal notranslate"><span class="pre">nginx</span></code> user. The NGINX processes are
+Linux processes, hence this is why they run on the behalf of Linux users, in
+our case, the <code class="docutils literal notranslate"><span class="pre">root</span></code> and the <code class="docutils literal notranslate"><span class="pre">nginx</span></code> users.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 <div class="line"><br /></div>
@@ -555,6 +953,8 @@ running configuration</strong></p>
 <div class="line"><br /></div>
 </div>
 <p><strong>1.4 - Describe how and why NGINX uses shared memory zones</strong></p>
+<p><a class="reference external" href="https://stackoverflow.com/questions/38295426/what-does-the-shared-memory-zone-mean-in-nginx">https://stackoverflow.com/questions/38295426/what-does-the-shared-memory-zone-mean-in-nginx</a></p>
+<p><a class="reference external" href="https://nginx.org/en/docs/dev/development_guide.html#shared_memory">https://nginx.org/en/docs/dev/development_guide.html#shared_memory</a></p>
 <p><em>TODO</em></p>
 <div class="line-block">
 <div class="line"><br /></div>

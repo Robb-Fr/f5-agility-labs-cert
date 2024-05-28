@@ -48,13 +48,18 @@ document and is *not* supported by F5.
 **Printed References**
 
 Note that the nginx.org web page contains a `list of book references
-<https://nginx.org/en/books.html>`_. Notably, the referenced book serves as a
-main reference and can be downloaded for free from F5:
+<https://nginx.org/en/books.html>`_. Notably, the frist referenced book serves
+as a main reference and can be downloaded for free from F5:
 `https://www.f5.com/go/ebook/complete-nginx-cookbook
 <https://www.f5.com/go/ebook/complete-nginx-cookbook>`_
 
 (Ref:1) DEJONGHE, DEREK. NGINX COOKBOOK Advanced Recipes for High -Performance
 Load Balancing. [S.l.]: O’REILLY MEDIA, 2024.
+
+(Ref:2) Kapranoff, Alex. Nginx Troubleshooting: Investigate and Solve Problems
+with Nginx-Powered Websites Using a Deep Understanding of the Underlying
+Principles. Community Experience Distilled. Birmingham, UK: Packt Publishing,
+2016.
 
 .. toctree::
    :maxdepth: 1

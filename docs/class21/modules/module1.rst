@@ -668,6 +668,8 @@ Objective - 1.3 Demonstrate how to manage user permissions
 |
 |
 
+.. _user context identification:
+
 **1.3 - Identify user context (i.e. using the configuration file)**
 
 https://nginx.org/en/docs/ngx_core_module.html#user
@@ -718,7 +720,7 @@ the authorization and owner of files.
 
 For example, the following command modifies the owner of the ``/data/wwww``
 folder and all the files and folders it contains to make it owned by the
-``nginx`` user: 
+``nginx`` user:
 
 .. code-block:: bash
 
@@ -742,21 +744,76 @@ simply "enough for the workers to do their job" basically. This means that the
 worker should have at least the read permission to get the content of the files
 they are serving, and write access to the log files they write their logs to.
 
-Many possible configuration are possible: one should only make sure that the
+Many possible configurations are possible: one should only make sure that the
 choice of user for the worker does not prevent them from accessing the files
 they need to access.
+
+Note that observing the logs from the ``nginx -t`` command to check the
+configuration will give you information about problematic access write
+(unwritable access logs for example).
 
 |
 
 **1.3 - Describe how to run NGINX as a specific user type**
 
-*TODO*
+As describe in `user context identification`_, the ``user`` directive in the
+configuration file defines the Linux user under which the NGINX worker will
+run. Changing this to the desired user allows to run the NGINX as a specific
+user. Doing this, one must make sure the access rights are updated accordingly
+for the system to run.
 
 |
 
 **1.3 - Describe the relationship between NGINX processes and users**
 
-*TODO*
+http://haifux.org/lectures/84-sil/users-processes-files-and-permissions/users-perms-lec.html
+
+http://nginx.org/en/docs/control.html
+
+**Linux processes**
+
+In order to understand this aspect, the reader must first make sure they
+understand the Linux users and process system. Here are a few reminders from
+the cited sources.
+
+- Every process running on a Linux system, executes on behalf of a given User.
+- Thus, the process may do what this User is allowed to do.
+- The process may access the Files that its User-owner may access.
+- Every process has unique process ID (= pid), which can be used to control the
+  process.
+
+There of course exist many other subtleties in the Linux files and access
+managements (symbolic links, set UID and set GID flags) which deserve their own
+lessons and could not be covered here. The reader may however read through the
+cited source to learn more.
+
+**NGINX processes**
+
+You can run the following command on your system running NGINX:
+
+.. code-block:: bash
+
+    ps axw -o pid,ppid,user,%cpu,vsz,wchan,command | egrep '(nginx|PID)'
+
+``ps`` is the Linux process listing command, the ``axu`` option lists all the
+processes running on the current system, the ``-o
+pid,ppid,user,%cpu,vsz,wchan,command`` flag specifies the display format
+columns to show as output and finally, the ``egrep`` command filters the lines
+from the output that refer to NGINX or the first line (containing 'PID').
+
+This should give an output looking more or less like this:
+
+.. code-block:: bash
+
+      PID    PPID USER     %CPU    VSZ WCHAN  COMMAND
+    12146       1 root      0.0  75440 sigsus nginx: master process /usr/sbin/nginx -c /etc/nginx/nginx.conf
+    13050   12146 nginx     0.0 182548 do_epo nginx: worker process
+    13051   12146 nginx     0.0  76032 do_epo nginx: worker process
+
+You can here see the main process, running under the ``root`` user, while 2
+worker processes are running under the ``nginx`` user. The NGINX processes are
+Linux processes, hence this is why they run on the behalf of Linux users, in
+our case, the ``root`` and the ``nginx`` users.
 
 |
 |
@@ -768,6 +825,10 @@ Objective - 1.4 Manage shared memory zones
 |
 
 **1.4 - Describe how and why NGINX uses shared memory zones**
+
+https://stackoverflow.com/questions/38295426/what-does-the-shared-memory-zone-mean-in-nginx
+
+https://nginx.org/en/docs/dev/development_guide.html#shared_memory
 
 *TODO*
 

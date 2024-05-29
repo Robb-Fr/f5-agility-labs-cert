@@ -312,7 +312,7 @@ or ``/usr/local/etc/nginx``).
 The default configuration may vary depending on your installation source
 (different distribution maintained APT repositories, NGINX maintained APT
 repositories, ...). The following is installed when NGINX is installed from the
-official NGINX repository on a debian system:
+official NGINX repository on a Debian system:
 
 .. code-block:: NGINX
 
@@ -387,14 +387,14 @@ https://stackoverflow.com/questions/50107845/what-is-the-order-of-the-config-fil
 
 **NGINX include configuration loading**
 
-When making use of the ``include`` directive, the included files are merged into
-the core configuration at runtime quite literally. You can figure this as if
-you replaced the line with ``include`` directive with the full content of the
-included file. This means that:
+When making use of the ``include`` directive, the included files are merged
+into the core configuration at runtime quite literally. You can figure this as
+if you replaced the line with ``include`` directive with the full content of
+the included file. This means that:
 
-#. A ``include a.conf`` directive placed above another ``include b.conf`` places
-   the content of the ``a.conf`` file above the content of the ``b.conf`` file in
-   the running configuration.
+#. A ``include a.conf`` directive placed above another ``include b.conf``
+   places the content of the ``a.conf`` file above the content of the
+   ``b.conf`` file in the running configuration.
 #. Included files inherit the context from which they are loaded.
 
 For example, let us have the following ``nginx.conf`` file:
@@ -497,8 +497,8 @@ runtime configuration to be:
         }
     }
 
-Where we clearly see that the server defined in ``web.conf`` is inside the ``http
-{}`` context.
+Where we clearly see that the server defined in ``web.conf`` is inside the
+``http {}`` context.
 
 |
 
@@ -538,9 +538,9 @@ Contexts
     Directives placed outside these contexts are said to be in the main
     context. The context defines the available directives and variable to be
     used for request processing inside the context. For example the
-    ``$request_method`` variable can be used inside a ``http {}`` context block,
-    but not inside a ``stream {}`` context block, as it would not make sense to
-    have an HTTP method inside any TCP/UDP stream.
+    ``$request_method`` variable can be used inside a ``http {}`` context
+    block, but not inside a ``stream {}`` context block, as it would not make
+    sense to have an HTTP method inside any TCP/UDP stream.
 
 Virtual Servers
     In each of the traffic-handling contexts, you include one or more **server
@@ -830,13 +830,99 @@ https://stackoverflow.com/questions/38295426/what-does-the-shared-memory-zone-me
 
 https://nginx.org/en/docs/dev/development_guide.html#shared_memory
 
-*TODO*
+https://thelinuxcode.com/using_mmap_function_linux/
 
-|
+**Shared memory zones in Linux**
+
+Getting back to basics, system oriented software use system calls to ask their
+host operating system to allocate memory for them. Usually, for simple
+programs, the allocated memory zone belongs to this program only: the OS should
+try to prevent other processes from accessing this memory zone. For example, on
+our server, we would not want the web server process to access the memory space
+of the SSH server, as it may allow the web server process to read secret
+information from the SSH server process.
+
+However, in some controlled circumstances, we do want multiple processes to
+share some memory space allocated by the OS as they should work together on the
+same data. In this context, shared memory serves as an Inter Process
+Communication channel. There are many possible Inter Process Communication
+channels (the network, UNIX sockets, ...), but shared memory sits at the lower
+level and allows for very efficient communication, removing any overhead caused
+by using, for example, the network stack (no need to establish a TCP handshake
+between two processes).
+
+The ``mmap()`` Linux system calls is the basic system call for requiring memory
+allocation (it is for example the system call used by the ``malloc()`` C
+function). Through this system call and using the correct options, one can ask
+the operating system to allocate a certain amount of memory that can be shared
+between different processes and used as any memory space through pointers. This
+is exactly what is done by NGINX when allocating a new shared memory zone.
+
+**NGINX using shared memory zones**
+
+Shared memory being one of the most efficient inter process communication
+system, it is the privileged option by NGINX for sharing runtime information
+required by different worker processes. Among the use cases, we notably notice
+the **rate limiting** one.
+
+The ``limit_conn`` directive requires a shared memory zone being parametrized.
+Indeed, upon subsequent connection handling, different worker process may
+process the received connection. Meaning that, a bad actor making too many
+requests on a server would only need to be as lucky as being handled by a new
+worker process to have its connection rate be considered as fresh as new.
+Therefore, worker processes need to tell each other how many requests every
+client made, so they can successfully enforce blocking. You may see this as a
+bouncer team: they need to share who they saw and blocked, so the other team
+members can benefit from this knowledge and directly block a bad actor if it
+was flagged as bad the other team members.
+
+Shared memory zones are for example also used to store the proxy cache keys for
+sharing the set of keys:cache_path pairs among different workers. This one
+could be seen as a team of librarians who share their index for the book shelve
+just behind their desk storing the most used books.
+
+.. image:: /_static/n1-n4/shared-rate-limiting-example.svg
+    :align: center
+    :alt: Example with bouncers for shared memory explanation
+
+**How to create a shared memory zone in NGINX**
+
+Using the rate limiting use case example, the following configuration:
+
+.. code-block:: NGINX
+
+    http {
+        limit_req_zone $binary_remote_addr
+        zone=limitbyaddr:10m rate=3r/s;
+        limit_req_status 429;
+        # ...
+        server {
+            # ...
+            limit_req zone=limitbyaddr;
+            # ...
+        }
+    }
+
+This example configuration creates a shared memory zone named ``limitbyaddr``.
+The predefined key used is the client's IP address in binary form. The size of
+the shared memory zone is set to 10 MB. The zone sets the rate with a keyword
+argument. The limit_req directive takes a required keyword argument: ``zone``.
+``zone`` instructs the directive on which shared memory request-limit zone to
+use. [COOKBOOK_P34]_
+
+.. [COOKBOOK_P34] DEJONGHE, NGINX COOKBOOK Advanced Recipes for High
+    -Performance Load Balancing., 34.
 
 **1.4 - Describe why directives use a shared memory zone**
 
-*TODO*
+The above example and description also answers this aspect. We could summarize
+this by the following: for some specific needs (such as consistent rate
+limiting), NGINX workers need to share very efficiently information for quickly
+reading and writing data and efficiently serve or block clients. Shared memory
+zones allow defining and assign OS backed memory zones that can be written and
+read by multiple NGINX workers. Doing so, they can share and update each other
+to fulfil the contract of some directives (such as rate limiting) with an
+efficient inter process communication channel.
 
 |
 |

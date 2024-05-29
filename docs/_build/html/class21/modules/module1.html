@@ -14,7 +14,7 @@
   <meta name="title" content="F5N1 - Management"/>
   <meta name="product" content="Unofficial - F5 Certification Exam Prep Material"/>
   <meta name="version" content=""/>
-  <meta name="updated_date"  content="2024-05-28 02:04:41"/>
+  <meta name="updated_date"  content="2024-05-29 11:14:19"/>
   <meta name="archived" content="Archived documents excluded"/>
   <meta name="doc_type" content="Manual"/>
   <meta name="lifecycle" content="release"/>
@@ -512,7 +512,7 @@ or <code class="docutils literal notranslate"><span class="pre">/usr/local/etc/n
 <p>The default configuration may vary depending on your installation source
 (different distribution maintained APT repositories, NGINX maintained APT
 repositories, …). The following is installed when NGINX is installed from the
-official NGINX repository on a debian system:</p>
+official NGINX repository on a Debian system:</p>
 <div class="highlight-NGINX notranslate"><div class="highlight"><pre><span></span><span class="k">user</span>  <span class="s">nginx</span><span class="p">;</span>
 <span class="k">worker_processes</span>  <span class="s">auto</span><span class="p">;</span>
 
@@ -574,14 +574,14 @@ running configuration</strong></p>
 <p><a class="reference external" href="http://hg.nginx.org/nginx/file/tip/src/core/ngx_conf_file.c#l821">http://hg.nginx.org/nginx/file/tip/src/core/ngx_conf_file.c#l821</a></p>
 <p><a class="reference external" href="https://stackoverflow.com/questions/50107845/what-is-the-order-of-the-config-file-for-nginx">https://stackoverflow.com/questions/50107845/what-is-the-order-of-the-config-file-for-nginx</a></p>
 <p><strong>NGINX include configuration loading</strong></p>
-<p>When making use of the <code class="docutils literal notranslate"><span class="pre">include</span></code> directive, the included files are merged into
-the core configuration at runtime quite literally. You can figure this as if
-you replaced the line with <code class="docutils literal notranslate"><span class="pre">include</span></code> directive with the full content of the
-included file. This means that:</p>
+<p>When making use of the <code class="docutils literal notranslate"><span class="pre">include</span></code> directive, the included files are merged
+into the core configuration at runtime quite literally. You can figure this as
+if you replaced the line with <code class="docutils literal notranslate"><span class="pre">include</span></code> directive with the full content of
+the included file. This means that:</p>
 <ol class="arabic simple">
-<li>A <code class="docutils literal notranslate"><span class="pre">include</span> <span class="pre">a.conf</span></code> directive placed above another <code class="docutils literal notranslate"><span class="pre">include</span> <span class="pre">b.conf</span></code> places
-the content of the <code class="docutils literal notranslate"><span class="pre">a.conf</span></code> file above the content of the <code class="docutils literal notranslate"><span class="pre">b.conf</span></code> file in
-the running configuration.</li>
+<li>A <code class="docutils literal notranslate"><span class="pre">include</span> <span class="pre">a.conf</span></code> directive placed above another <code class="docutils literal notranslate"><span class="pre">include</span> <span class="pre">b.conf</span></code>
+places the content of the <code class="docutils literal notranslate"><span class="pre">a.conf</span></code> file above the content of the
+<code class="docutils literal notranslate"><span class="pre">b.conf</span></code> file in the running configuration.</li>
 <li>Included files inherit the context from which they are loaded.</li>
 </ol>
 <p>For example, let us have the following <code class="docutils literal notranslate"><span class="pre">nginx.conf</span></code> file:</p>
@@ -676,8 +676,8 @@ runtime configuration to be:</p>
 </span><span class="p">}</span>
 </pre></div>
 </div>
-<p>Where we clearly see that the server defined in <code class="docutils literal notranslate"><span class="pre">web.conf</span></code> is inside the <code class="docutils literal notranslate"><span class="pre">http</span>
-<span class="pre">{}</span></code> context.</p>
+<p>Where we clearly see that the server defined in <code class="docutils literal notranslate"><span class="pre">web.conf</span></code> is inside the
+<code class="docutils literal notranslate"><span class="pre">http</span> <span class="pre">{}</span></code> context.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -710,9 +710,9 @@ directives that apply to different traffic types:
 <p class="last">Directives placed outside these contexts are said to be in the main
 context. The context defines the available directives and variable to be
 used for request processing inside the context. For example the
-<code class="docutils literal notranslate"><span class="pre">$request_method</span></code> variable can be used inside a <code class="docutils literal notranslate"><span class="pre">http</span> <span class="pre">{}</span></code> context block,
-but not inside a <code class="docutils literal notranslate"><span class="pre">stream</span> <span class="pre">{}</span></code> context block, as it would not make sense to
-have an HTTP method inside any TCP/UDP stream.</p>
+<code class="docutils literal notranslate"><span class="pre">$request_method</span></code> variable can be used inside a <code class="docutils literal notranslate"><span class="pre">http</span> <span class="pre">{}</span></code> context
+block, but not inside a <code class="docutils literal notranslate"><span class="pre">stream</span> <span class="pre">{}</span></code> context block, as it would not make
+sense to have an HTTP method inside any TCP/UDP stream.</p>
 </dd>
 <dt>Virtual Servers</dt>
 <dd><p class="first">In each of the traffic-handling contexts, you include one or more <strong>server
@@ -955,12 +955,86 @@ our case, the <code class="docutils literal notranslate"><span class="pre">root<
 <p><strong>1.4 - Describe how and why NGINX uses shared memory zones</strong></p>
 <p><a class="reference external" href="https://stackoverflow.com/questions/38295426/what-does-the-shared-memory-zone-mean-in-nginx">https://stackoverflow.com/questions/38295426/what-does-the-shared-memory-zone-mean-in-nginx</a></p>
 <p><a class="reference external" href="https://nginx.org/en/docs/dev/development_guide.html#shared_memory">https://nginx.org/en/docs/dev/development_guide.html#shared_memory</a></p>
-<p><em>TODO</em></p>
-<div class="line-block">
-<div class="line"><br /></div>
+<p><a class="reference external" href="https://thelinuxcode.com/using_mmap_function_linux/">https://thelinuxcode.com/using_mmap_function_linux/</a></p>
+<p><strong>Shared memory zones in Linux</strong></p>
+<p>Getting back to basics, system oriented software use system calls to ask their
+host operating system to allocate memory for them. Usually, for simple
+programs, the allocated memory zone belongs to this program only: the OS should
+try to prevent other processes from accessing this memory zone. For example, on
+our server, we would not want the web server process to access the memory space
+of the SSH server, as it may allow the web server process to read secret
+information from the SSH server process.</p>
+<p>However, in some controlled circumstances, we do want multiple processes to
+share some memory space allocated by the OS as they should work together on the
+same data. In this context, shared memory serves as an Inter Process
+Communication channel. There are many possible Inter Process Communication
+channels (the network, UNIX sockets, …), but shared memory sits at the lower
+level and allows for very efficient communication, removing any overhead caused
+by using, for example, the network stack (no need to establish a TCP handshake
+between two processes).</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">mmap()</span></code> Linux system calls is the basic system call for requiring memory
+allocation (it is for example the system call used by the <code class="docutils literal notranslate"><span class="pre">malloc()</span></code> C
+function). Through this system call and using the correct options, one can ask
+the operating system to allocate a certain amount of memory that can be shared
+between different processes and used as any memory space through pointers. This
+is exactly what is done by NGINX when allocating a new shared memory zone.</p>
+<p><strong>NGINX using shared memory zones</strong></p>
+<p>Shared memory being one of the most efficient inter process communication
+system, it is the privileged option by NGINX for sharing runtime information
+required by different worker processes. Among the use cases, we notably notice
+the <strong>rate limiting</strong> one.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">limit_conn</span></code> directive requires a shared memory zone being parametrized.
+Indeed, upon subsequent connection handling, different worker process may
+process the received connection. Meaning that, a bad actor making too many
+requests on a server would only need to be as lucky as being handled by a new
+worker process to have its connection rate be considered as fresh as new.
+Therefore, worker processes need to tell each other how many requests every
+client made, so they can successfully enforce blocking. You may see this as a
+bouncer team: they need to share who they saw and blocked, so the other team
+members can benefit from this knowledge and directly block a bad actor if it
+was flagged as bad the other team members.</p>
+<p>Shared memory zones are for example also used to store the proxy cache keys for
+sharing the set of keys:cache_path pairs among different workers. This one
+could be seen as a team of librarians who share their index for the book shelve
+just behind their desk storing the most used books.</p>
+<div align="center" class="align-center"><img alt="Example with bouncers for shared memory explanation" src="../../_images/shared-rate-limiting-example.svg" /></div>
+<p><strong>How to create a shared memory zone in NGINX</strong></p>
+<p>Using the rate limiting use case example, the following configuration:</p>
+<div class="highlight-NGINX notranslate"><div class="highlight"><pre><span></span><span class="k">http</span> <span class="p">{</span>
+    <span class="kn">limit_req_zone</span> <span class="nv">$binary_remote_addr</span>
+    <span class="s">zone=limitbyaddr:10m</span> <span class="s">rate=3r/s</span><span class="p">;</span>
+    <span class="kn">limit_req_status</span> <span class="mi">429</span><span class="p">;</span>
+    <span class="c1"># ...</span>
+    <span class="kn">server</span> <span class="p">{</span>
+        <span class="c1"># ...</span>
+        <span class="kn">limit_req</span> <span class="s">zone=limitbyaddr</span><span class="p">;</span>
+        <span class="c1"># ...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
 </div>
+<p>This example configuration creates a shared memory zone named <code class="docutils literal notranslate"><span class="pre">limitbyaddr</span></code>.
+The predefined key used is the client’s IP address in binary form. The size of
+the shared memory zone is set to 10 MB. The zone sets the rate with a keyword
+argument. The limit_req directive takes a required keyword argument: <code class="docutils literal notranslate"><span class="pre">zone</span></code>.
+<code class="docutils literal notranslate"><span class="pre">zone</span></code> instructs the directive on which shared memory request-limit zone to
+use. <a class="reference internal" href="#cookbook-p34" id="id1">[COOKBOOK_P34]</a></p>
+<table class="docutils citation" frame="void" id="cookbook-p34" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[COOKBOOK_P34]</a></td><td>DEJONGHE, NGINX COOKBOOK Advanced Recipes for High
+-Performance Load Balancing., 34.</td></tr>
+</tbody>
+</table>
 <p><strong>1.4 - Describe why directives use a shared memory zone</strong></p>
-<p><em>TODO</em></p>
+<p>The above example and description also answers this aspect. We could summarize
+this by the following: for some specific needs (such as consistent rate
+limiting), NGINX workers need to share very efficiently information for quickly
+reading and writing data and efficiently serve or block clients. Shared memory
+zones allow defining and assign OS backed memory zones that can be written and
+read by multiple NGINX workers. Doing so, they can share and update each other
+to fulfil the contract of some directives (such as rate limiting) with an
+efficient inter process communication channel.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 <div class="line"><br /></div>

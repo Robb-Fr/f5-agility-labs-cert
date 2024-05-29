@@ -4,7 +4,26 @@ F5N1 - Management
 |
 |
 
-*TODO*
+Exam summary
+------------
+
+The F5 NGINX Management exam is one of four NGINX exams candidates are required
+to pass to achieve the F5 Certified, Administrator, NGINX. The exams may be
+taken in any order. The NGINX certification is based on NGINX Open Source
+Software, not NGINX+.
+
+The F5 NGINX Management exam ensures that the candidates have the skills and
+understanding necessary for day-to-day management of an NGINX web server
+platform.
+
+This module goes through all the elements evaluated as specified in the exam
+blueprint and gives insights, details but above all resources to guide
+candidates in their study for these exams.
+
+The covered material explores the content of the Management exam, axed around
+**understanding the purposes of NGINX** as well as being able to demonstrate
+abilities to **understand NGINX structure**: both in its *configuration
+organisation* and *as a Linux process*.
 
 |
 |

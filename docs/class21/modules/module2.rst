@@ -17,17 +17,66 @@ Objective - 1.1 Configure NGINX as a load balancer
 
 **1.1 - Define the load balancing pools/systems**
 
-*TODO*
+http://nginx.org/en/docs/http/load_balancing.html
+
+https://docs.nginx.com/nginx/admin-guide/load-balancer/tcp-udp-load-balancer/
+
+**``upstream`` directive**
+
+Defining a load balancing pool is as simple as writing the ``upstream``
+directive in an ``http`` or ``stream`` block. Please refer to the referenced
+pages for details.
+
+ The simplest configuration for load balancing with nginx may look like the
+ following:
+
+.. code-block:: NGINX
+
+    http {
+        upstream myapp1 {
+            server srv1.example.com;
+            server srv2.example.com;
+            server srv3.example.com;
+        }
+
+        server {
+            listen 80;
+
+            location / {
+                proxy_pass http://myapp1;
+            }
+        }
+    }
+
+In the example above, there are 3 instances of the same application running on
+srv1-srv3. When the load balancing method is not specifically configured, it
+defaults to round-robin. All requests are proxied to the server group myapp1,
+and nginx applies HTTP load balancing to distribute the requests.
 
 |
 
 **1.1 - Explain the different load balancing algorithms**
 
-*TODO*
+https://docs.nginx.com/nginx/admin-guide/load-balancer/http-load-balancer/#choosing-a-load-balancing-method
+
+**Different algorithms for different needs**
+
+The referenced resource explains in details each algorithm. The algorithms
+available in NGINX OSS are the following:
+
+- default: round-robin
+- least connections with ``least_conn``
+- ip hash with ``ip_hash``
+- generic hash with ``hash``
+- random with ``random``
+
+Note that for these methods, one can also define a ``weight`` parameter, that
+influence some server over others when making the upstream server choice with a
+defined weight.
 
 |
 
-**1.1 -Describe the process used to remove a server from the pool**
+**1.1 - Describe the process used to remove a server from the pool**
 
 *TODO*
 
@@ -100,7 +149,7 @@ Objective - 1.2 Configure NGINX as a content cache server
 
 |
 
-**1.2 - Define the cache in the http contex**
+**1.2 - Define the cache in the http context**
 
 *TODO*
 

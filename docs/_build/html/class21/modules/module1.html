@@ -14,7 +14,7 @@
   <meta name="title" content="F5N1 - Management"/>
   <meta name="product" content="Unofficial - F5 Certification Exam Prep Material"/>
   <meta name="version" content=""/>
-  <meta name="updated_date"  content="2024-05-29 11:32:06"/>
+  <meta name="updated_date"  content="2024-06-03 01:43:43"/>
   <meta name="archived" content="Archived documents excluded"/>
   <meta name="doc_type" content="Manual"/>
   <meta name="lifecycle" content="release"/>
@@ -591,18 +591,46 @@ running configuration</strong></p>
 <p><a class="reference external" href="http://hg.nginx.org/nginx/file/tip/src/core/ngx_conf_file.c#l821">http://hg.nginx.org/nginx/file/tip/src/core/ngx_conf_file.c#l821</a></p>
 <p><a class="reference external" href="https://stackoverflow.com/questions/50107845/what-is-the-order-of-the-config-file-for-nginx">https://stackoverflow.com/questions/50107845/what-is-the-order-of-the-config-file-for-nginx</a></p>
 <p><strong>NGINX include configuration loading</strong></p>
-<p>When making use of the <code class="docutils literal notranslate"><span class="pre">include</span></code> directive, the included files are merged
-into the core configuration at runtime quite literally. You can figure this as
-if you replaced the line with <code class="docutils literal notranslate"><span class="pre">include</span></code> directive with the full content of
-the included file. This means that:</p>
-<ol class="arabic simple">
-<li>A <code class="docutils literal notranslate"><span class="pre">include</span> <span class="pre">a.conf</span></code> directive placed above another <code class="docutils literal notranslate"><span class="pre">include</span> <span class="pre">b.conf</span></code>
-places the content of the <code class="docutils literal notranslate"><span class="pre">a.conf</span></code> file above the content of the
-<code class="docutils literal notranslate"><span class="pre">b.conf</span></code> file in the running configuration.</li>
-<li>Included files inherit the context from which they are loaded.</li>
-</ol>
+<p>When making use of the <code class="docutils literal notranslate"><span class="pre">include</span></code> directive, the included files are like
+“merged” (with some caveats as we will see in the next part) in the
+configuration. Basically, the included file (child configuration) defines a
+configuration that will inherit its parent’s (the file containing the <code class="docutils literal notranslate"><span class="pre">include</span>
+<span class="pre">[...]</span></code> directive) variables and directives. However, the parent configuration
+will never be able to access elements defined in a child configuration (despite
+being in the same context “level”).</p>
 <p>For example, let us have the following <code class="docutils literal notranslate"><span class="pre">nginx.conf</span></code> file:</p>
-<div class="highlight-NGINX notranslate"><div class="highlight"><pre><span></span><span class="c1"># /etc/nginx/nginx.conf</span>
+<div class="highlight-NGINX notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># /etc/nginx/nginx.conf</span>
 <span class="k">user</span>  <span class="s">nginx</span><span class="p">;</span>
 <span class="k">worker_processes</span>  <span class="s">auto</span><span class="p">;</span>
 
@@ -619,10 +647,10 @@ places the content of the <code class="docutils literal notranslate"><span class
     <span class="kn">include</span>       <span class="s">/etc/nginx/mime.types</span><span class="p">;</span>
     <span class="kn">default_type</span>  <span class="s">application/octet-stream</span><span class="p">;</span>
 
-    <span class="kn">log_format</span>  <span class="s">main</span>  <span class="s">&#39;</span><span class="nv">$remote_addr</span> <span class="s">-</span> <span class="nv">$remote_user</span> <span class="s">[</span><span class="nv">$time_local]</span> <span class="s">&quot;</span><span class="nv">$request&quot;</span> <span class="s">&#39;</span>
-                    <span class="s">&#39;</span><span class="nv">$status</span> <span class="nv">$body_bytes_sent</span> <span class="s">&quot;</span><span class="nv">$http_referer&quot;</span> <span class="s">&#39;</span>
-                    <span class="s">&#39;&quot;</span><span class="nv">$http_user_agent&quot;</span> <span class="s">&quot;</span><span class="nv">$http_x_forwarded_for&quot;&#39;</span><span class="p">;</span>
-
+<span class="hll">    <span class="kn">log_format</span>  <span class="s">main</span>  <span class="s">&#39;</span><span class="nv">$remote_addr</span> <span class="s">-</span> <span class="nv">$remote_user</span> <span class="s">[</span><span class="nv">$time_local]</span> <span class="s">&quot;</span><span class="nv">$request&quot;</span> <span class="s">&#39;</span>
+</span><span class="hll">                    <span class="s">&#39;</span><span class="nv">$status</span> <span class="nv">$body_bytes_sent</span> <span class="s">&quot;</span><span class="nv">$http_referer&quot;</span> <span class="s">&#39;</span>
+</span><span class="hll">                    <span class="s">&#39;&quot;</span><span class="nv">$http_user_agent&quot;</span> <span class="s">&quot;</span><span class="nv">$http_x_forwarded_for&quot;&#39;</span><span class="p">;</span>
+</span>
     <span class="kn">access_log</span>  <span class="s">/var/log/nginx/access.log</span>  <span class="s">main</span><span class="p">;</span>
 
     <span class="kn">sendfile</span>        <span class="no">on</span><span class="p">;</span>
@@ -635,66 +663,62 @@ places the content of the <code class="docutils literal notranslate"><span class
 <span class="hll">    <span class="kn">include</span> <span class="s">/etc/nginx/conf.d/*.conf</span><span class="p">;</span>
 </span><span class="p">}</span>
 </pre></div>
-</div>
+</td></tr></table></div>
 <p>and another <code class="docutils literal notranslate"><span class="pre">web.conf</span></code> file:</p>
-<div class="highlight-NGINX notranslate"><div class="highlight"><pre><span></span><span class="c1"># /etc/nginx/conf.d/web.conf</span>
+<div class="highlight-NGINX notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># /etc/nginx/conf.d/web.conf</span>
+<span class="hll"><span class="k">log_format</span>  <span class="s">web</span>  <span class="s">&#39;Custom</span> <span class="s">logging:</span> <span class="nv">$remote_addr&#39;</span><span class="p">;</span>
+</span>
 <span class="k">server</span> <span class="p">{</span>
     <span class="kn">root</span> <span class="s">/www/data</span><span class="p">;</span>
-
+<span class="hll">    <span class="kn">access_log</span> <span class="s">/var/log/nginx/web.log</span> <span class="s">main</span><span class="p">;</span>
+</span><span class="hll">    <span class="kn">access_log</span> <span class="s">/var/log/nginx/web.log</span> <span class="s">web</span><span class="p">;</span>
+</span>
     <span class="kn">location</span> <span class="s">/</span> <span class="p">{</span>
     <span class="p">}</span>
 
 <span class="p">}</span>
 </pre></div>
-</div>
-<p>At runtime, the NGINX configuration will load the content from the
-<code class="docutils literal notranslate"><span class="pre">/etc/nginx/conf.d/web.conf</span></code> because it matches the mask defined in <code class="docutils literal notranslate"><span class="pre">include</span>
-<span class="pre">/etc/nginx/conf.d/*.conf;</span></code>. The <code class="docutils literal notranslate"><span class="pre">server</span></code> block defined in <code class="docutils literal notranslate"><span class="pre">web.conf</span></code> will be
-put inside the <code class="docutils literal notranslate"><span class="pre">http</span> <span class="pre">{}</span></code> context defined in <code class="docutils literal notranslate"><span class="pre">nginx.conf</span></code>. You can figure the
-runtime configuration to be:</p>
-<div class="highlight-NGINX notranslate"><div class="highlight"><pre><span></span><span class="c1"># /etc/nginx/nginx.conf</span>
-<span class="k">user</span>  <span class="s">nginx</span><span class="p">;</span>
-<span class="k">worker_processes</span>  <span class="s">auto</span><span class="p">;</span>
-
-<span class="k">error_log</span>  <span class="s">/var/log/nginx/error.log</span> <span class="s">notice</span><span class="p">;</span>
-<span class="k">pid</span>        <span class="s">/var/run/nginx.pid</span><span class="p">;</span>
-
-
-<span class="k">events</span> <span class="p">{</span>
-    <span class="kn">worker_connections</span>  <span class="mi">1024</span><span class="p">;</span>
-<span class="p">}</span>
-
-
-<span class="k">http</span> <span class="p">{</span>
-    <span class="kn">include</span>       <span class="s">/etc/nginx/mime.types</span><span class="p">;</span>
-    <span class="kn">default_type</span>  <span class="s">application/octet-stream</span><span class="p">;</span>
-
-    <span class="kn">log_format</span>  <span class="s">main</span>  <span class="s">&#39;</span><span class="nv">$remote_addr</span> <span class="s">-</span> <span class="nv">$remote_user</span> <span class="s">[</span><span class="nv">$time_local]</span> <span class="s">&quot;</span><span class="nv">$request&quot;</span> <span class="s">&#39;</span>
-                    <span class="s">&#39;</span><span class="nv">$status</span> <span class="nv">$body_bytes_sent</span> <span class="s">&quot;</span><span class="nv">$http_referer&quot;</span> <span class="s">&#39;</span>
-                    <span class="s">&#39;&quot;</span><span class="nv">$http_user_agent&quot;</span> <span class="s">&quot;</span><span class="nv">$http_x_forwarded_for&quot;&#39;</span><span class="p">;</span>
-
-    <span class="kn">access_log</span>  <span class="s">/var/log/nginx/access.log</span>  <span class="s">main</span><span class="p">;</span>
-
-    <span class="kn">sendfile</span>        <span class="no">on</span><span class="p">;</span>
-    <span class="c1">#tcp_nopush     on;</span>
-
-    <span class="kn">keepalive_timeout</span>  <span class="mi">65</span><span class="p">;</span>
-
-    <span class="c1">#gzip  on;</span>
-
-<span class="hll">    <span class="c1"># included from /etc/nginx/conf.d/web.conf</span>
-</span><span class="hll">    <span class="kn">server</span> <span class="p">{</span>
-</span><span class="hll">        <span class="kn">root</span> <span class="s">/www/data</span><span class="p">;</span>
-</span><span class="hll">
-</span><span class="hll">        <span class="kn">location</span> <span class="s">/</span> <span class="p">{</span>
-</span><span class="hll">        <span class="p">}</span>
-</span><span class="hll">
-</span><span class="hll">    <span class="p">}</span>
-</span><span class="p">}</span>
+</td></tr></table></div>
+<p>Note the following file hierarchy on the system:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/etc/nginx/
+├─ conf.d/
+│  ├─ web.conf
+├─ nginx.conf
+├─ mime.types
 </pre></div>
 </div>
-<p>Where we clearly see that the server defined in <code class="docutils literal notranslate"><span class="pre">web.conf</span></code> is inside the
-<code class="docutils literal notranslate"><span class="pre">http</span> <span class="pre">{}</span></code> context.</p>
+<p>The NGINX configuration will load the content from the
+<code class="docutils literal notranslate"><span class="pre">/etc/nginx/conf.d/web.conf</span></code> file because it matches the mask defined in
+<code class="docutils literal notranslate"><span class="pre">include</span> <span class="pre">/etc/nginx/conf.d/*.conf;</span></code>: therefore, the server block defined in
+the <code class="docutils literal notranslate"><span class="pre">web.conf</span></code> file will create an HTTP server listening on host’s port 80
+and serving static files from the <code class="docutils literal notranslate"><span class="pre">/wwww/data</span></code> directory. This <code class="docutils literal notranslate"><span class="pre">server</span></code>
+block defined in <code class="docutils literal notranslate"><span class="pre">web.conf</span></code> will inherit the elements defined in the
+<code class="docutils literal notranslate"><span class="pre">nginx.conf</span></code> file: the <code class="docutils literal notranslate"><span class="pre">http</span> <span class="pre">{}</span></code> context and the general main context.</p>
+<p>For example, in <code class="docutils literal notranslate"><span class="pre">web.conf:L6</span></code>, the <code class="docutils literal notranslate"><span class="pre">access_log</span></code> directive writes a new log
+entry using the format <code class="docutils literal notranslate"><span class="pre">main</span></code> defined in <code class="docutils literal notranslate"><span class="pre">nginx.conf:L18-20</span></code>: <strong>the child
+configuration inherits the parent’s context</strong>. However, the log format defined
+in <code class="docutils literal notranslate"><span class="pre">web.conf:L2</span></code> would not be usable anywhere in <code class="docutils literal notranslate"><span class="pre">nginx.conf</span></code>: <strong>the parent
+configuration does not inherit the child’s context, despite being on the same
+context “level”</strong> – the <code class="docutils literal notranslate"><span class="pre">log_format</span></code> directive in <code class="docutils literal notranslate"><span class="pre">web.conf:L2</span></code> is not in
+a sub-block, so in the same context “level” –. However, the newly defined log
+format can and is used to write an access log, as defined in <code class="docutils literal notranslate"><span class="pre">web.conf:L7</span></code>.</p>
+<p>Although we do not extend the example to show it, note that sibling
+configuration also only inherit their parent’s context: a file
+<code class="docutils literal notranslate"><span class="pre">/etc/nginx/conf.d/backend.conf</span></code> would also not be able to use the
+<code class="docutils literal notranslate"><span class="pre">access_log</span> <span class="pre">[...]</span> <span class="pre">web</span></code> directive.</p>
+<p>Note that this inclusion concept intertwines to some extent with the
+inheritance concept, please keep reading to understand how the context works.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -704,6 +728,8 @@ runtime configuration to be:</p>
 <p><a class="reference external" href="https://blog.martinfjordvald.com/understanding-the-nginx-configuration-inheritance-model/">https://blog.martinfjordvald.com/understanding-the-nginx-configuration-inheritance-model/</a></p>
 <p><a class="reference external" href="https://nginx.org/en/docs/http/request_processing.html">https://nginx.org/en/docs/http/request_processing.html</a></p>
 <p><strong>Elements of an NGINX configuration file</strong></p>
+<p>Before going any further, we will recall the definition of some elements of the
+NGINX configuration file.</p>
 <dl class="docutils">
 <dt>Directives (simple directives and blocks)</dt>
 <dd><p class="first">The configuration file consists of directives and their parameters.
@@ -745,6 +771,8 @@ directives each control the processing of traffic arriving at a particular
 TCP port or UNIX socket.</p>
 </dd>
 </dl>
+<p>The following code block is a sample configuration, commented with details on
+the different contexts.</p>
 <div class="highlight-NGINX notranslate"><div class="highlight"><pre><span></span><span class="k">user</span> <span class="s">nobody</span><span class="p">;</span> <span class="c1"># a directive in the &#39;main&#39; context</span>
 
 <span class="k">events</span> <span class="p">{</span>
@@ -777,8 +805,6 @@ TCP port or UNIX socket.</p>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>The above code block is a sample configuration, commented with details on the
-different contexts.</p>
 <p><strong>Inheritance and properties overriding</strong></p>
 <p>In general, a <strong>child context</strong> - one contained within another context (its
 parent) - <strong>inherits the settings of directives</strong> included at the parent level.

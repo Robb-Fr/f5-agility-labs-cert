@@ -406,20 +406,19 @@ https://stackoverflow.com/questions/50107845/what-is-the-order-of-the-config-fil
 
 **NGINX include configuration loading**
 
-When making use of the ``include`` directive, the included files are merged
-into the core configuration at runtime quite literally. You can figure this as
-if you replaced the line with ``include`` directive with the full content of
-the included file. This means that:
-
-#. A ``include a.conf`` directive placed above another ``include b.conf``
-   places the content of the ``a.conf`` file above the content of the
-   ``b.conf`` file in the running configuration.
-#. Included files inherit the context from which they are loaded.
+When making use of the ``include`` directive, the included files are like
+"merged" (with some caveats as we will see in the next part) in the
+configuration. Basically, the included file (child configuration) defines a
+configuration that will inherit its parent's (the file containing the ``include
+[...]`` directive) variables and directives. However, the parent configuration
+will never be able to access elements defined in a child configuration (despite
+being in the same context "level").
 
 For example, let us have the following ``nginx.conf`` file:
 
 .. code-block:: NGINX
-    :emphasize-lines: 31
+    :linenos:
+    :emphasize-lines: 18,19,20,31
 
     # /etc/nginx/nginx.conf
     user  nginx;
@@ -457,67 +456,56 @@ For example, let us have the following ``nginx.conf`` file:
 and another ``web.conf`` file:
 
 .. code-block:: NGINX
+    :linenos:
+    :emphasize-lines: 2,6,7
+
 
     # /etc/nginx/conf.d/web.conf
+    log_format  web  'Custom logging: $remote_addr';
+
     server {
         root /www/data;
+        access_log /var/log/nginx/web.log main;
+        access_log /var/log/nginx/web.log web;
 
         location / {
         }
 
     }
 
-At runtime, the NGINX configuration will load the content from the
-``/etc/nginx/conf.d/web.conf`` because it matches the mask defined in ``include
-/etc/nginx/conf.d/*.conf;``. The ``server`` block defined in ``web.conf`` will be
-put inside the ``http {}`` context defined in ``nginx.conf``. You can figure the
-runtime configuration to be:
+Note the following file hierarchy on the system:
+::
 
-.. code-block:: NGINX
-    :emphasize-lines: 31,32,33,34,35,36,37,38
+    /etc/nginx/
+    ├─ conf.d/
+    │  ├─ web.conf
+    ├─ nginx.conf
+    ├─ mime.types
 
-    # /etc/nginx/nginx.conf
-    user  nginx;
-    worker_processes  auto;
+The NGINX configuration will load the content from the
+``/etc/nginx/conf.d/web.conf`` file because it matches the mask defined in
+``include /etc/nginx/conf.d/*.conf;``: therefore, the server block defined in
+the ``web.conf`` file will create an HTTP server listening on host's port 80
+and serving static files from the ``/wwww/data`` directory. This ``server``
+block defined in ``web.conf`` will inherit the elements defined in the
+``nginx.conf`` file: the ``http {}`` context and the general main context.
 
-    error_log  /var/log/nginx/error.log notice;
-    pid        /var/run/nginx.pid;
+For example, in ``web.conf:L6``, the ``access_log`` directive writes a new log
+entry using the format ``main`` defined in ``nginx.conf:L18-20``: **the child
+configuration inherits the parent's context**. However, the log format defined
+in ``web.conf:L2`` would not be usable anywhere in ``nginx.conf``: **the parent
+configuration does not inherit the child's context, despite being on the same
+context "level"** -- the ``log_format`` directive in ``web.conf:L2`` is not in
+a sub-block, so in the same context "level" --. However, the newly defined log
+format can and is used to write an access log, as defined in ``web.conf:L7``.
 
+Although we do not extend the example to show it, note that sibling
+configuration also only inherit their parent's context: a file
+``/etc/nginx/conf.d/backend.conf`` would also not be able to use the
+``access_log [...] web`` directive.
 
-    events {
-        worker_connections  1024;
-    }
-
-
-    http {
-        include       /etc/nginx/mime.types;
-        default_type  application/octet-stream;
-
-        log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
-                        '$status $body_bytes_sent "$http_referer" '
-                        '"$http_user_agent" "$http_x_forwarded_for"';
-
-        access_log  /var/log/nginx/access.log  main;
-
-        sendfile        on;
-        #tcp_nopush     on;
-
-        keepalive_timeout  65;
-
-        #gzip  on;
-
-        # included from /etc/nginx/conf.d/web.conf
-        server {
-            root /www/data;
-
-            location / {
-            }
-
-        }
-    }
-
-Where we clearly see that the server defined in ``web.conf`` is inside the
-``http {}`` context.
+Note that this inclusion concept intertwines to some extent with the
+inheritance concept, please keep reading to understand how the context works.
 
 |
 
@@ -532,6 +520,9 @@ https://blog.martinfjordvald.com/understanding-the-nginx-configuration-inheritan
 https://nginx.org/en/docs/http/request_processing.html
 
 **Elements of an NGINX configuration file**
+
+Before going any further, we will recall the definition of some elements of the
+NGINX configuration file.
 
 Directives (simple directives and blocks)
     The configuration file consists of directives and their parameters.
@@ -576,6 +567,10 @@ Virtual Servers
     directives each control the processing of traffic arriving at a particular
     TCP port or UNIX socket.
 
+
+The following code block is a sample configuration, commented with details on
+the different contexts.
+
 .. code-block:: NGINX
 
     user nobody; # a directive in the 'main' context
@@ -608,9 +603,6 @@ Virtual Servers
             # configuration of TCP virtual server 1
         }
     }
-
-The above code block is a sample configuration, commented with details on the
-different contexts.
 
 **Inheritance and properties overriding**
 

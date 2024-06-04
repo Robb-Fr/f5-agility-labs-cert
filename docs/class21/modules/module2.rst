@@ -78,19 +78,125 @@ defined weight.
 
 **1.1 - Describe the process used to remove a server from the pool**
 
-*TODO*
+https://docs.nginx.com/nginx/admin-guide/load-balancer/http-health-check/#passive-health-checks
+
+https://nginx.org/en/docs/http/load_balancing.html
+
+https://nginx.org/en/docs/http/ngx_http_upstream_module.html#server
+
+**Manually remove a server from a pool**
+
+Let us say you have an upstream pool such as the one showed in the following
+configuration file:
+
+.. code-block:: NGINX
+    :linenos:
+
+    upstream backend {
+        server backend1.example.com;
+        server backend2.example.com:8080;
+        server backend2.example.com:8081;
+        }
+
+You may want to perform some maintenance on the server ``backend1.example.com``
+and therefore, temporarily remove it from the pool. Removing the line 2 and
+reloading the configuration file with ``nginx -s reload`` will make NGINX not
+choose this upstream server for any new incoming connection. Another cleaner
+possibility would be to use the ``down`` option such as:
+
+.. code-block:: NGINX
+    :linenos:
+    :emphasize-lines: 2
+
+    upstream backend {
+        server backend1.example.com down;
+        server backend2.example.com:8080;
+        server backend2.example.com:8081;
+        }
+
+Where you perform a minimal alteration on your file. Note that this may lead to
+connection loss for clients that were proxied to the backend1 server when you
+run the configuration reload command.
+
+.. _health check:
+
+**Automatic removal with passive health checks**
+
+NGINX also manages automatic removal of pool members using the passive health
+checks. If the response from a particular server fails with an error, nginx
+will mark this server as failed, and will try to avoid selecting this server
+for subsequent inbound requests for a while.
+
+The max_fails directive sets the number of consecutive unsuccessful attempts to
+communicate with the server that should happen during fail_timeout. By default,
+max_fails is set to 1. When it is set to 0, health checks are disabled for this
+server. The fail_timeout parameter also defines how long the server will be
+marked as failed. After fail_timeout interval following the server failure,
+nginx will start to gracefully probe the server with the live client's
+requests. If the probes have been successful, the server is marked as a live
+one.
 
 |
 
 **1.1 - Describe what happens when a pool server goes down**
 
-*TODO*
+This aspect is covered in the previous part on `health check`_.
 
 |
 
 **1.1 - Explain what is unique to NGINX as a load balancer**
 
-*TODO*
+https://www.f5.com/company/events/webinars/nginx-plus-for-load-balancing-30-min
+(from 6:40 to 10:20 notably)
+
+**What are the other load balancing methods**
+
+DNS Rounds Robin
+    This method is quite simple and can be easily and cheaply configured: to
+    load balance between 3 servers with 3 different IPs, the DNS record for the
+    service (example.com for example) is configured to one element among an
+    array of 3 IP addresses. Clients, receiving these, will contact the server
+    with the received IP address, allowing to distribute load among clients as
+    long as the DNS server returns different results to different clients.
+
+    However, this lacks on the update speed: updating DNS records can take time
+    and a server that is down may be served to some client for a long time.
+    Also, this method does not scale well as it requires managing every growing
+    DNS records which can be complicated.
+
+Hardware L4 load balancer
+    These are advanced network switches that do not handle a full TCP stack but
+    stream TCP packets and track the TCP sessions using the attributes they
+    find in the TCP header. They deliver great performances but are limited in
+    terms of available features: out of order and broken TCP packets are not
+    easy to handle and lead to a reduced flexibility.
+
+Cloud solutions
+    Cloud providers often provide their own load balancing systems (Amazon's
+    Elastic Load Balancer for example). However, these totally depend on the
+    exposed interface from the Cloud provider's system, potentially giving a
+    lower flexibility.
+
+**Where NGINX stands and what challenges it can overcome**
+
+NGINX is in the category of the Software load balancer. This refers to reverse
+proxy systems: these are software applications running on machines having their
+own full TCP stack (Linux or FreeBSD machines for example). The particularity
+is that it terminates the TCP connection and handles it. It afterward processes
+the content of the connection as desired, and reopen a TCP connection to the
+upstream server, using any implementable software method to load balance
+between different servers. This gives the maximum degree of flexibility to
+control the received connection and stream and apply logic to ensure
+performance and security.
+
+For example, with NGINX, one can perform load balancing depending on HTTP
+content (session cookies, request URIs, ...) as the reverse proxy terminates
+the TCP connection, it has the ability to use any L4-L7 information to perform
+load balancing decision.
+
+Also, NGINX being implemented using low level performant C code, it benefits
+from excellent performances despite being software based, which is a key aspect
+to efficient load balancing.
 
 |
 

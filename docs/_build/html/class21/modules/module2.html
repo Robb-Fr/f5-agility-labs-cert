@@ -14,7 +14,7 @@
   <meta name="title" content="F5N2 - Configuration: Knowledge"/>
   <meta name="product" content="Unofficial - F5 Certification Exam Prep Material"/>
   <meta name="version" content=""/>
-  <meta name="updated_date"  content="2024-06-04 07:53:45"/>
+  <meta name="updated_date"  content="2024-06-04 01:46:03"/>
   <meta name="archived" content="Archived documents excluded"/>
   <meta name="doc_type" content="Manual"/>
   <meta name="lifecycle" content="release"/>
@@ -363,31 +363,223 @@ load balancing decision.</p>
 <p>Also, NGINX being implemented using low level performant C code, it benefits
 from excellent performances despite being software based, which is a key aspect
 to efficient load balancing.</p>
+<p>The following diagrams picture the different ideologies between the different
+types of load balancers.</p>
+<a class="reference internal image-reference" href="../../_images/load-balancers-dns.excalidraw.svg"><div align="center" class="align-center"><img alt="Diagram load balancer DNS" src="../../_images/load-balancers-dns.excalidraw.svg" width="1200px" /></div>
+</a>
+<a class="reference internal image-reference" href="../../_images/load-balancers-l4.excalidraw.svg"><div align="center" class="align-center"><img alt="Diagram load balancer L4" src="../../_images/load-balancers-l4.excalidraw.svg" width="1200px" /></div>
+</a>
+<a class="reference internal image-reference" href="../../_images/load-balancers-software.excalidraw.svg"><div align="center" class="align-center"><img alt="Diagram software load balancer" src="../../_images/load-balancers-software.excalidraw.svg" width="1200px" /></div>
+</a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p><strong>1.1 -Describe how to configure security</strong></p>
-<p><em>TODO</em></p>
+<p><a class="reference external" href="https://docs.nginx.com/nginx/admin-guide/security-controls/">https://docs.nginx.com/nginx/admin-guide/security-controls/</a></p>
+<p><a class="reference external" href="https://docs.nginx.com/nginx/admin-guide/monitoring/logging/">https://docs.nginx.com/nginx/admin-guide/monitoring/logging/</a></p>
+<p><strong>L4-L7 security</strong></p>
+<p>This given objective may sound quite vague and it is not clear why it stands in
+this section about load balancing as it could be a section in itself.
+Considering this, the reader is advised to be familiar with all the NGINX
+security controls available in NGINX OSS that we will list here and are
+detailed in the linked documentation.</p>
+<ul class="simple">
+<li>NGINX as an HTTPS/SSL server: NGINX can handle and terminate TLS/SSL
+communications. The simple default but customizable at will principle also
+applies here: 3 directives allow setting up NGINX as an HTTPS reverse proxy
+load balancer, but other options can be enabled (mTLS, OCSP, SNI
+validation…). Note these are available in <code class="docutils literal notranslate"><span class="pre">http</span> <span class="pre">{}</span></code> and <code class="docutils literal notranslate"><span class="pre">stream</span> <span class="pre">{}</span></code>
+blocks.</li>
+<li>NGINX as a perimeter authentication system: NGINX supports authentication
+protocols (limited in NGINX OSS) to ensure the desired <code class="docutils literal notranslate"><span class="pre">server</span> <span class="pre">{}</span></code> or
+<code class="docutils literal notranslate"><span class="pre">location</span> <span class="pre">{}</span></code> blocks are protected and authenticated.</li>
+<li>Rate/bandwidth control: NGINX can be configured to limit the request
+rate/amount or the served bandwidth to some clients to prevent abuses.</li>
+<li>IP based restrictions: NGINX can restrict access to some routes or some
+servers based on the client’s IP.</li>
+<li>NGINX as an HTTPS/SSL client: NGINX can finally handle secured connections to
+upstream servers with again, simple defaults and some granular control to
+enable options.</li>
+</ul>
+<p>Also, considering observability as a security property, take note of the
+logging configuration of NGINX, notably its centralisation capabilities with
+easy to configure log sending to a syslog server.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p><strong>1.1 - Modify or tune a memory zone configuration</strong></p>
-<p><em>TODO</em></p>
+<p><a class="reference external" href="http://nginx.org/en/docs/http/ngx_http_limit_conn_module.html#limit_conn_zone">http://nginx.org/en/docs/http/ngx_http_limit_conn_module.html#limit_conn_zone</a></p>
+<p><a class="reference external" href="http://nginx.org/en/docs/http/ngx_http_limit_req_module.html#limit_req_zone">http://nginx.org/en/docs/http/ngx_http_limit_req_module.html#limit_req_zone</a></p>
+<p><a class="reference external" href="http://nginx.org/en/docs/http/ngx_http_js_module.html#js_shared_dict_zone">http://nginx.org/en/docs/http/ngx_http_js_module.html#js_shared_dict_zone</a></p>
+<p><a class="reference external" href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_path">http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_path</a></p>
+<p><a class="reference external" href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#zone">http://nginx.org/en/docs/http/ngx_http_upstream_module.html#zone</a></p>
+<p><strong>Memory zones in NGINX</strong></p>
+<p>When configuring memory zones in NGINX, we generally refer to shared memory
+zones, as seen and explained in the previous part. To modify or tune these, we
+must first identify where they appear in our NGINX configurations. In NGINX
+OSS, shared memory zones can be configured in the following contexts:</p>
+<ul class="simple">
+<li>The connection limiting: sharing across worker the state of clients
+regarding the amount of connection requests.</li>
+<li>The request limiting: sharing across worker the state of clients regarding
+the amount and nature of HTTP requests.</li>
+<li>The JavaScript shared dictionary: sharing across workers JS structure in the
+form of dictionary.</li>
+<li>The proxy caching: sharing across workers the key/value pairs associating
+requests parameters with cached content location on the disk.</li>
+<li>The upstream pools: sharing across workers the state of upstream services of
+pools for updating their status (alive, down, served X times, …)</li>
+</ul>
+<p><strong>What can be configured and tuned</strong></p>
+<p>In each of the aforementioned contexts, different directives allow to configure
+the shared memory zones corresponding. For most of these, this zone has only 2
+parameters: a name (used to identify a same zone multiple times in the config),
+and a size in bytes.</p>
+<p>The size parameter can be tuned and engineered to correspond to the nature of
+the application and the server’s resources. For example, knowing that a shared
+JS dictionary should only have a few small entries, on can allocate only a few
+kilo bytes preventing the allocation of mega bytes of memory and not using it.</p>
+<p>For details on the different syntaxes, the reader should refer to the mentioned
+links to the documentation.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p><strong>1.1 - Describe how to configure NGINX as mirroring server</strong></p>
-<p><em>TODO</em></p>
+<p><a class="reference external" href="https://alex.dzyoba.com/blog/nginx-mirror/">https://alex.dzyoba.com/blog/nginx-mirror/</a></p>
+<p><a class="reference external" href="http://nginx.org/en/docs/http/ngx_http_mirror_module.html">http://nginx.org/en/docs/http/ngx_http_mirror_module.html</a></p>
+<p><a class="reference external" href="https://thelinuxnotes.com/index.php/mirroring-requests-to-another-server-with-nginx/">https://thelinuxnotes.com/index.php/mirroring-requests-to-another-server-with-nginx/</a></p>
+<p><strong>The concept of mirroring requests in NGINX</strong></p>
+<p>In the context of reverse proxying, request mirroring refers to making the
+reverse proxy, proxy requests to a mirroring server, “as if” it was an actual
+backend upstream server. However, the specificity lies in the fact that NGINX
+does not actually forward the mirror server’s response back to the client. This
+for example allows to test a new, off-production backend server with real
+clients’ requests and assess its functionalities before pushing it to
+production.</p>
+<p>The following diagram from <a class="reference external" href="https://alex.dzyoba.com/blog/nginx-mirror/">Alex Dzyoba’s
+blog</a> provides a visual
+representation of a mirroring setup where NGINX would both, proxy the actual
+client’s request to the real backend server, as well as mirroring this request
+to a test server.</p>
+<a class="reference internal image-reference" href="../../_images/nginx-mirror-mirror-setup.png"><img alt="Diagram of a mirroring server setup with NGINX" src="../../_images/nginx-mirror-mirror-setup.png" style="height: 400px;" /></a>
+<p><strong>Configure NGINX to mirror requests</strong></p>
+<p>NGINX uses the directives from the <code class="docutils literal notranslate"><span class="pre">ngx_http_mirror_module</span></code> to implement the
+mirroring.</p>
+<p>The following configuration defines 2 locations: the first where NGINX should:</p>
+<ol class="arabic simple">
+<li>mirror the client’s request to its <code class="docutils literal notranslate"><span class="pre">/mirror</span></code> URI</li>
+<li>proxy the request to the real backend, picked from the upstream pool named
+<code class="docutils literal notranslate"><span class="pre">backend</span></code>.</li>
+</ol>
+<p>The second location is internal (meaning it can only be reached by NGINX
+itself, not from the outside), and defines what should happen to requests made
+to the <code class="docutils literal notranslate"><span class="pre">/mirror</span></code> endpoint. They should be proxied to another backend, picked
+from the <code class="docutils literal notranslate"><span class="pre">test_backend</span></code> pool.</p>
+<div class="highlight-NGINX notranslate"><div class="highlight"><pre><span></span><span class="k">location</span> <span class="s">/</span> <span class="p">{</span>
+    <span class="kn">mirror</span> <span class="s">/mirror</span><span class="p">;</span>
+    <span class="kn">proxy_pass</span> <span class="s">http://backend</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">location</span> <span class="p">=</span> <span class="s">/mirror</span> <span class="p">{</span>
+    <span class="kn">internal</span><span class="p">;</span>
+    <span class="kn">proxy_pass</span> <span class="s">http://test_backend</span><span class="nv">$request_uri</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p><strong>1.1 - Describe how to configure NGINX as a layer 4 load balancer</strong></p>
-<p><em>TODO</em></p>
+<p><a class="reference external" href="https://docs.nginx.com/nginx/admin-guide/load-balancer/tcp-udp-load-balancer/">https://docs.nginx.com/nginx/admin-guide/load-balancer/tcp-udp-load-balancer/</a></p>
+<p><strong>TCP/UDP load balancing</strong></p>
+<p>In the same fashion as NGINX can be configured as a Layer 7 (HTTP) load
+balancer, the same can be done at the Layer 4 with a similar syntax: one must
+configure an upstream servers group with the <code class="docutils literal notranslate"><span class="pre">upstream</span></code> directive and can
+afterward use the <code class="docutils literal notranslate"><span class="pre">proxy_pass</span></code> directive to proxy the requests at layer 4 to
+the upstream pool.</p>
+<p>The following configuration defines an upstream pool composed of 3 servers: the
+first 3 are active while the last 2 are backup (they receive requests only when
+one of the active server is down). The first server is preferred in the load
+balancing algorithm by a factor of 5. The load balancing algorithm uses the
+hash algorithm by taking the remote client’s address as a key.</p>
+<div class="highlight-NGINX notranslate"><div class="highlight"><pre><span></span><span class="k">upstream</span> <span class="s">backend</span> <span class="p">{</span>
+    <span class="kn">hash</span> <span class="nv">$remote_addr</span><span class="p">;</span>
+
+    <span class="kn">server</span> <span class="n">backend1.example.com</span><span class="p">:</span><span class="mi">12345</span>  <span class="s">weight=5</span><span class="p">;</span>
+    <span class="kn">server</span> <span class="n">backend2.example.com</span><span class="p">:</span><span class="mi">12345</span><span class="p">;</span>
+    <span class="kn">server</span> <span class="s">unix:/tmp/backend3</span><span class="p">;</span>
+
+    <span class="kn">server</span> <span class="n">backup1.example.com</span><span class="p">:</span><span class="mi">12345</span>   <span class="s">backup</span><span class="p">;</span>
+    <span class="kn">server</span> <span class="n">backup2.example.com</span><span class="p">:</span><span class="mi">12345</span>   <span class="s">backup</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">server</span> <span class="p">{</span>
+    <span class="kn">listen</span> <span class="mi">12346</span><span class="p">;</span>
+    <span class="kn">proxy_pass</span> <span class="s">backend</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p><strong>1.1 - Describe how to configure NGINX as an API Gateway</strong></p>
-<p><em>TODO</em></p>
+<p><a class="reference external" href="https://www.f5.com/company/blog/nginx/deploying-nginx-plus-as-an-api-gateway-part-1">https://www.f5.com/company/blog/nginx/deploying-nginx-plus-as-an-api-gateway-part-1</a></p>
+<p><a class="reference external" href="https://www.f5.com/company/blog/nginx/deploying-nginx-plus-as-an-api-gateway-part-2-protecting-backend-services">https://www.f5.com/company/blog/nginx/deploying-nginx-plus-as-an-api-gateway-part-2-protecting-backend-services</a></p>
+<p><a class="reference external" href="https://www.f5.com/company/blog/nginx/deploying-nginx-plus-as-an-api-gateway-part-3-publishing-grpc-services">https://www.f5.com/company/blog/nginx/deploying-nginx-plus-as-an-api-gateway-part-3-publishing-grpc-services</a></p>
+<p><strong>NGINX as an API gateway</strong></p>
+<p>To answer these aspects, I could not propose a better guide than the one you
+can find in the references, written by Liam Crilly. The following is the
+article’s table of content, curated to remove NGINX+ specific content as it is
+not covered by the certification.</p>
+<ul class="simple">
+<li>Configuring the API gateway<ul>
+<li>Introducing the Warehouse API</li>
+<li>Organizing the NGINX Configuration</li>
+<li>Defining the Top-Level API Gateway</li>
+<li>Single-Service vs. Microservice API Backends</li>
+<li>Defining the Warehouse API<ul>
+<li>Choosing Broad vs. Precise Definition for APIs</li>
+<li>Rewriting Client Requests to Handle Breaking Changes</li>
+</ul>
+</li>
+<li>Responding to Errors</li>
+<li>Implementing Authentication<ul>
+<li>API Key Authentication</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Protecting backend services<ul>
+<li>Rate Limiting</li>
+<li>Enforcing Specific Request Methods</li>
+<li>Applying Fine-Grained Access Control<ul>
+<li>Controlling Access to Specific Resources</li>
+<li>Controlling Access to Specific Methods</li>
+<li>Controlling Request Sizes</li>
+<li>Validating Request Bodies</li>
+<li>A Note about the <code class="docutils literal notranslate"><span class="pre">$request_body</span></code> Variable</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Publishing gRPC Services<ul>
+<li>Defining the gRPC Gateway</li>
+<li>Running Sample gRPC Services<ul>
+<li>Routing gRPC Requests</li>
+<li>Precise Routing</li>
+</ul>
+</li>
+<li>Responding to Errors</li>
+<li>Authenticating Clients with gRPC Metadata</li>
+<li>Applying Rate Limiting and Other API Gateway Controls</li>
+</ul>
+</li>
+</ul>
+<p>These constitute an excellent recipe for configuring NGINX as an API gateway.
+Of course not all elements need to be applied and some elements may already be
+performed by the application (controlling the body content), but this recipe
+shows how to take any app (even a legacy or lazy one) and configure a secure
+and efficient API gateway.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 <div class="line"><br /></div>

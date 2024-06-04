@@ -198,35 +198,266 @@ Also, NGINX being implemented using low level performant C code, it benefits
 from excellent performances despite being software based, which is a key aspect
 to efficient load balancing.
 
+The following diagrams picture the different ideologies between the different
+types of load balancers.
+
+.. image:: /_static/n1-n4/load-balancers-dns.excalidraw.svg
+    :width: 1200px
+    :align: center
+    :alt: Diagram load balancer DNS
+
+.. image:: /_static/n1-n4/load-balancers-l4.excalidraw.svg
+    :width: 1200px
+    :align: center
+    :alt: Diagram load balancer L4
+
+.. image:: /_static/n1-n4/load-balancers-software.excalidraw.svg
+    :width: 1200px
+    :align: center
+    :alt: Diagram software load balancer
+
 |
 
 **1.1 -Describe how to configure security**
 
-*TODO*
+https://docs.nginx.com/nginx/admin-guide/security-controls/
+
+https://docs.nginx.com/nginx/admin-guide/monitoring/logging/
+
+**L4-L7 security**
+
+This given objective may sound quite vague and it is not clear why it stands in
+this section about load balancing as it could be a section in itself.
+Considering this, the reader is advised to be familiar with all the NGINX
+security controls available in NGINX OSS that we will list here and are
+detailed in the linked documentation.
+
+- NGINX as an HTTPS/SSL server: NGINX can handle and terminate TLS/SSL
+  communications. The simple default but customizable at will principle also
+  applies here: 3 directives allow setting up NGINX as an HTTPS reverse proxy
+  load balancer, but other options can be enabled (mTLS, OCSP, SNI
+  validation...). Note these are available in ``http {}`` and ``stream {}``
+  blocks.
+- NGINX as a perimeter authentication system: NGINX supports authentication
+  protocols (limited in NGINX OSS) to ensure the desired ``server {}`` or
+  ``location {}`` blocks are protected and authenticated.
+- Rate/bandwidth control: NGINX can be configured to limit the request
+  rate/amount or the served bandwidth to some clients to prevent abuses.
+- IP based restrictions: NGINX can restrict access to some routes or some
+  servers based on the client's IP.
+- NGINX as an HTTPS/SSL client: NGINX can finally handle secured connections to
+  upstream servers with again, simple defaults and some granular control to
+  enable options.
+
+Also, considering observability as a security property, take note of the
+logging configuration of NGINX, notably its centralisation capabilities with
+easy to configure log sending to a syslog server.
 
 |
 
 **1.1 - Modify or tune a memory zone configuration**
 
-*TODO*
+http://nginx.org/en/docs/http/ngx_http_limit_conn_module.html#limit_conn_zone
+
+http://nginx.org/en/docs/http/ngx_http_limit_req_module.html#limit_req_zone
+
+http://nginx.org/en/docs/http/ngx_http_js_module.html#js_shared_dict_zone
+
+http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_path
+
+http://nginx.org/en/docs/http/ngx_http_upstream_module.html#zone
+
+**Memory zones in NGINX**
+
+When configuring memory zones in NGINX, we generally refer to shared memory
+zones, as seen and explained in the previous part. To modify or tune these, we
+must first identify where they appear in our NGINX configurations. In NGINX
+OSS, shared memory zones can be configured in the following contexts:
+
+- The connection limiting: sharing across worker the state of clients
+  regarding the amount of connection requests.
+- The request limiting: sharing across worker the state of clients regarding
+  the amount and nature of HTTP requests.
+- The JavaScript shared dictionary: sharing across workers JS structure in the
+  form of dictionary.
+- The proxy caching: sharing across workers the key/value pairs associating
+  requests parameters with cached content location on the disk.
+- The upstream pools: sharing across workers the state of upstream services of
+  pools for updating their status (alive, down, served X times, ...)
+
+**What can be configured and tuned**
+
+In each of the aforementioned contexts, different directives allow to configure
+the shared memory zones corresponding. For most of these, this zone has only 2
+parameters: a name (used to identify a same zone multiple times in the config),
+and a size in bytes.
+
+The size parameter can be tuned and engineered to correspond to the nature of
+the application and the server's resources. For example, knowing that a shared
+JS dictionary should only have a few small entries, on can allocate only a few
+kilo bytes preventing the allocation of mega bytes of memory and not using it.
+
+For details on the different syntaxes, the reader should refer to the mentioned
+links to the documentation.
 
 |
 
 **1.1 - Describe how to configure NGINX as mirroring server**
 
-*TODO*
+https://alex.dzyoba.com/blog/nginx-mirror/
+
+http://nginx.org/en/docs/http/ngx_http_mirror_module.html
+
+https://thelinuxnotes.com/index.php/mirroring-requests-to-another-server-with-nginx/
+
+**The concept of mirroring requests in NGINX**
+
+In the context of reverse proxying, request mirroring refers to making the
+reverse proxy, proxy requests to a mirroring server, "as if" it was an actual
+backend upstream server. However, the specificity lies in the fact that NGINX
+does not actually forward the mirror server's response back to the client. This
+for example allows to test a new, off-production backend server with real
+clients' requests and assess its functionalities before pushing it to
+production.
+
+The following diagram from `Alex Dzyoba's
+blog <https://alex.dzyoba.com/blog/nginx-mirror/>`_ provides a visual
+representation of a mirroring setup where NGINX would both, proxy the actual
+client's request to the real backend server, as well as mirroring this request
+to a test server.
+
+.. image:: /_static/n1-n4/nginx-mirror-mirror-setup.png
+    :height: 400px
+    :alt: Diagram of a mirroring server setup with NGINX
+
+**Configure NGINX to mirror requests**
+
+NGINX uses the directives from the ``ngx_http_mirror_module`` to implement the
+mirroring.
+
+The following configuration defines 2 locations: the first where NGINX should:
+
+1. mirror the client's request to its ``/mirror`` URI
+2. proxy the request to the real backend, picked from the upstream pool named
+   ``backend``.
+
+The second location is internal (meaning it can only be reached by NGINX
+itself, not from the outside), and defines what should happen to requests made
+to the ``/mirror`` endpoint. They should be proxied to another backend, picked
+from the ``test_backend`` pool.
+
+.. code-block:: NGINX
+
+    location / {
+        mirror /mirror;
+        proxy_pass http://backend;
+    }
+
+    location = /mirror {
+        internal;
+        proxy_pass http://test_backend$request_uri;
+    }
 
 |
 
 **1.1 - Describe how to configure NGINX as a layer 4 load balancer**
 
-*TODO*
+https://docs.nginx.com/nginx/admin-guide/load-balancer/tcp-udp-load-balancer/
+
+**TCP/UDP load balancing**
+
+In the same fashion as NGINX can be configured as a Layer 7 (HTTP) load
+balancer, the same can be done at the Layer 4 with a similar syntax: one must
+configure an upstream servers group with the ``upstream`` directive and can
+afterward use the ``proxy_pass`` directive to proxy the requests at layer 4 to
+the upstream pool.
+
+The following configuration defines an upstream pool composed of 3 servers: the
+first 3 are active while the last 2 are backup (they receive requests only when
+one of the active server is down). The first server is preferred in the load
+balancing algorithm by a factor of 5. The load balancing algorithm uses the
+hash algorithm by taking the remote client's address as a key.
+
+.. code-block:: NGINX
+
+    upstream backend {
+        hash $remote_addr;
+
+        server backend1.example.com:12345  weight=5;
+        server backend2.example.com:12345;
+        server unix:/tmp/backend3;
+
+        server backup1.example.com:12345   backup;
+        server backup2.example.com:12345   backup;
+    }
+
+    server {
+        listen 12346;
+        proxy_pass backend;
+    }
 
 |
 
 **1.1 - Describe how to configure NGINX as an API Gateway**
 
-*TODO*
+https://www.f5.com/company/blog/nginx/deploying-nginx-plus-as-an-api-gateway-part-1
+
+https://www.f5.com/company/blog/nginx/deploying-nginx-plus-as-an-api-gateway-part-2-protecting-backend-services
+
+https://www.f5.com/company/blog/nginx/deploying-nginx-plus-as-an-api-gateway-part-3-publishing-grpc-services
+
+**NGINX as an API gateway**
+
+To answer these aspects, I could not propose a better guide than the one you
+can find in the references, written by Liam Crilly. The following is the
+article's table of content, curated to remove NGINX+ specific content as it is
+not covered by the certification.
+
+- Configuring the API gateway
+
+  - Introducing the Warehouse API
+  - Organizing the NGINX Configuration
+  - Defining the Top-Level API Gateway
+  - Single-Service vs. Microservice API Backends
+  - Defining the Warehouse API
+
+    - Choosing Broad vs. Precise Definition for APIs
+    - Rewriting Client Requests to Handle Breaking Changes
+
+  - Responding to Errors
+  - Implementing Authentication
+
+    - API Key Authentication
+
+- Protecting backend services
+
+  - Rate Limiting
+  - Enforcing Specific Request Methods
+  - Applying Fine-Grained Access Control
+
+    - Controlling Access to Specific Resources
+    - Controlling Access to Specific Methods
+    - Controlling Request Sizes
+    - Validating Request Bodies
+    - A Note about the ``$request_body`` Variable
+
+- Publishing gRPC Services
+
+  - Defining the gRPC Gateway
+  - Running Sample gRPC Services
+
+    - Routing gRPC Requests
+    - Precise Routing
+
+  - Responding to Errors
+  - Authenticating Clients with gRPC Metadata
+  - Applying Rate Limiting and Other API Gateway Controls
+
+These constitute an excellent recipe for configuring NGINX as an API gateway.
+Of course not all elements need to be applied and some elements may already be
+performed by the application (controlling the body content), but this recipe
+shows how to take any app (even a legacy or lazy one) and configure a secure
+and efficient API gateway.
 
 |
 |

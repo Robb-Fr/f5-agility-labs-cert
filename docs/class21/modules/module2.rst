@@ -400,7 +400,64 @@ hash algorithm by taking the remote client's address as a key.
 
 **1.1 - Describe how to configure NGINX as an API Gateway**
 
-*TODO*
+https://www.f5.com/company/blog/nginx/deploying-nginx-plus-as-an-api-gateway-part-1
+
+https://www.f5.com/company/blog/nginx/deploying-nginx-plus-as-an-api-gateway-part-2-protecting-backend-services
+
+https://www.f5.com/company/blog/nginx/deploying-nginx-plus-as-an-api-gateway-part-3-publishing-grpc-services
+
+**NGINX as an API gateway**
+
+To answer these aspects, I could not propose a better guide than the one you
+can find in the references, written by Liam Crilly. The following is the
+article's table of content, curated to remove NGINX+ specific content as it is
+not covered by the certification.
+
+- Configuring the API gateway
+
+  - Introducing the Warehouse API
+  - Organizing the NGINX Configuration
+  - Defining the Top-Level API Gateway
+  - Single-Service vs. Microservice API Backends
+  - Defining the Warehouse API
+
+    - Choosing Broad vs. Precise Definition for APIs
+    - Rewriting Client Requests to Handle Breaking Changes
+
+  - Responding to Errors
+  - Implementing Authentication
+
+    - API Key Authentication
+
+- Protecting backend services
+
+  - Rate Limiting
+  - Enforcing Specific Request Methods
+  - Applying Fine-Grained Access Control
+
+    - Controlling Access to Specific Resources
+    - Controlling Access to Specific Methods
+    - Controlling Request Sizes
+    - Validating Request Bodies
+    - A Note about the ``$request_body`` Variable
+
+- Publishing gRPC Services
+
+  - Defining the gRPC Gateway
+  - Running Sample gRPC Services
+
+    - Routing gRPC Requests
+    - Precise Routing
+
+  - Responding to Errors
+  - Authenticating Clients with gRPC Metadata
+  - Applying Rate Limiting and Other API Gateway Controls
+
+These constitute an excellent recipe for configuring NGINX as an API gateway.
+Of course not all elements need to be applied and some elements may already be
+performed by the application (controlling the body content), but this recipe
+shows how to take any app (even a legacy or lazy one) and configure a secure
+and efficient API gateway.
 
 |
 |

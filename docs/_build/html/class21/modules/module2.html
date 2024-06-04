@@ -14,7 +14,7 @@
   <meta name="title" content="F5N2 - Configuration: Knowledge"/>
   <meta name="product" content="Unofficial - F5 Certification Exam Prep Material"/>
   <meta name="version" content=""/>
-  <meta name="updated_date"  content="2024-06-03 01:43:43"/>
+  <meta name="updated_date"  content="2024-06-04 07:53:45"/>
   <meta name="archived" content="Archived documents excluded"/>
   <meta name="doc_type" content="Manual"/>
   <meta name="lifecycle" content="release"/>
@@ -208,27 +208,161 @@
 <div class="line"><br /></div>
 </div>
 <p><strong>1.1 - Define the load balancing pools/systems</strong></p>
-<p><em>TODO</em></p>
+<p><a class="reference external" href="http://nginx.org/en/docs/http/load_balancing.html">http://nginx.org/en/docs/http/load_balancing.html</a></p>
+<p><a class="reference external" href="https://docs.nginx.com/nginx/admin-guide/load-balancer/tcp-udp-load-balancer/">https://docs.nginx.com/nginx/admin-guide/load-balancer/tcp-udp-load-balancer/</a></p>
+<p><strong>``upstream`` directive</strong></p>
+<p>Defining a load balancing pool is as simple as writing the <code class="docutils literal notranslate"><span class="pre">upstream</span></code>
+directive in an <code class="docutils literal notranslate"><span class="pre">http</span></code> or <code class="docutils literal notranslate"><span class="pre">stream</span></code> block. Please refer to the referenced
+pages for details.</p>
+<blockquote>
+<div>The simplest configuration for load balancing with nginx may look like the
+following:</div></blockquote>
+<div class="highlight-NGINX notranslate"><div class="highlight"><pre><span></span><span class="k">http</span> <span class="p">{</span>
+    <span class="kn">upstream</span> <span class="s">myapp1</span> <span class="p">{</span>
+        <span class="kn">server</span> <span class="s">srv1.example.com</span><span class="p">;</span>
+        <span class="kn">server</span> <span class="s">srv2.example.com</span><span class="p">;</span>
+        <span class="kn">server</span> <span class="s">srv3.example.com</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kn">server</span> <span class="p">{</span>
+        <span class="kn">listen</span> <span class="mi">80</span><span class="p">;</span>
+
+        <span class="kn">location</span> <span class="s">/</span> <span class="p">{</span>
+            <span class="kn">proxy_pass</span> <span class="s">http://myapp1</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>In the example above, there are 3 instances of the same application running on
+srv1-srv3. When the load balancing method is not specifically configured, it
+defaults to round-robin. All requests are proxied to the server group myapp1,
+and nginx applies HTTP load balancing to distribute the requests.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p><strong>1.1 - Explain the different load balancing algorithms</strong></p>
-<p><em>TODO</em></p>
+<p><a class="reference external" href="https://docs.nginx.com/nginx/admin-guide/load-balancer/http-load-balancer/#choosing-a-load-balancing-method">https://docs.nginx.com/nginx/admin-guide/load-balancer/http-load-balancer/#choosing-a-load-balancing-method</a></p>
+<p><strong>Different algorithms for different needs</strong></p>
+<p>The referenced resource explains in details each algorithm. The algorithms
+available in NGINX OSS are the following:</p>
+<ul class="simple">
+<li>default: round-robin</li>
+<li>least connections with <code class="docutils literal notranslate"><span class="pre">least_conn</span></code></li>
+<li>ip hash with <code class="docutils literal notranslate"><span class="pre">ip_hash</span></code></li>
+<li>generic hash with <code class="docutils literal notranslate"><span class="pre">hash</span></code></li>
+<li>random with <code class="docutils literal notranslate"><span class="pre">random</span></code></li>
+</ul>
+<p>Note that for these methods, one can also define a <code class="docutils literal notranslate"><span class="pre">weight</span></code> parameter, that
+influence some server over others when making the upstream server choice with a
+defined weight.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.1 -Describe the process used to remove a server from the pool</strong></p>
-<p><em>TODO</em></p>
+<p><strong>1.1 - Describe the process used to remove a server from the pool</strong></p>
+<p><a class="reference external" href="https://docs.nginx.com/nginx/admin-guide/load-balancer/http-health-check/#passive-health-checks">https://docs.nginx.com/nginx/admin-guide/load-balancer/http-health-check/#passive-health-checks</a></p>
+<p><a class="reference external" href="https://nginx.org/en/docs/http/load_balancing.html">https://nginx.org/en/docs/http/load_balancing.html</a></p>
+<p><a class="reference external" href="https://nginx.org/en/docs/http/ngx_http_upstream_module.html#server">https://nginx.org/en/docs/http/ngx_http_upstream_module.html#server</a></p>
+<p><strong>Manually remove a server from a pool</strong></p>
+<p>Let us say you have an upstream pool such as the one showed in the following
+configuration file:</p>
+<div class="highlight-NGINX notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">upstream</span> <span class="s">backend</span> <span class="p">{</span>
+    <span class="kn">server</span> <span class="s">backend1.example.com</span><span class="p">;</span>
+    <span class="kn">server</span> <span class="n">backend2.example.com</span><span class="p">:</span><span class="mi">8080</span><span class="p">;</span>
+    <span class="kn">server</span> <span class="n">backend2.example.com</span><span class="p">:</span><span class="mi">8081</span><span class="p">;</span>
+    <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>You may want to perform some maintenance on the server <code class="docutils literal notranslate"><span class="pre">backend1.example.com</span></code>
+and therefore, temporarily remove it from the pool. Removing the line 2 and
+reloading the configuration file with <code class="docutils literal notranslate"><span class="pre">nginx</span> <span class="pre">-s</span> <span class="pre">reload</span></code> will make NGINX not
+choose this upstream server for any new incoming connection. Another cleaner
+possibility would be to use the <code class="docutils literal notranslate"><span class="pre">down</span></code> option such as:</p>
+<div class="highlight-NGINX notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">upstream</span> <span class="s">backend</span> <span class="p">{</span>
+<span class="hll">    <span class="kn">server</span> <span class="s">backend1.example.com</span> <span class="s">down</span><span class="p">;</span>
+</span>    <span class="kn">server</span> <span class="n">backend2.example.com</span><span class="p">:</span><span class="mi">8080</span><span class="p">;</span>
+    <span class="kn">server</span> <span class="n">backend2.example.com</span><span class="p">:</span><span class="mi">8081</span><span class="p">;</span>
+    <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>Where you perform a minimal alteration on your file. Note that this may lead to
+connection loss for clients that were proxied to the backend1 server when you
+run the configuration reload command.</p>
+<p id="health-check"><strong>Automatic removal with passive health checks</strong></p>
+<p>NGINX also manages automatic removal of pool members using the passive health
+checks. If the response from a particular server fails with an error, nginx
+will mark this server as failed, and will try to avoid selecting this server
+for subsequent inbound requests for a while.</p>
+<p>The max_fails directive sets the number of consecutive unsuccessful attempts to
+communicate with the server that should happen during fail_timeout. By default,
+max_fails is set to 1. When it is set to 0, health checks are disabled for this
+server. The fail_timeout parameter also defines how long the server will be
+marked as failed. After fail_timeout interval following the server failure,
+nginx will start to gracefully probe the server with the live client’s
+requests. If the probes have been successful, the server is marked as a live
+one.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p><strong>1.1 - Describe what happens when a pool server goes down</strong></p>
-<p><em>TODO</em></p>
+<p>This aspect is covered in the previous part on <a class="reference internal" href="#health-check">health check</a>.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p><strong>1.1 - Explain what is unique to NGINX as a load balancer</strong></p>
-<p><em>TODO</em></p>
+<p><a class="reference external" href="https://www.f5.com/company/events/webinars/nginx-plus-for-load-balancing-30-min">https://www.f5.com/company/events/webinars/nginx-plus-for-load-balancing-30-min</a>
+(from 6:40 to 10:20 notably)</p>
+<p><strong>What are the other load balancing methods</strong></p>
+<dl class="docutils">
+<dt>DNS Rounds Robin</dt>
+<dd><p class="first">This method is quite simple and can be easily and cheaply configured: to
+load balance between 3 servers with 3 different IPs, the DNS record for the
+service (example.com for example) is configured to one element among an
+array of 3 IP addresses. Clients, receiving these, will contact the server
+with the received IP address, allowing to distribute load among clients as
+long as the DNS server returns different results to different clients.</p>
+<p class="last">However, this lacks on the update speed: updating DNS records can take time
+and a server that is down may be served to some client for a long time.
+Also, this method does not scale well as it requires managing every growing
+DNS records which can be complicated.</p>
+</dd>
+<dt>Hardware L4 load balancer</dt>
+<dd>These are advanced network switches that do not handle a full TCP stack but
+stream TCP packets and track the TCP sessions using the attributes they
+find in the TCP header. They deliver great performances but are limited in
+terms of available features: out of order and broken TCP packets are not
+easy to handle and lead to a reduced flexibility.</dd>
+<dt>Cloud solutions</dt>
+<dd>Cloud providers often provide their own load balancing systems (Amazon’s
+Elastic Load Balancer for example). However, these totally depend on the
+exposed interface from the Cloud provider’s system, potentially giving a
+lower flexibility.</dd>
+</dl>
+<p><strong>Where NGINX stands and what challenges it can overcome</strong></p>
+<p>NGINX is in the category of the Software load balancer. This refers to reverse
+proxy systems: these are software applications running on machines having their
+own full TCP stack (Linux or FreeBSD machines for example). The particularity
+is that it terminates the TCP connection and handles it. It afterward processes
+the content of the connection as desired, and reopen a TCP connection to the
+upstream server, using any implementable software method to load balance
+between different servers. This gives the maximum degree of flexibility to
+control the received connection and stream and apply logic to ensure
+performance and security.</p>
+<p>For example, with NGINX, one can perform load balancing depending on HTTP
+content (session cookies, request URIs, …) as the reverse proxy terminates
+the TCP connection, it has the ability to use any L4-L7 information to perform
+load balancing decision.</p>
+<p>Also, NGINX being implemented using low level performant C code, it benefits
+from excellent performances despite being software based, which is a key aspect
+to efficient load balancing.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -280,7 +414,7 @@
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.2 - Define the cache in the http contex</strong></p>
+<p><strong>1.2 - Define the cache in the http context</strong></p>
 <p><em>TODO</em></p>
 <div class="line-block">
 <div class="line"><br /></div>

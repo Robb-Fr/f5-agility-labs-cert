@@ -14,7 +14,7 @@
   <meta name="title" content="F5N2 - Configuration: Knowledge"/>
   <meta name="product" content="Unofficial - F5 Certification Exam Prep Material"/>
   <meta name="version" content=""/>
-  <meta name="updated_date"  content="2024-06-04 01:46:03"/>
+  <meta name="updated_date"  content="2024-06-06 02:57:49"/>
   <meta name="archived" content="Archived documents excluded"/>
   <meta name="doc_type" content="Manual"/>
   <meta name="lifecycle" content="release"/>
@@ -592,12 +592,72 @@ and efficient API gateway.</p>
 <div class="line"><br /></div>
 </div>
 <p><strong>1.2 - Define a minimum retention policy</strong></p>
-<p><em>TODO</em></p>
+<p><a class="reference external" href="https://blog.nginx.org/blog/nginx-caching-guide">https://blog.nginx.org/blog/nginx-caching-guide</a></p>
+<p><a class="reference external" href="https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_path">https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_path</a></p>
+<p><strong>Minimum retention policy</strong></p>
+<p>When speaking of a caching system, a minimum retention policy refers to the
+minimum time an element is accessible from a cached location. Concretely,
+imagine we cache the content served from the upstream server at endpoint
+<cite>http://upstream/data/1</cite>. A minimum retention policy defines the minimum time
+(m seconds) NGINX would keep the cached version of the upstream’s response: we
+would be sure to always have the cached version for m seconds after the initial
+cache insertion.</p>
+<p><strong>NGINX cache minimum retention</strong></p>
+<p><em>TODO</em> (I can’t see how to do this)</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.2 - Describe how to configure path regex routing</strong></p>
-<p><em>TODO</em></p>
+<p><strong>1.2 - Describe how to configure path REGEX routing</strong></p>
+<p><a class="reference external" href="https://www.f5.com/company/blog/nginx/regular-expression-tester-nginx">https://www.f5.com/company/blog/nginx/regular-expression-tester-nginx</a></p>
+<p><a class="reference external" href="https://nginx.org/en/docs/http/ngx_http_core_module.html#location">https://nginx.org/en/docs/http/ngx_http_core_module.html#location</a></p>
+<p><a class="reference external" href="https://nginx.org/en/docs/http/request_processing.html">https://nginx.org/en/docs/http/request_processing.html</a></p>
+<p><strong>URI routing in NGINX</strong></p>
+<p>When NGINX receives a request, it first tries to find a matching <code class="docutils literal notranslate"><span class="pre">server</span> <span class="pre">{}</span></code>
+block to send the request to. Once this is done, NGINX processes the request’s
+URI to find a matching <code class="docutils literal notranslate"><span class="pre">location</span> <span class="pre">{}</span></code> block among the one in the matched
+server. This process is crucial and very error prone, the reader must
+familiarize with the location matching process to prevent errors. The matching
+process is described as follows:</p>
+<blockquote>
+<div><p>The matching is performed against a normalized URI, after decoding the text
+encoded in the “%XX” form, resolving references to relative path components
+“.” and “..”, and possible compression of two or more adjacent slashes into a
+single slash.</p>
+<p>A location can either be defined by a prefix string, or by a regular
+expression. Regular expressions are specified with the preceding “~*”
+modifier (for case-insensitive matching), or the “~” modifier (for
+case-sensitive matching). To find location matching a given request, nginx
+first checks locations defined using the prefix strings (prefix locations).
+Among them, the location with the longest matching prefix is selected and
+remembered. Then regular expressions are checked, in the order of their
+appearance in the configuration file. The search of regular expressions
+terminates on the first match, and the corresponding configuration is used.
+If no match with a regular expression is found then the configuration of the
+prefix location remembered earlier is used.</p>
+<p>location blocks can be nested, with some exceptions mentioned below.</p>
+<p>For case-insensitive operating systems such as macOS and Cygwin, matching
+with prefix strings ignores a case (0.7.7). However, comparison is limited to
+one-byte locales.</p>
+<p>Regular expressions can contain captures (0.7.40) that can later be used in
+other directives.</p>
+<p>If the longest matching prefix location has the “^~” modifier then regular
+expressions are not checked.</p>
+<p>Also, using the “=” modifier it is possible to define an exact match of URI
+and location. If an exact match is found, the search terminates. For example,
+if a “/” request happens frequently, defining “location = /” will speed up
+the processing of these requests, as search terminates right after the first
+comparison. Such a location cannot obviously contain nested locations.</p>
+</div></blockquote>
+<p>Shortening this description is error prone, therefore we advise to familiarize
+with it. The following points can be surprising:</p>
+<ul class="simple">
+<li>By default, a REGEX match supersedes a prefix match (irrelevantly of the
+length of the match)</li>
+<li>Options “=” and “^~” disable the checking of REGEX matches</li>
+<li>The first matched REGEX stops the matching check process: the order matters
+and there is not such thing as longest matched REGEX (fortunately so)</li>
+</ul>
+<p>Among other points.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>

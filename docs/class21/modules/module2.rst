@@ -226,8 +226,8 @@ https://docs.nginx.com/nginx/admin-guide/monitoring/logging/
 
 **L4-L7 security**
 
-This given objective may sound quite vague and it is not clear why it stands in
-this section about load balancing as it could be a section in itself.
+This given objective may sound quite vague, and it is not clear why it stands
+in this section about load balancing as it could be a section in itself.
 Considering this, the reader is advised to be familiar with all the NGINX
 security controls available in NGINX OSS that we will list here and are
 detailed in the linked documentation.
@@ -278,7 +278,7 @@ OSS, shared memory zones can be configured in the following contexts:
   regarding the amount of connection requests.
 - The request limiting: sharing across worker the state of clients regarding
   the amount and nature of HTTP requests.
-- The JavaScript shared dictionary: sharing across workers JS structure in the
+- The JavaScript shared dictionary: sharing across workers JS structures in the
   form of dictionary.
 - The proxy caching: sharing across workers the key/value pairs associating
   requests parameters with cached content location on the disk.
@@ -295,7 +295,7 @@ and a size in bytes.
 The size parameter can be tuned and engineered to correspond to the nature of
 the application and the server's resources. For example, knowing that a shared
 JS dictionary should only have a few small entries, on can allocate only a few
-kilo bytes preventing the allocation of mega bytes of memory and not using it.
+kilobytes preventing the allocation of megabytes of memory and not using it.
 
 For details on the different syntaxes, the reader should refer to the mentioned
 links to the documentation.
@@ -342,9 +342,9 @@ The following configuration defines 2 locations: the first where NGINX should:
    ``backend``.
 
 The second location is internal (meaning it can only be reached by NGINX
-itself, not from the outside), and defines what should happen to requests made
-to the ``/mirror`` endpoint. They should be proxied to another backend, picked
-from the ``test_backend`` pool.
+itself, not from the outside), and defines what should happen to the requests
+made to the ``/mirror`` endpoint. They should be proxied to another backend,
+picked from the ``test_backend`` pool.
 
 .. code-block:: NGINX
 
@@ -454,7 +454,7 @@ not covered by the certification.
   - Applying Rate Limiting and Other API Gateway Controls
 
 These constitute an excellent recipe for configuring NGINX as an API gateway.
-Of course not all elements need to be applied and some elements may already be
+Of course not all elements need to be applied, and some elements may already be
 performed by the application (controlling the body content), but this recipe
 shows how to take any app (even a legacy or lazy one) and configure a secure
 and efficient API gateway.
@@ -486,7 +486,9 @@ cache insertion.
 
 **NGINX cache minimum retention**
 
-*TODO* (I can't see how to do this)
+*TODO* (I can't see how to do this, I see a maximum cache retention through the
+``inactive=time`` directive, but to me files can always be quickly evicted from
+cache if they are not hit often enough and many other cache write are coming)
 
 |
 
@@ -503,7 +505,7 @@ https://nginx.org/en/docs/http/request_processing.html
 When NGINX receives a request, it first tries to find a matching ``server {}``
 block to send the request to. Once this is done, NGINX processes the request's
 URI to find a matching ``location {}`` block among the one in the matched
-server. This process is crucial and very error prone, the reader must
+server. This process is crucial and very error-prone, the reader must
 familiarize with the location matching process to prevent errors. The matching
 process is described as follows:
 
@@ -524,7 +526,7 @@ process is described as follows:
   If no match with a regular expression is found then the configuration of the
   prefix location remembered earlier is used.
 
-  location blocks can be nested, with some exceptions mentioned below.
+  Location blocks can be nested, with some exceptions mentioned below.
 
   For case-insensitive operating systems such as macOS and Cygwin, matching
   with prefix strings ignores a case (0.7.7). However, comparison is limited to
@@ -542,7 +544,7 @@ process is described as follows:
   the processing of these requests, as search terminates right after the first
   comparison. Such a location cannot obviously contain nested locations.
 
-Shortening this description is error prone, therefore we advise to familiarize
+Shortening this description is error-prone, therefore we advise familiarizing
 with it. The following points can be surprising:
 
 - By default, a REGEX match supersedes a prefix match (irrelevantly of the
@@ -551,43 +553,218 @@ with it. The following points can be surprising:
 - The first matched REGEX stops the matching check process: the order matters
   and there is not such thing as longest matched REGEX (fortunately so)
 
-Among other points.
+Among other points. The referenced [blog
+post](https://www.f5.com/company/blog/nginx/regular-expression-tester-nginx)
+from Rick Nelson gathers interesting examples and an explanation for a tester
+software you can run to check which routes match a given REGEX location. Check
+examples from the NGINX documentation to familiarize with REGEX and locations
+definitions in NGINX.
 
 |
 
 **1.2 - Describe the why and how of caching in NGINX**
 
-*TODO*
+https://docs.nginx.com/nginx/admin-guide/content-cache/content-caching/
+
+Kapranoff, Nginx Troubleshooting, 82.
+
+http://nginx.org/en/docs/http/ngx_http_proxy_module.html
+
+**Caching reduces load and speeds up**
+
+The main reasons why one would like to cache in NGINX in because NGINX presents
+the advantage of being an intermediate between the client and the upstream
+servers. This leads to the following advantages:
+
+- Caching at NGINX reduces load on the backend servers by processing and
+  serving some requests without having to re-ask the upstream to do it.
+- Caching at NGINX speeds up the response process as there are fewer
+  intermediates that need to be contacted to answer the client's request
+  (everything between NGINX and the backend server is not involved when serving
+  a cached response).
+
+
+**How does NGINX enable caching**
+
+There are different ways to ensure the served web content gets cached with
+NGINX. We will here focus on the literal sense of using NGINX "as a caching
+server"; namely, we will see how to make NGINX being the node serving cached
+content in the web content retrieval process. Nonetheless, when engineering
+your caching system, do not forget that you can make use (and use NGINX's
+capabilities to do so) of the HTTP headers such as ``Cache-Control``. But this
+makes web client become the caching actors, and we may want to get more control
+on cached content by making it closer to the upstream servers. This is where
+NGINX comes in handy.
+
+Enabling caching on NGINX means making NGINX storing the content obtained from
+the upstream servers to serve it later, when an "identical" requests comes in,
+without having to contact the upstream server. This raises two interesting
+points that we will immediately answer:
+
+- Where is this content cached?
+
+  - The content gets cached on the NGINX host's file system, at the path
+    specified with the ``proxy_cache_path`` directive. Generally, this means it
+    gets stored on the disk of the machine where NGINX is hosted. Nonetheless,
+    it is absolutely compatible with systems having other kinds of storage
+    mounted on the filesystem (you could mount a NFS or RAMFS endpoints and
+    store the cache there). Note that this is where the actual cache content
+    (HTML, JSON, or any web result returned by the upstream server to be sent
+    to the client). Caching in NGINX also involves cache keys that are
+    discussed in the next point.
+
+- When does NGINX know how to serve cached content and when the request should
+  be forwarded to upstream?
+
+  - When NGINX performs content caching and receives a new request, it must
+    decide between "forwarding the request to upstream" or "hitting cache and
+    serving what I cached earlier". Of course the algorithm to decide on this
+    is more complex that what we will explain, but the idea stays the same.
+    NGINX uses under the hood hash tables to map requests to cached content.
+    Therefore, to know if cached content already exists for some kind of
+    request, it will see if the request's key matches an existing value. The
+    keys are stored in a shared memory zone defines with the
+    ``proxy_cache_path`` directive. The ``proxy_cache_key`` directives helps to
+    define what NGINX considers as two identical requests. By default, requests
+    with the same ``$scheme$proxy_host$uri$is_args$args`` are considered
+    identical and get served the same cached content. Otherwise, if not
+    matching value is found or if the cached content is stale, NGINX will
+    forward the request to an upstream server.
+
+These are the basics of how NGINX allows to cache the content when placed as a
+reverse proxy: it stores in its own file system the files served by upstream to
+client, and tries to match incoming requests with the cached ones, serving the
+cached ones when possible.
 
 |
 
 **1.2 - Define the cache in the http context**
 
-*TODO*
+https://docs.nginx.com/nginx/admin-guide/content-cache/content-caching/
+
+http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_path
+
+**Simple cache definition in ``http`` context**
+
+Although many configurations are possible, quickly getting started with NGINX
+default cache is as simple as defining a ``proxy_cache_path`` directive in the
+``http {}`` context, along with the ``proxy_cache`` directive in the context
+where you want to have caching (a whole server, a location, etc.).
+
+The following gives a quick example:
+
+.. code-block:: NGINX
+
+  http {
+      # ...
+      proxy_cache_path /data/nginx/cache keys_zone=mycache:10m;
+      server {
+          proxy_cache mycache;
+          location / {
+              proxy_pass http://localhost:8000;
+          }
+      }
+  }
+
+This defines content caching where cached files are stored in the file system
+at ``/data/nginx/cache``, and cache keys are stored in a shared memory zone
+named ``mycache``, a zone of 10 megabytes.
+
+
+.. warning::
+
+  Although this is not directly linked to this evaluation point, please please
+  note the following: by default the cache keys quite matches the following
+  5-tuple ``$scheme$proxy_host$uri$is_args$args``. This means that 2 users
+  querying ``https://example.com/myprofile`` should, in the eyes of NGINX, be
+  served the same cached content. If Bob's profile is loaded in the cache, then
+  Alice's request will be served the same cached content page that could
+  contain sensible information. To avoid this, defining new cache keys such as
+  ``$host$request_uri$cookie_user`` could prevent this issue, assuming you have
+  an authentication session cookie named USER and your endpoint is
+  authenticated through this cookie. Indeed, Alice and Bob's cookies will not
+  match and therefore, the requests will not be considered identical.
 
 |
 
 **1.2 - Enable the cache**
 
-*TODO*
+The previous part basically covers this. The caching is actually enabled
+through the ``proxy_cache`` directive which makes responses from a given
+context actually cached.
 
 |
 
 **1.2 - Specify the content that should be cached**
 
-*TODO*
+Kapranoff, Nginx Troubleshooting, 82.
+
+**When caching gets most useful**
+
+This question is of course open ended. However, the caching algorithm is best
+when optimizing the following aspects:
+
+- The cached content should not change often and be long lived static.
+  Otherwise you would often have to re-populate your cache or worse, serve
+  stale content when it is not desired.
+- The cached content should be the one queried often. Indeed, you do not want
+  to use memory resources for content that is useful to a very few users.
+
+Therefore, the answer to "what should be cached" may vary on your application,
+however, some files often match these criteria in many case static files such
+as style sheets or static scripts that are required upon every request and
+generally are not updated on any release (or at least, serving stale style
+might still allow your service to function and occur minimal impact).
 
 |
 
 **1.2 - Describe different types of caching**
 
-*TODO*
+The previous part **1.1 - Describe NGINX as a caching solution** already goes
+through details on different types of caching along with references on the
+topic.
 
 |
 
 **1.2 - Explain what is unique to NGINX as a cache server**
 
-*TODO*
+http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_path
+
+**Interests of caching at the reverse proxy layer**
+
+In the same idea as "what is unique to NGINX" as a load balancer, we, among
+other things, find NGINX's uniqueness in its interesting position on the path
+between clients and upstream servers. Indeed, caching at the reverse proxy has
+both advantages:
+
+- It effectively reduces load on the backend servers, as a cache hit results in
+  the server not being queried. This can be done with zero modification of the
+  upstream server's code which may be handy when dealing with legacy or non
+  controllable applications.
+- It leaves control in your hands. A disadvantage of caching on the clients'
+  devices is that if you make a mistake (setting a client cache time limit too
+  high for example), clients may be left with stale data and wrongly not
+  re-emit requests to your servers. Having NGINX caching allows you, as an
+  admin, tu purge caches if needed and control it on your end.
+
+**Optimized and controllable caching**
+
+The above is true for any caching implemented by a reverse proxy. NGINX is
+particularly good because it comes with great optimizations (e.g.: the caching
+keys are stored in a shared memory zone, this is non trivial and allows to
+share the cache population work performed by the different workers and leverage
+hardware with high parallelism capabilities) that are very easy to configure
+out of the box.
+
+On another hands, I think it important to speak about the controllability you
+get when caching with NGINX. Notably, you should visit the documentation page
+about `proxy_cache_path
+<http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_path>`_
+directive. You can for example define parameters on how and when to purge
+files, along with directives controlling how should concurrent workers fetching
+a cacheable data behave. This allows you to define your own thresholds between
+serving cached data at all cost or just using cache as a circumstantial
+performance bonus, depending on your business needs.
 
 |
 |

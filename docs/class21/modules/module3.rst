@@ -49,6 +49,8 @@ Objective - 1.2 Demonstrate how to restrict access
 |
 |
 
+.. _module3 restrict ip:
+
 **1.2 - Demonstrate how to restrict access to NGINX based on IP address**
 
 *TODO*
@@ -61,9 +63,32 @@ Objective - 1.2 Demonstrate how to restrict access
 
 |
 
+.. _module3 demonstrate authenticate:
+
 **1.2 - Demonstrate how to authenticate (auth basic / auth request)**
 
 *TODO*
+
+.. code-block:: NGINX
+
+  location / {
+    auth_basic "Private site";
+    auth_basic_user_file conf.d/passwd;
+  }
+
+This example shows the ``/`` location being protected thanks to two directives.
+``auth_basic`` enables authentication by defining an HTTP Basic authentication
+realm name (see `RFC 2617
+<https://datatracker.ietf.org/doc/html/rfc2617#page-3>`_ for more details).
+``auth_basic_user_file`` points to a user file (containing username and
+password pairs) as defined `here
+<http://nginx.org/en/docs/http/ngx_http_auth_basic_module.html#auth_basic_user_file>`_.
+This allows to make sure that users accessing endpoints matching the ``location
+/ {}`` must present valid authentication credentials following the HTTP Basic
+authentication specification. Other users will be returned 401 or 403 error
+codes.
+
+On another hand, NGINX proposes another,
 
 |
 
@@ -104,6 +129,8 @@ Objective - 1.3 Demonstrate how to configure logging
 
 |
 |
+
+.. _module3 configure certificates:
 
 Objective - 1.4 Demonstrate how to configure certificates
 ---------------------------------------------------------

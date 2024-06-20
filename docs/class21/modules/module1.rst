@@ -189,6 +189,8 @@ and nginx applies HTTP load balancing to distribute the requests.
 
 |
 
+.. _module1 describe nginx caching:
+
 **1.1 - Describe NGINX as a caching solution**
 
 https://aws.amazon.com/caching/
@@ -834,6 +836,8 @@ Objective - 1.4 Manage shared memory zones
 
 |
 |
+
+.. _module1 shared memory zones:
 
 **1.4 - Describe how and why NGINX uses shared memory zones**
 

@@ -270,9 +270,10 @@ http://nginx.org/en/docs/http/ngx_http_upstream_module.html#zone
 **Memory zones in NGINX**
 
 When configuring memory zones in NGINX, we generally refer to shared memory
-zones, as seen and explained in `the previous part <>`_. To modify or tune
-these, we must first identify where they appear in our NGINX configurations. In
-NGINX OSS, shared memory zones can be configured in the following contexts:
+zones, as seen and explained in :ref:`the previous module <module1 shared
+memory zones>`. To modify or tune these, we must first identify where they
+appear in our NGINX configurations. In NGINX OSS, shared memory zones can be
+configured in the following contexts:
 
 - The connection limiting: sharing across worker the state of clients
   regarding the amount of connection requests.
@@ -638,6 +639,8 @@ cached ones when possible.
 
 |
 
+.. _module2 define cache:
+
 **1.2 - Define the cache in the http context**
 
 https://docs.nginx.com/nginx/admin-guide/content-cache/content-caching/
@@ -689,9 +692,9 @@ named ``mycache``, a zone of 10 megabytes.
 
 **1.2 - Enable the cache**
 
-The previous part basically covers this. The caching is actually enabled
-through the ``proxy_cache`` directive which makes responses from a given
-context actually cached.
+The :ref:`previous part <module2 define cache>` basically covers this. The
+caching is actually enabled through the ``proxy_cache`` directive which makes
+responses from a given context actually cached.
 
 |
 
@@ -720,7 +723,7 @@ might still allow your service to function and occur minimal impact).
 
 **1.2 - Describe different types of caching**
 
-The previous part **1.1 - Describe NGINX as a caching solution** already goes
+The :ref:`previous module <module1 describe nginx caching>` already goes
 through details on different types of caching along with references on the
 topic.
 

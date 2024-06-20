@@ -14,7 +14,7 @@
   <meta name="title" content="F5N3 - Configuration: Demonstrate"/>
   <meta name="product" content="Unofficial - F5 Certification Exam Prep Material"/>
   <meta name="version" content=""/>
-  <meta name="updated_date"  content="2024-05-28 02:04:41"/>
+  <meta name="updated_date"  content="2024-06-20 03:51:06"/>
   <meta name="archived" content="Archived documents excluded"/>
   <meta name="doc_type" content="Manual"/>
   <meta name="lifecycle" content="release"/>
@@ -142,11 +142,41 @@
         <span class="nav-sidebartoc">
             <ul>
 <li><a class="reference internal" href="#">F5N3 - Configuration: Demonstrate</a><ul>
-<li><a class="reference internal" href="#objective-1-1-demonstrate-how-to-manage-connections-and-bandwidth">Objective - 1.1 Demonstrate how to manage connections and bandwidth</a></li>
-<li><a class="reference internal" href="#objective-1-2-demonstrate-how-to-restrict-access">Objective - 1.2 Demonstrate how to restrict access</a></li>
-<li><a class="reference internal" href="#objective-1-3-demonstrate-how-to-configure-logging">Objective - 1.3 Demonstrate how to configure logging</a></li>
-<li><a class="reference internal" href="#objective-1-4-demonstrate-how-to-configure-certificates">Objective - 1.4 Demonstrate how to configure certificates</a></li>
-<li><a class="reference internal" href="#objective-1-5-demonstrate-how-to-enable-https-and-associated-security-settings">Objective - 1.5 Demonstrate how to enable HTTPS and associated security settings</a></li>
+<li><a class="reference internal" href="#objective-1-1-demonstrate-how-to-manage-connections-and-bandwidth">Objective - 1.1 Demonstrate how to manage connections and bandwidth</a><ul>
+<li><a class="reference internal" href="#describe-the-difference-between-rate-limiting-and-bandwidth-throttling">1.1 - Describe the difference between rate limiting and bandwidth throttling</a></li>
+<li><a class="reference internal" href="#demonstrate-how-to-limit-the-amount-of-connections-that-are-made-to-the-nginx-server-and-its-upstreams">1.1 - Demonstrate how to limit the amount of connections that are made to the NGINX server and its upstreams</a></li>
+<li><a class="reference internal" href="#demonstrate-how-to-set-a-bandwidth-limit">1.1 - Demonstrate how to set a bandwidth limit</a></li>
+<li><a class="reference internal" href="#understand-how-to-enable-and-optimize-keep-alives-for-the-nginx-server-and-its-upstreams">1.1 - Understand how to enable and optimize keep-alives for the NGINX server and its upstreams</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#objective-1-2-demonstrate-how-to-restrict-access">Objective - 1.2 Demonstrate how to restrict access</a><ul>
+<li><a class="reference internal" href="#demonstrate-how-to-restrict-access-to-nginx-based-on-ip-address">1.2 - Demonstrate how to restrict access to NGINX based on IP address</a></li>
+<li><a class="reference internal" href="#demonstrate-how-to-restrict-access-to-nginx-based-on-http-method">1.2 - Demonstrate how to restrict access to NGINX based on HTTP method</a></li>
+<li><a class="reference internal" href="#demonstrate-how-to-authenticate-auth-basic-auth-request">1.2 - Demonstrate how to authenticate (auth basic / auth request)</a></li>
+<li><a class="reference internal" href="#demonstrate-how-to-restrict-uris">1.2 - Demonstrate how to restrict URIs</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#objective-1-3-demonstrate-how-to-configure-logging">Objective - 1.3 Demonstrate how to configure logging</a><ul>
+<li><a class="reference internal" href="#demonstrate-how-to-customize-the-format-of-log-files">1.3 - Demonstrate how to customize the format of log files</a></li>
+<li><a class="reference internal" href="#demonstrate-how-to-customize-the-location-of-log-files">1.3 - Demonstrate how to customize the location of log files</a></li>
+<li><a class="reference internal" href="#demonstrate-how-to-set-log-levels-severity">1.3 - Demonstrate how to set log levels (severity)</a></li>
+<li><a class="reference internal" href="#describe-the-difference-between-an-error-log-and-an-access-log">1.3 - Describe the difference between an error log and an access log</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#objective-1-4-demonstrate-how-to-configure-certificates">Objective - 1.4 Demonstrate how to configure certificates</a><ul>
+<li><a class="reference internal" href="#define-the-difference-between-a-server-certificate-and-a-client-certificate">1.4 - Define the difference between a server certificate and a client certificate</a></li>
+<li><a class="reference internal" href="#describe-the-components-necessary-to-use-an-ssl-certificate">1.4 - Describe the components necessary to use an SSL certificate</a></li>
+<li><a class="reference internal" href="#configure-encryption">1.4 - Configure encryption</a></li>
+<li><a class="reference internal" href="#describe-how-to-protect-the-ssl-certificate-and-key">1.4 - Describe how to protect the SSL certificate and key</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#objective-1-5-demonstrate-how-to-enable-https-and-associated-security-settings">Objective - 1.5 Demonstrate how to enable HTTPS and associated security settings</a><ul>
+<li><a class="reference internal" href="#compare-the-advantages-of-tls-termination-end-to-end-encryption-and-tls-passthrough">1.5 - Compare the advantages of TLS termination, end to end encryption, and TLS passthrough</a></li>
+<li><a class="reference internal" href="#demonstrate-how-to-enable-tls-encryption">1.5 - Demonstrate how to enable TLS encryption</a></li>
+<li><a class="reference internal" href="#enable-disable-ciphers-and-tls-version">1.5 - Enable/Disable ciphers and TLS version</a></li>
+<li><a class="reference internal" href="#describe-how-force-all-traffic-to-redirect-to-https">1.5 - Describe how force all traffic to redirect to HTTPS</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -208,29 +238,34 @@
 <div class="line"><br /></div>
 <div class="line"><br /></div>
 </div>
-<p><strong>1.1 - Describe the difference between rate limiting and bandwidth
-throttling</strong></p>
+<div class="section" id="describe-the-difference-between-rate-limiting-and-bandwidth-throttling">
+<h3>1.1 - Describe the difference between rate limiting and bandwidth throttling<a class="headerlink" href="#describe-the-difference-between-rate-limiting-and-bandwidth-throttling" title="Permalink to this headline">¶</a></h3>
 <p><em>TODO</em></p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.1 - Demonstrate how to limit the amount of connections that are made to the
-NGINX server and its upstreams</strong></p>
+</div>
+<div class="section" id="demonstrate-how-to-limit-the-amount-of-connections-that-are-made-to-the-nginx-server-and-its-upstreams">
+<h3>1.1 - Demonstrate how to limit the amount of connections that are made to the NGINX server and its upstreams<a class="headerlink" href="#demonstrate-how-to-limit-the-amount-of-connections-that-are-made-to-the-nginx-server-and-its-upstreams" title="Permalink to this headline">¶</a></h3>
 <p><em>TODO</em></p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.1 -Demonstrate how to set a bandwidth limit</strong></p>
+</div>
+<div class="section" id="demonstrate-how-to-set-a-bandwidth-limit">
+<h3>1.1 - Demonstrate how to set a bandwidth limit<a class="headerlink" href="#demonstrate-how-to-set-a-bandwidth-limit" title="Permalink to this headline">¶</a></h3>
 <p><em>TODO</em></p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.1 - Understand how to enable and optimize keep-alives for the NGINX server
-and its upstreams</strong></p>
+</div>
+<div class="section" id="understand-how-to-enable-and-optimize-keep-alives-for-the-nginx-server-and-its-upstreams">
+<h3>1.1 - Understand how to enable and optimize keep-alives for the NGINX server and its upstreams<a class="headerlink" href="#understand-how-to-enable-and-optimize-keep-alives-for-the-nginx-server-and-its-upstreams" title="Permalink to this headline">¶</a></h3>
 <p><em>TODO</em></p>
 <div class="line-block">
 <div class="line"><br /></div>
 <div class="line"><br /></div>
+</div>
 </div>
 </div>
 <div class="section" id="objective-1-2-demonstrate-how-to-restrict-access">
@@ -239,26 +274,50 @@ and its upstreams</strong></p>
 <div class="line"><br /></div>
 <div class="line"><br /></div>
 </div>
-<p><strong>1.2 - Demonstrate how to restrict access to NGINX based on IP address</strong></p>
+<div class="section" id="demonstrate-how-to-restrict-access-to-nginx-based-on-ip-address">
+<span id="module3-restrict-ip"></span><h3>1.2 - Demonstrate how to restrict access to NGINX based on IP address<a class="headerlink" href="#demonstrate-how-to-restrict-access-to-nginx-based-on-ip-address" title="Permalink to this headline">¶</a></h3>
 <p><em>TODO</em></p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.2 - Demonstrate how to restrict access to NGINX based on HTTP method</strong></p>
+</div>
+<div class="section" id="demonstrate-how-to-restrict-access-to-nginx-based-on-http-method">
+<h3>1.2 - Demonstrate how to restrict access to NGINX based on HTTP method<a class="headerlink" href="#demonstrate-how-to-restrict-access-to-nginx-based-on-http-method" title="Permalink to this headline">¶</a></h3>
 <p><em>TODO</em></p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.2 - Demonstrate how to authenticate (auth basic / auth request)</strong></p>
+</div>
+<div class="section" id="demonstrate-how-to-authenticate-auth-basic-auth-request">
+<span id="module3-demonstrate-authenticate"></span><h3>1.2 - Demonstrate how to authenticate (auth basic / auth request)<a class="headerlink" href="#demonstrate-how-to-authenticate-auth-basic-auth-request" title="Permalink to this headline">¶</a></h3>
 <p><em>TODO</em></p>
+<div class="highlight-NGINX notranslate"><div class="highlight"><pre><span></span><span class="k">location</span> <span class="s">/</span> <span class="p">{</span>
+  <span class="kn">auth_basic</span> <span class="s">&quot;Private</span> <span class="s">site&quot;</span><span class="p">;</span>
+  <span class="kn">auth_basic_user_file</span> <span class="s">conf.d/passwd</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This example shows the <code class="docutils literal notranslate"><span class="pre">/</span></code> location being protected thanks to two directives.
+<code class="docutils literal notranslate"><span class="pre">auth_basic</span></code> enables authentication by defining an HTTP Basic authentication
+realm name (see <a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc2617#page-3">RFC 2617</a> for more details).
+<code class="docutils literal notranslate"><span class="pre">auth_basic_user_file</span></code> points to a user file (containing username and
+password pairs) as defined <a class="reference external" href="http://nginx.org/en/docs/http/ngx_http_auth_basic_module.html#auth_basic_user_file">here</a>.
+This allows to make sure that users accessing endpoints matching the <code class="docutils literal notranslate"><span class="pre">location</span>
+<span class="pre">/</span> <span class="pre">{}</span></code> must present valid authentication credentials following the HTTP Basic
+authentication specification. Other users will be returned 401 or 403 error
+codes.</p>
+<p>On another hand, NGINX proposes another,</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.2 - Demonstrate how to restrict URIs</strong></p>
+</div>
+<div class="section" id="demonstrate-how-to-restrict-uris">
+<h3>1.2 - Demonstrate how to restrict URIs<a class="headerlink" href="#demonstrate-how-to-restrict-uris" title="Permalink to this headline">¶</a></h3>
 <p><em>TODO</em></p>
 <div class="line-block">
 <div class="line"><br /></div>
 <div class="line"><br /></div>
+</div>
 </div>
 </div>
 <div class="section" id="objective-1-3-demonstrate-how-to-configure-logging">
@@ -267,55 +326,70 @@ and its upstreams</strong></p>
 <div class="line"><br /></div>
 <div class="line"><br /></div>
 </div>
-<p><strong>1.3 - Demonstrate how to customize the format of log files</strong></p>
+<div class="section" id="demonstrate-how-to-customize-the-format-of-log-files">
+<h3>1.3 - Demonstrate how to customize the format of log files<a class="headerlink" href="#demonstrate-how-to-customize-the-format-of-log-files" title="Permalink to this headline">¶</a></h3>
 <p><em>TODO</em></p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.3 - Demonstrate how to customize the location of log files</strong></p>
+</div>
+<div class="section" id="demonstrate-how-to-customize-the-location-of-log-files">
+<h3>1.3 - Demonstrate how to customize the location of log files<a class="headerlink" href="#demonstrate-how-to-customize-the-location-of-log-files" title="Permalink to this headline">¶</a></h3>
 <p><em>TODO</em></p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.3 - Demonstrate how to set log levels (severity)</strong></p>
+</div>
+<div class="section" id="demonstrate-how-to-set-log-levels-severity">
+<h3>1.3 - Demonstrate how to set log levels (severity)<a class="headerlink" href="#demonstrate-how-to-set-log-levels-severity" title="Permalink to this headline">¶</a></h3>
 <p><em>TODO</em></p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.3 - Describe the difference between an error log and an access log</strong></p>
+</div>
+<div class="section" id="describe-the-difference-between-an-error-log-and-an-access-log">
+<h3>1.3 - Describe the difference between an error log and an access log<a class="headerlink" href="#describe-the-difference-between-an-error-log-and-an-access-log" title="Permalink to this headline">¶</a></h3>
 <p><em>TODO</em></p>
 <div class="line-block">
 <div class="line"><br /></div>
 <div class="line"><br /></div>
+</div>
 </div>
 </div>
 <div class="section" id="objective-1-4-demonstrate-how-to-configure-certificates">
-<h2>Objective - 1.4 Demonstrate how to configure certificates<a class="headerlink" href="#objective-1-4-demonstrate-how-to-configure-certificates" title="Permalink to this headline">¶</a></h2>
+<span id="module3-configure-certificates"></span><h2>Objective - 1.4 Demonstrate how to configure certificates<a class="headerlink" href="#objective-1-4-demonstrate-how-to-configure-certificates" title="Permalink to this headline">¶</a></h2>
 <div class="line-block">
 <div class="line"><br /></div>
 <div class="line"><br /></div>
 </div>
-<p><strong>1.4 - Define the difference between a server certificate and a client
-certificate</strong></p>
+<div class="section" id="define-the-difference-between-a-server-certificate-and-a-client-certificate">
+<h3>1.4 - Define the difference between a server certificate and a client certificate<a class="headerlink" href="#define-the-difference-between-a-server-certificate-and-a-client-certificate" title="Permalink to this headline">¶</a></h3>
 <p><em>TODO</em></p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.4 - Describe the components necessary to use an SSL certificate</strong></p>
+</div>
+<div class="section" id="describe-the-components-necessary-to-use-an-ssl-certificate">
+<h3>1.4 - Describe the components necessary to use an SSL certificate<a class="headerlink" href="#describe-the-components-necessary-to-use-an-ssl-certificate" title="Permalink to this headline">¶</a></h3>
 <p><em>TODO</em></p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.4 - Configure encryption</strong></p>
+</div>
+<div class="section" id="configure-encryption">
+<h3>1.4 - Configure encryption<a class="headerlink" href="#configure-encryption" title="Permalink to this headline">¶</a></h3>
 <p><em>TODO</em></p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.4 - Describe how to protect the SSL certificate and key</strong></p>
+</div>
+<div class="section" id="describe-how-to-protect-the-ssl-certificate-and-key">
+<h3>1.4 - Describe how to protect the SSL certificate and key<a class="headerlink" href="#describe-how-to-protect-the-ssl-certificate-and-key" title="Permalink to this headline">¶</a></h3>
 <p><em>TODO</em></p>
 <div class="line-block">
 <div class="line"><br /></div>
 <div class="line"><br /></div>
+</div>
 </div>
 </div>
 <div class="section" id="objective-1-5-demonstrate-how-to-enable-https-and-associated-security-settings">
@@ -324,27 +398,34 @@ certificate</strong></p>
 <div class="line"><br /></div>
 <div class="line"><br /></div>
 </div>
-<p><strong>1.5 - Compare the advantages of TLS termination, end to end encryption, and
-TLS passthrough</strong></p>
+<div class="section" id="compare-the-advantages-of-tls-termination-end-to-end-encryption-and-tls-passthrough">
+<h3>1.5 - Compare the advantages of TLS termination, end to end encryption, and TLS passthrough<a class="headerlink" href="#compare-the-advantages-of-tls-termination-end-to-end-encryption-and-tls-passthrough" title="Permalink to this headline">¶</a></h3>
 <p><em>TODO</em></p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.5 - Demonstrate how to enable TLS encryption</strong></p>
+</div>
+<div class="section" id="demonstrate-how-to-enable-tls-encryption">
+<h3>1.5 - Demonstrate how to enable TLS encryption<a class="headerlink" href="#demonstrate-how-to-enable-tls-encryption" title="Permalink to this headline">¶</a></h3>
 <p><em>TODO</em></p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.5 -Enable/Disable ciphers and TLS version</strong></p>
+</div>
+<div class="section" id="enable-disable-ciphers-and-tls-version">
+<h3>1.5 - Enable/Disable ciphers and TLS version<a class="headerlink" href="#enable-disable-ciphers-and-tls-version" title="Permalink to this headline">¶</a></h3>
 <p><em>TODO</em></p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.5 - Describe how force all traffic to redirect to HTTPS</strong></p>
+</div>
+<div class="section" id="describe-how-force-all-traffic-to-redirect-to-https">
+<h3>1.5 - Describe how force all traffic to redirect to HTTPS<a class="headerlink" href="#describe-how-force-all-traffic-to-redirect-to-https" title="Permalink to this headline">¶</a></h3>
 <p><em>TODO</em></p>
 <div class="line-block">
 <div class="line"><br /></div>
 <div class="line"><br /></div>
+</div>
 </div>
 </div>
 </div>

@@ -15,13 +15,14 @@ Objective - 1.1 Configure NGINX as a load balancer
 |
 |
 
-**1.1 - Define the load balancing pools/systems**
+1.1 - Define the load balancing pools/systems
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 http://nginx.org/en/docs/http/load_balancing.html
 
 https://docs.nginx.com/nginx/admin-guide/load-balancer/tcp-udp-load-balancer/
 
-**``upstream`` directive**
+**upstream directive**
 
 Defining a load balancing pool is as simple as writing the ``upstream``
 directive in an ``http`` or ``stream`` block. Please refer to the referenced
@@ -55,7 +56,8 @@ and nginx applies HTTP load balancing to distribute the requests.
 
 |
 
-**1.1 - Explain the different load balancing algorithms**
+1.1 - Explain the different load balancing algorithms
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 https://docs.nginx.com/nginx/admin-guide/load-balancer/http-load-balancer/#choosing-a-load-balancing-method
 
@@ -76,8 +78,8 @@ defined weight.
 
 |
 
-**1.1 - Describe the process used to remove a server from the pool**
-
+1.1 - Describe the process used to remove a server from the pool
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 https://docs.nginx.com/nginx/admin-guide/load-balancer/http-health-check/#passive-health-checks
 
 https://nginx.org/en/docs/http/load_balancing.html
@@ -138,14 +140,14 @@ one.
 
 |
 
-**1.1 - Describe what happens when a pool server goes down**
-
+1.1 - Describe what happens when a pool server goes down
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This aspect is covered in the previous part on `health check`_.
 
 |
 
-**1.1 - Explain what is unique to NGINX as a load balancer**
-
+1.1 - Explain what is unique to NGINX as a load balancer
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 https://www.f5.com/company/events/webinars/nginx-plus-for-load-balancing-30-min
 (from 6:40 to 10:20 notably)
 
@@ -218,7 +220,10 @@ types of load balancers.
 
 |
 
-**1.1 -Describe how to configure security**
+.. _module2 describe configure security:
+
+1.1 - Describe how to configure security
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 https://docs.nginx.com/nginx/admin-guide/security-controls/
 
@@ -255,7 +260,8 @@ easy to configure log sending to a syslog server.
 
 |
 
-**1.1 - Modify or tune a memory zone configuration**
+1.1 - Modify or tune a memory zone configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 http://nginx.org/en/docs/http/ngx_http_limit_conn_module.html#limit_conn_zone
 
@@ -270,9 +276,10 @@ http://nginx.org/en/docs/http/ngx_http_upstream_module.html#zone
 **Memory zones in NGINX**
 
 When configuring memory zones in NGINX, we generally refer to shared memory
-zones, as seen and explained in the previous part. To modify or tune these, we
-must first identify where they appear in our NGINX configurations. In NGINX
-OSS, shared memory zones can be configured in the following contexts:
+zones, as seen and explained in :ref:`the previous module <module1 shared
+memory zones>`. To modify or tune these, we must first identify where they
+appear in our NGINX configurations. In NGINX OSS, shared memory zones can be
+configured in the following contexts:
 
 - The connection limiting: sharing across worker the state of clients
   regarding the amount of connection requests.
@@ -302,7 +309,8 @@ links to the documentation.
 
 |
 
-**1.1 - Describe how to configure NGINX as mirroring server**
+1.1 - Describe how to configure NGINX as mirroring server
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 https://alex.dzyoba.com/blog/nginx-mirror/
 
@@ -360,7 +368,8 @@ picked from the ``test_backend`` pool.
 
 |
 
-**1.1 - Describe how to configure NGINX as a layer 4 load balancer**
+1.1 - Describe how to configure NGINX as a layer 4 load balancer
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 https://docs.nginx.com/nginx/admin-guide/load-balancer/tcp-udp-load-balancer/
 
@@ -398,7 +407,8 @@ hash algorithm by taking the remote client's address as a key.
 
 |
 
-**1.1 - Describe how to configure NGINX as an API Gateway**
+1.1 - Describe how to configure NGINX as an API Gateway
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 https://www.f5.com/company/blog/nginx/deploying-nginx-plus-as-an-api-gateway-part-1
 
@@ -468,7 +478,8 @@ Objective - 1.2 Configure NGINX as a content cache server
 |
 |
 
-**1.2 - Define a minimum retention policy**
+1.2 - Define a minimum retention policy
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 https://blog.nginx.org/blog/nginx-caching-guide
 
@@ -492,7 +503,8 @@ cache if they are not hit often enough and many other cache write are coming)
 
 |
 
-**1.2 - Describe how to configure path REGEX routing**
+1.2 - Describe how to configure path REGEX routing
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 https://www.f5.com/company/blog/nginx/regular-expression-tester-nginx
 
@@ -562,7 +574,8 @@ definitions in NGINX.
 
 |
 
-**1.2 - Describe the why and how of caching in NGINX**
+1.2 - Describe the why and how of caching in NGINX
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 https://docs.nginx.com/nginx/admin-guide/content-cache/content-caching/
 
@@ -638,13 +651,16 @@ cached ones when possible.
 
 |
 
-**1.2 - Define the cache in the http context**
+.. _module2 define cache:
+
+1.2 - Define the cache in the http context
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 https://docs.nginx.com/nginx/admin-guide/content-cache/content-caching/
 
 http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_path
 
-**Simple cache definition in ``http`` context**
+**Simple cache definition in http context**
 
 Although many configurations are possible, quickly getting started with NGINX
 default cache is as simple as defining a ``proxy_cache_path`` directive in the
@@ -673,13 +689,13 @@ named ``mycache``, a zone of 10 megabytes.
 
 .. warning::
 
-  Although this is not directly linked to this evaluation point, please please
-  note the following: by default the cache keys quite matches the following
-  5-tuple ``$scheme$proxy_host$uri$is_args$args``. This means that 2 users
-  querying ``https://example.com/myprofile`` should, in the eyes of NGINX, be
-  served the same cached content. If Bob's profile is loaded in the cache, then
-  Alice's request will be served the same cached content page that could
-  contain sensible information. To avoid this, defining new cache keys such as
+  Although this is not directly linked to this evaluation point, please note
+  the following: by default the cache keys quite matches the following 5-tuple
+  ``$scheme$proxy_host$uri$is_args$args``. This means that 2 users querying
+  ``https://example.com/myprofile`` should, in the eyes of NGINX, be served the
+  same cached content. If Bob's profile is loaded in the cache, then Alice's
+  request will be served the same cached content page that could contain
+  sensible information. To avoid this, defining new cache keys such as
   ``$host$request_uri$cookie_user`` could prevent this issue, assuming you have
   an authentication session cookie named USER and your endpoint is
   authenticated through this cookie. Indeed, Alice and Bob's cookies will not
@@ -687,24 +703,26 @@ named ``mycache``, a zone of 10 megabytes.
 
 |
 
-**1.2 - Enable the cache**
+1.2 - Enable the cache
+~~~~~~~~~~~~~~~~~~~~~~
 
-The previous part basically covers this. The caching is actually enabled
-through the ``proxy_cache`` directive which makes responses from a given
-context actually cached.
+The :ref:`previous part <module2 define cache>` basically covers this. The
+caching is actually enabled through the ``proxy_cache`` directive which makes
+responses from a given context actually cached.
 
 |
 
-**1.2 - Specify the content that should be cached**
+1.2 - Specify the content that should be cached
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Kapranoff, Nginx Troubleshooting, 82.
 
 **When caching gets most useful**
 
-This question is of course open ended. However, the caching algorithm is best
+This question is of course open-ended. However, the caching algorithm is best
 when optimizing the following aspects:
 
-- The cached content should not change often and be long lived static.
+- The cached content should not change often and be long-lived static.
   Otherwise you would often have to re-populate your cache or worse, serve
   stale content when it is not desired.
 - The cached content should be the one queried often. Indeed, you do not want
@@ -718,15 +736,17 @@ might still allow your service to function and occur minimal impact).
 
 |
 
-**1.2 - Describe different types of caching**
+1.2 - Describe different types of caching
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The previous part **1.1 - Describe NGINX as a caching solution** already goes
+The :ref:`previous module <module1 describe nginx caching>` already goes
 through details on different types of caching along with references on the
 topic.
 
 |
 
-**1.2 - Explain what is unique to NGINX as a cache server**
+1.2 - Explain what is unique to NGINX as a cache server
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_path
 
@@ -739,8 +759,8 @@ both advantages:
 
 - It effectively reduces load on the backend servers, as a cache hit results in
   the server not being queried. This can be done with zero modification of the
-  upstream server's code which may be handy when dealing with legacy or non
-  controllable applications.
+  upstream server's code which may be handy when dealing with legacy or
+  non-controllable applications.
 - It leaves control in your hands. A disadvantage of caching on the clients'
   devices is that if you make a mistake (setting a client cache time limit too
   high for example), clients may be left with stale data and wrongly not
@@ -751,14 +771,14 @@ both advantages:
 
 The above is true for any caching implemented by a reverse proxy. NGINX is
 particularly good because it comes with great optimizations (e.g.: the caching
-keys are stored in a shared memory zone, this is non trivial and allows to
+keys are stored in a shared memory zone, this is non-trivial and allows to
 share the cache population work performed by the different workers and leverage
 hardware with high parallelism capabilities) that are very easy to configure
 out of the box.
 
-On another hands, I think it important to speak about the controllability you
-get when caching with NGINX. Notably, you should visit the documentation page
-about `proxy_cache_path
+On another hands, I think it is important to speak about the controllability
+you get when caching with NGINX. Notably, you should visit the documentation
+page about `proxy_cache_path
 <http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_path>`_
 directive. You can for example define parameters on how and when to purge
 files, along with directives controlling how should concurrent workers fetching
@@ -775,7 +795,174 @@ Objective - 1.3 Configure NGINX as a web server
 |
 |
 
-**1.3 - Demonstrate how to securely serve content (HTTP/HTTPS)**
+1.3 - Demonstrate how to securely serve content (HTTP/HTTPS)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+DEJONGHE, NGINX COOKBOOK Advanced Recipes for High -Performance Load
+Balancing., 77.
+
+https://nginx.org/en/docs/http/configuring_https_servers.html
+
+https://docs.nginx.com/nginx/admin-guide/security-controls/
+
+Kapranoff, Nginx Troubleshooting, 117.
+
+https://www.cyberciti.biz/tips/linux-unix-bsd-nginx-webserver-security.html
+
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
+
+https://blog.nginx.org/blog/http-strict-transport-security-hsts-and-nginx
+
+**General security aspects**
+
+The :ref:`previous part <module2 describe configure security>` already gives
+insights on what settings can be adjusted to control security aspects of an
+HTTP/HTTPS server. Security of course is a tremendously vast topic and we could
+not cover it all in this point. We will try to cover the most important aspects
+and, as the objective asks for demonstrative capabilities, mostly provide
+detailed examples of concrete security configurations.
+
+**Authentication**
+
+NGINX OSS proposes 2 ways to authenticate requests and protect locations based
+on authentication + authorization rules: HTTP Basic authentication and
+sub-request results. You will find more details on this in :ref:` module 3
+<module3 demonstrate authenticate>`.
+
+**Client-Reverse Proxy flux security**
+
+Securing the connection between the connecting client and NGINX can be achieved
+with the various capabilities for setting up NGINX as an HTTPS server. You will
+find more details on this point in :ref:`module 3 <module3 configure
+certificates>`.
+
+**Reverse Proxy-Upstream servers security**
+
+In order to make sure the communication between NGINX and the upstream servers
+is secured, one can configure HTTPS communication between NGINX and the
+upstream server when proxy passing the requests. The following example shows
+how to do it:
+
+.. code-block:: NGINX
+
+  location / {
+    proxy_pass https://upstream.example.com;
+    proxy_ssl_verify on;
+    proxy_ssl_protocols TLSv1.3;
+
+    proxy_ssl_certificate     /etc/nginx/client.pem;
+    proxy_ssl_certificate_key /etc/nginx/client.key;
+  }
+
+Note that the ``proxy_pass`` directive uses the ``https`` scheme, which enables
+HTTPS with the upstream. The ``proxy_ssl_verify`` directive is set to ``on`` to
+make sure that NGINX verifies the upstream server's certificate (`by default
+<https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_ssl_verify>`,
+this is set to ``off``). The ``proxy_ssl_protocols`` limits the accepted TLS
+version to be used to negotiate the TLS communication.
+
+On another hand, the ``proxy_ssl_certificate`` and
+``proxy_ssl_certificate_key`` define the certificate and key to be used by
+NGINX for setting up a mTLS communication with the upstream server. Indeed, by
+default, only the upstream server must authenticate with its certificate toward
+NGINX. With both these directives, NGINX presents its own certificate to the
+upstream server to ensure the upstream can authenticate the reverse proxy,
+which could be used to perform authorization decisions.
+
+**IP based protections**
+
+When a client connects to NGINX, their IP address is retrieved and can be used
+by NGINX to enforce restrictions based on different rules (geoIP, manually
+defined decisions, etc.). :ref:`Module 3 <module3 restrict ip>` goes further
+into details on how to restrict access based on IP addresses.
+
+**HTTP specific security features**
+
+HTTP and its evolution comes with many specifications, headers and other quirks
+dedicated to security. We could not go over all of them, but it is worth
+mentioning some common hardening features allowed by NGINX. Ideally, the
+upstream servers should be able to define the correct HTTP headers to ensure
+secure content delivery: the upstream is the most tightly intertwined with the
+application logic, it knows what content should be allowed and how. However,
+the power of NGINX is its ability to cope with upstream server not able to add
+such security options.
+
+Secure Cross-Origin Resources Sharing (CORS)
+  The following diagram from `Mozilla's documentation
+  <https://developer.mozilla.org/en-US/docs/Web/http/CORS>`_ presents what is
+  meant by CORS and when it occurs.
+
+  .. image:: /_static/n1-n4/cors_principle.png
+    :alt: Diagram presenting CORS principle
+    :height: 500px
+
+  Basically, if your server serves resources from another domain (say, you host
+  images or scripts used as resources for pages in a websites hosted at
+  ``site1.example.com`` and ``site2.example.com``), you will need to enable
+  CORS for the web clients to be able to fetch the resources you host that are
+  referred to in the pages served by ``site1.example.com`` and
+  ``site2.example.com``.
+
+  .. code-block:: NGINX
+
+    map $request_method $cors_method {
+      OPTIONS 11;
+      GET 1;
+      POST 1;
+      default 0;
+    }
+    server {
+      # ...
+      location / {
+        if ($cors_method ~ '1') {
+        add_header 'Access-Control-Allow-Methods'
+          'GET,POST,OPTIONS';
+        add_header 'Access-Control-Allow-Origin'
+          '*.example.com';
+        add_header 'Access-Control-Allow-Headers'
+          'DNT,Keep-Alive, User-Agent, X-Requested-With, If-Modified-Since, Cache-Control, Content-Type';
+        }
+        if ($cors_method = '11') {
+          add_header 'Access-Control-Max-Age' 1728000;
+          add_header 'Content-Type' 'text/plain; charset=UTF-8';
+          add_header 'Content-Length' 0;
+          return 204;
+        }
+      }
+    }
+
+Clickjacking and Cross-Site Scripting (XSS) protection
+  Clickjacking refers to an attack where a user is tricked into clicking on a
+  link from a different source that what they think (for example, clicking on a
+  "Submit" button inside an iFrame when they think the button belongs to the
+  top level page and not an iFrame). XSS is is a security exploit which allows
+  an attacker to inject into a website malicious client-side code. This code is
+  executed by the victims and lets the attackers bypass access controls and
+  impersonate users. HTTP proposes the standardized **Content-Security-Policy**
+  header to solve these. This one consists of directives where the client
+  receives indication as of which resources are allowed to be fetched from
+  where. The ``add_header Content-Security-Policy "<directive> <value>;";``
+  NGINX directive allows setting up this header on HTTP responses served to the
+  client. The reader is advised to dig deeper in this topic by looking at
+  `documentation
+  <https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy>`_
+  and `examples <https://content-security-policy.com/examples/nginx/>`_.
+
+HTTP Strict Transport Security
+  HTTP Strict Transport Security is an HTTP header indicating to a web client
+  that the host it contacted must be contacted through HTTPS only, and caches
+  this information for a certain (generally long) amount of time. This reduces
+  the attack surface available for an attacker in the middle aiming to
+  intercept initial plain HTTP requests and impersonate these. Indeed, after
+  this header is received once, the client is protected and knows that a plain
+  HTTP response is suspicious and should not be trusted. In order to ensure
+  this, NGINX can, with the directive ``add_header Strict-Transport-Security
+  “max-age=31536000; includeSubDomains” always;``, add the HTTP
+  Strict-Transport-Security header to all responses sent back to the client.
+
+**Location security and magic links**
+
+**Logging**
 
 *TODO*
 
@@ -788,13 +975,15 @@ content. (REGEX, and variables)**
 
 |
 
-**1.3 - Describe how server and location work**
+1.3 - Describe how server and location work
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *TODO*
 
 |
 
-**1.3 - Explain what is unique to NGINX as a web server**
+1.3 - Explain what is unique to NGINX as a web server
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *TODO*
 
@@ -807,50 +996,57 @@ Objective - 1.4 Manage shared memory zones
 |
 |
 
-**1.4 - Explain how traffic routing is handled in NGINX as a reverse proxy**
+1.4 - Explain how traffic routing is handled in NGINX as a reverse proxy
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *TODO*
 
 |
 
-**1.4 - Explain what is unique to NGINX as a reverse proxy**
+1.4 - Explain what is unique to NGINX as a reverse proxy
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *TODO*
 
 |
 
-**1.4 - Configure encryption**
+1.4 - Configure encryption
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *TODO*
 
 |
 
-**1.4 - Demonstrate how to manipulate headers**
+1.4 - Demonstrate how to manipulate headers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *TODO*
 
 |
 
-**1.4 - Describe the difference between proxy_set_header and add_header**
+1.4 - Describe the difference between proxy_set_header and add_header
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *TODO*
 
 |
 
-**1.4 - Modify or tune a memory zone configuration**
+1.4 - Modify or tune a memory zone configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *TODO*
 
 |
 
-**1.4 - Describe how to configure NGINX as socket reserve proxy**
+1.4 - Describe how to configure NGINX as socket reserve proxy
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *TODO*
 
 |
 
-**1.4 - Describe how open source NGINX handles health checks in different
-situations**
+1.4 - Describe how open source NGINX handles health checks in different situations
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *TODO*
 

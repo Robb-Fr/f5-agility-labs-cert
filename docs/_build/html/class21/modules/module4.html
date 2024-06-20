@@ -14,7 +14,7 @@
   <meta name="title" content="F5N4 - Troubleshooting"/>
   <meta name="product" content="Unofficial - F5 Certification Exam Prep Material"/>
   <meta name="version" content=""/>
-  <meta name="updated_date"  content="2024-05-28 02:04:41"/>
+  <meta name="updated_date"  content="2024-06-20 03:51:06"/>
   <meta name="archived" content="Archived documents excluded"/>
   <meta name="doc_type" content="Manual"/>
   <meta name="lifecycle" content="release"/>
@@ -141,9 +141,28 @@
         <span class="nav-sidebartoc">
             <ul>
 <li><a class="reference internal" href="#">F5N4 - Troubleshooting</a><ul>
-<li><a class="reference internal" href="#objective-1-1-demonstrate-how-to-stop-start-and-reload-nginx-binary">Objective - 1.1 Demonstrate how to stop, start, and reload NGINX binary</a></li>
-<li><a class="reference internal" href="#objective-1-2-troubleshoot-basic-use-cases">Objective - 1.2 Troubleshoot basic use cases</a></li>
-<li><a class="reference internal" href="#objective-1-3-troubleshoot-tls-security-settings">Objective - 1.3 Troubleshoot TLS security settings</a></li>
+<li><a class="reference internal" href="#objective-1-1-demonstrate-how-to-stop-start-and-reload-nginx-binary">Objective - 1.1 Demonstrate how to stop, start, and reload NGINX binary</a><ul>
+<li><a class="reference internal" href="#describe-how-to-send-signals-to-the-nginx-process">1.1 - Describe how to send signals to the NGINX process</a></li>
+<li><a class="reference internal" href="#describe-the-difference-between-a-reload-and-a-stop-start">1.1 - Describe the difference between a reload and a stop/start</a></li>
+<li><a class="reference internal" href="#describe-how-to-test-a-new-configuration-before-applying-it">1.1 - Describe how to test a new configuration before applying it</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#objective-1-2-troubleshoot-basic-use-cases">Objective - 1.2 Troubleshoot basic use cases</a><ul>
+<li><a class="reference internal" href="#interpret-logs">1.2 - Interpret logs</a></li>
+<li><a class="reference internal" href="#identify-start-up-failures">1.2 - Identify start up failures</a></li>
+<li><a class="reference internal" href="#describe-how-to-deal-with-http-error-codes">1.2 - Describe how to deal with HTTP error codes</a></li>
+<li><a class="reference internal" href="#describe-how-to-troubleshoot-various-response">1.2 - Describe how to troubleshoot various response</a></li>
+<li><a class="reference internal" href="#describe-how-to-troubleshoot-use-cases-with-multiple-virtual-hosts-multiple-ports-and-default-servers">1.2 - Describe how to troubleshoot use cases with multiple virtual hosts, multiple ports, and default servers</a></li>
+<li><a class="reference internal" href="#describe-how-to-troubleshoot-location-precedence-and-add-header-inheritance">1.2 - Describe how to troubleshoot location precedence and add_header inheritance</a></li>
+<li><a class="reference internal" href="#describe-how-to-troubleshoot-client-and-server-connections">1.2 - Describe how to troubleshoot client and server connections</a></li>
+<li><a class="reference internal" href="#describe-basic-selinux-use-cases">1.2 - Describe basic SELinux use cases</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#objective-1-3-troubleshoot-tls-security-settings">Objective - 1.3 Troubleshoot TLS security settings</a><ul>
+<li><a class="reference internal" href="#identify-tls-connection-errors">1.3 - Identify TLS connection errors</a></li>
+<li><a class="reference internal" href="#describe-how-to-troubleshoot-invalid-certificates">1.3 - Describe how to troubleshoot invalid certificates</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -205,23 +224,29 @@
 <div class="line"><br /></div>
 <div class="line"><br /></div>
 </div>
-<p><strong>1.1 - Describe how to send signals to the NGINX process</strong></p>
+<div class="section" id="describe-how-to-send-signals-to-the-nginx-process">
+<h3>1.1 - Describe how to send signals to the NGINX process<a class="headerlink" href="#describe-how-to-send-signals-to-the-nginx-process" title="Permalink to this headline">¶</a></h3>
 <p><em>TODO</em></p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.1 - Describe the difference between a reload and a stop/start</strong></p>
+</div>
+<div class="section" id="describe-the-difference-between-a-reload-and-a-stop-start">
+<h3>1.1 - Describe the difference between a reload and a stop/start<a class="headerlink" href="#describe-the-difference-between-a-reload-and-a-stop-start" title="Permalink to this headline">¶</a></h3>
 <p><em>TODO</em></p>
 <p>This is a new Troubleshooting</p>
 <p><cite>This is a new link &lt;https://link.com&gt;</cite></p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.1 -Describe how to test a new configuration before applying it</strong></p>
+</div>
+<div class="section" id="describe-how-to-test-a-new-configuration-before-applying-it">
+<h3>1.1 - Describe how to test a new configuration before applying it<a class="headerlink" href="#describe-how-to-test-a-new-configuration-before-applying-it" title="Permalink to this headline">¶</a></h3>
 <p><em>TODO</em></p>
 <div class="line-block">
 <div class="line"><br /></div>
 <div class="line"><br /></div>
+</div>
 </div>
 </div>
 <div class="section" id="objective-1-2-troubleshoot-basic-use-cases">
@@ -230,48 +255,62 @@
 <div class="line"><br /></div>
 <div class="line"><br /></div>
 </div>
-<p><strong>1.2 - Interpret logs</strong></p>
+<div class="section" id="interpret-logs">
+<h3>1.2 - Interpret logs<a class="headerlink" href="#interpret-logs" title="Permalink to this headline">¶</a></h3>
 <p><em>TODO</em></p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.2 - Identify start up failures</strong></p>
+</div>
+<div class="section" id="identify-start-up-failures">
+<h3>1.2 - Identify start up failures<a class="headerlink" href="#identify-start-up-failures" title="Permalink to this headline">¶</a></h3>
 <p><em>TODO</em></p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.2 - Describe how to deal with HTTP error codes</strong></p>
+</div>
+<div class="section" id="describe-how-to-deal-with-http-error-codes">
+<h3>1.2 - Describe how to deal with HTTP error codes<a class="headerlink" href="#describe-how-to-deal-with-http-error-codes" title="Permalink to this headline">¶</a></h3>
 <p><em>TODO</em></p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.2 - Describe how to troubleshoot various response</strong></p>
+</div>
+<div class="section" id="describe-how-to-troubleshoot-various-response">
+<h3>1.2 - Describe how to troubleshoot various response<a class="headerlink" href="#describe-how-to-troubleshoot-various-response" title="Permalink to this headline">¶</a></h3>
 <p><em>TODO</em></p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.2 - Describe how to troubleshoot use cases with multiple virtual hosts,
-multiple ports, and default servers</strong></p>
+</div>
+<div class="section" id="describe-how-to-troubleshoot-use-cases-with-multiple-virtual-hosts-multiple-ports-and-default-servers">
+<h3>1.2 - Describe how to troubleshoot use cases with multiple virtual hosts, multiple ports, and default servers<a class="headerlink" href="#describe-how-to-troubleshoot-use-cases-with-multiple-virtual-hosts-multiple-ports-and-default-servers" title="Permalink to this headline">¶</a></h3>
 <p><em>TODO</em></p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.2 - Describe how to troubleshoot location precedence and add_header
-inheritance</strong></p>
+</div>
+<div class="section" id="describe-how-to-troubleshoot-location-precedence-and-add-header-inheritance">
+<h3>1.2 - Describe how to troubleshoot location precedence and add_header inheritance<a class="headerlink" href="#describe-how-to-troubleshoot-location-precedence-and-add-header-inheritance" title="Permalink to this headline">¶</a></h3>
 <p><em>TODO</em></p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.2 - Describe how to troubleshoot client and server connections</strong></p>
+</div>
+<div class="section" id="describe-how-to-troubleshoot-client-and-server-connections">
+<h3>1.2 - Describe how to troubleshoot client and server connections<a class="headerlink" href="#describe-how-to-troubleshoot-client-and-server-connections" title="Permalink to this headline">¶</a></h3>
 <p><em>TODO</em></p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.2 - Describe basic SELinux use cases</strong></p>
+</div>
+<div class="section" id="describe-basic-selinux-use-cases">
+<h3>1.2 - Describe basic SELinux use cases<a class="headerlink" href="#describe-basic-selinux-use-cases" title="Permalink to this headline">¶</a></h3>
 <p><em>TODO</em></p>
 <div class="line-block">
 <div class="line"><br /></div>
 <div class="line"><br /></div>
+</div>
 </div>
 </div>
 <div class="section" id="objective-1-3-troubleshoot-tls-security-settings">
@@ -280,16 +319,20 @@ inheritance</strong></p>
 <div class="line"><br /></div>
 <div class="line"><br /></div>
 </div>
-<p><strong>1.3 - Identify TLS connection errors</strong></p>
+<div class="section" id="identify-tls-connection-errors">
+<h3>1.3 - Identify TLS connection errors<a class="headerlink" href="#identify-tls-connection-errors" title="Permalink to this headline">¶</a></h3>
 <p><em>TODO</em></p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.3 - Describe how to troubleshoot invalid certificates</strong></p>
+</div>
+<div class="section" id="describe-how-to-troubleshoot-invalid-certificates">
+<h3>1.3 - Describe how to troubleshoot invalid certificates<a class="headerlink" href="#describe-how-to-troubleshoot-invalid-certificates" title="Permalink to this headline">¶</a></h3>
 <p><em>TODO</em></p>
 <div class="line-block">
 <div class="line"><br /></div>
 <div class="line"><br /></div>
+</div>
 </div>
 </div>
 </div>

@@ -14,7 +14,7 @@
   <meta name="title" content="F5N1 - Management"/>
   <meta name="product" content="Unofficial - F5 Certification Exam Prep Material"/>
   <meta name="version" content=""/>
-  <meta name="updated_date"  content="2024-06-19 03:15:47"/>
+  <meta name="updated_date"  content="2024-06-20 03:51:06"/>
   <meta name="archived" content="Archived documents excluded"/>
   <meta name="doc_type" content="Manual"/>
   <meta name="lifecycle" content="release"/>
@@ -143,10 +143,32 @@
             <ul>
 <li><a class="reference internal" href="#">F5N1 - Management</a><ul>
 <li><a class="reference internal" href="#exam-summary">Exam summary</a></li>
-<li><a class="reference internal" href="#objective-1-1-given-a-scenario-identify-when-to-use-nginx">Objective - 1.1 Given a scenario identify when to use NGINX</a></li>
-<li><a class="reference internal" href="#objective-1-2-explain-the-nginx-configuration-directory-structure">Objective - 1.2 Explain the NGINX configuration directory structure</a></li>
-<li><a class="reference internal" href="#objective-1-3-demonstrate-how-to-manage-user-permissions">Objective - 1.3 Demonstrate how to manage user permissions</a></li>
-<li><a class="reference internal" href="#objective-1-4-manage-shared-memory-zones">Objective - 1.4 Manage shared memory zones</a></li>
+<li><a class="reference internal" href="#objective-1-1-given-a-scenario-identify-when-to-use-nginx">Objective - 1.1 Given a scenario identify when to use NGINX</a><ul>
+<li><a class="reference internal" href="#describe-nginx-as-a-web-server">1.1 - Describe NGINX as a web server</a></li>
+<li><a class="reference internal" href="#describe-nginx-as-a-reverse-proxy">1.1 - Describe NGINX as a reverse proxy</a></li>
+<li><a class="reference internal" href="#describe-nginx-as-a-load-balancer">1.1 - Describe NGINX as a load balancer</a></li>
+<li><a class="reference internal" href="#describe-nginx-as-a-caching-solution">1.1 - Describe NGINX as a caching solution</a></li>
+<li><a class="reference internal" href="#describe-nginx-as-an-api-gateway">1.1 - Describe NGINX as an API gateway</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#objective-1-2-explain-the-nginx-configuration-directory-structure">Objective - 1.2 Explain the NGINX configuration directory structure</a><ul>
+<li><a class="reference internal" href="#identify-the-default-nginx-core-config-file">1.2 - Identify the default NGINX core config file</a></li>
+<li><a class="reference internal" href="#identify-the-included-directories-files">1.2 - Identify the included directories/files</a></li>
+<li><a class="reference internal" href="#describe-directive-inheritance-and-overriding-properties">1.2 - Describe directive inheritance and overriding properties</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#objective-1-3-demonstrate-how-to-manage-user-permissions">Objective - 1.3 Demonstrate how to manage user permissions</a><ul>
+<li><a class="reference internal" href="#user-context-identification">1.3 - Identify user context (i.e. using the configuration file)</a></li>
+<li><a class="reference internal" href="#describe-how-and-when-to-give-read-write-execute-access">1.3 - Describe how and when to give read/write/execute access</a></li>
+<li><a class="reference internal" href="#describe-how-to-run-nginx-as-a-specific-user-type">1.3 - Describe how to run NGINX as a specific user type</a></li>
+<li><a class="reference internal" href="#describe-the-relationship-between-nginx-processes-and-users">1.3 - Describe the relationship between NGINX processes and users</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#objective-1-4-manage-shared-memory-zones">Objective - 1.4 Manage shared memory zones</a><ul>
+<li><a class="reference internal" href="#describe-how-and-why-nginx-uses-shared-memory-zones">1.4 - Describe how and why NGINX uses shared memory zones</a></li>
+<li><a class="reference internal" href="#describe-why-directives-use-a-shared-memory-zone">1.4 - Describe why directives use a shared memory zone</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -224,7 +246,8 @@ organisation</em> and <em>as a Linux process</em>.</p>
 <div class="line"><br /></div>
 <div class="line"><br /></div>
 </div>
-<p><strong>1.1 - Describe NGINX as a web server</strong></p>
+<div class="section" id="describe-nginx-as-a-web-server">
+<h3>1.1 - Describe NGINX as a web server<a class="headerlink" href="#describe-nginx-as-a-web-server" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference external" href="https://nginx.org/en/">https://nginx.org/en/</a></p>
 <p><a class="reference external" href="https://docs.nginx.com/nginx/admin-guide/web-server/web-server/">https://docs.nginx.com/nginx/admin-guide/web-server/web-server/</a></p>
 <p>Slide 11 <a class="reference external" href="https://f5u.csod.com/ui/lms-learning-details/app/course/f62cdc17-e0df-4117-820c-6270100981a2">https://f5u.csod.com/ui/lms-learning-details/app/course/f62cdc17-e0df-4117-820c-6270100981a2</a></p>
@@ -257,7 +280,9 @@ would serve content from the host’s <code class="docutils literal notranslate"
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.1 - Describe NGINX as a reverse proxy</strong></p>
+</div>
+<div class="section" id="describe-nginx-as-a-reverse-proxy">
+<h3>1.1 - Describe NGINX as a reverse proxy<a class="headerlink" href="#describe-nginx-as-a-reverse-proxy" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference external" href="https://www.cloudflare.com/learning/cdn/glossary/reverse-proxy/">https://www.cloudflare.com/learning/cdn/glossary/reverse-proxy/</a></p>
 <p><a class="reference external" href="https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/">https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/</a></p>
 <p><a class="reference external" href="https://nginx.org/en/docs/http/ngx_http_proxy_module.html">https://nginx.org/en/docs/http/ngx_http_proxy_module.html</a></p>
@@ -293,7 +318,9 @@ specified as a domain name or an IP address.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.1 - Describe NGINX as a load balancer</strong></p>
+</div>
+<div class="section" id="describe-nginx-as-a-load-balancer">
+<h3>1.1 - Describe NGINX as a load balancer<a class="headerlink" href="#describe-nginx-as-a-load-balancer" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference external" href="https://www.cloudflare.com/learning/performance/what-is-load-balancing/">https://www.cloudflare.com/learning/performance/what-is-load-balancing/</a></p>
 <p><a class="reference external" href="https://nginx.org/en/docs/http/load_balancing.html">https://nginx.org/en/docs/http/load_balancing.html</a></p>
 <p><a class="reference external" href="https://docs.nginx.com/nginx/admin-guide/load-balancer/">https://docs.nginx.com/nginx/admin-guide/load-balancer/</a></p>
@@ -338,7 +365,9 @@ and nginx applies HTTP load balancing to distribute the requests.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.1 - Describe NGINX as a caching solution</strong></p>
+</div>
+<div class="section" id="describe-nginx-as-a-caching-solution">
+<span id="module1-describe-nginx-caching"></span><h3>1.1 - Describe NGINX as a caching solution<a class="headerlink" href="#describe-nginx-as-a-caching-solution" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference external" href="https://aws.amazon.com/caching/">https://aws.amazon.com/caching/</a></p>
 <p><a class="reference external" href="https://docs.nginx.com/nginx/admin-guide/content-cache/content-caching/">https://docs.nginx.com/nginx/admin-guide/content-cache/content-caching/</a></p>
 <p><a class="reference external" href="https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache">https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache</a></p>
@@ -463,7 +492,9 @@ content served by an application when it acts as a reverse proxy.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.1 - Describe NGINX as an API gateway</strong></p>
+</div>
+<div class="section" id="describe-nginx-as-an-api-gateway">
+<h3>1.1 - Describe NGINX as an API gateway<a class="headerlink" href="#describe-nginx-as-an-api-gateway" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference external" href="https://www.redhat.com/en/topics/api/what-does-an-api-gateway-do">https://www.redhat.com/en/topics/api/what-does-an-api-gateway-do</a></p>
 <p><a class="reference external" href="https://www.f5.com/company/blog/nginx/deploying-nginx-plus-as-an-api-gateway-part-1">https://www.f5.com/company/blog/nginx/deploying-nginx-plus-as-an-api-gateway-part-1</a></p>
 <p><strong>What is an API gateway</strong></p>
@@ -508,13 +539,15 @@ as an API gateway.</p>
 <div class="line"><br /></div>
 </div>
 </div>
+</div>
 <div class="section" id="objective-1-2-explain-the-nginx-configuration-directory-structure">
 <h2>Objective - 1.2 Explain the NGINX configuration directory structure<a class="headerlink" href="#objective-1-2-explain-the-nginx-configuration-directory-structure" title="Permalink to this headline">¶</a></h2>
 <div class="line-block">
 <div class="line"><br /></div>
 <div class="line"><br /></div>
 </div>
-<p><strong>1.2 - Identify the default NGINX core config file</strong></p>
+<div class="section" id="identify-the-default-nginx-core-config-file">
+<h3>1.2 - Identify the default NGINX core config file<a class="headerlink" href="#identify-the-default-nginx-core-config-file" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference external" href="https://docs.nginx.com/nginx/admin-guide/basic-functionality/managing-configuration-files/">https://docs.nginx.com/nginx/admin-guide/basic-functionality/managing-configuration-files/</a></p>
 <p><a class="reference external" href="https://stackoverflow.com/questions/19910042/locate-the-nginx-conf-file-my-nginx-is-actually-using">https://stackoverflow.com/questions/19910042/locate-the-nginx-conf-file-my-nginx-is-actually-using</a></p>
 <p><a class="reference external" href="http://hg.nginx.org/pkg-oss/file/tip/debian/debian/nginx.conf">http://hg.nginx.org/pkg-oss/file/tip/debian/debian/nginx.conf</a></p>
@@ -524,8 +557,8 @@ installing NGINX, a default core config file will be created and configure a
 default NGINX web server. By default, the file is named <code class="docutils literal notranslate"><span class="pre">nginx.conf</span></code> and for
 NGINX Plus is placed in the <code class="docutils literal notranslate"><span class="pre">/etc/nginx</span> <span class="pre">directory</span></code>. (For NGINX Open Source,
 the location depends on the package system used to install NGINX and the
-operating system. It is typically one of <code class="docutils literal notranslate"><span class="pre">/usr/local/nginx/conf</span></code>, <code class="docutils literal notranslate"><span class="pre">/etc/nginx</span></code>,
-or <code class="docutils literal notranslate"><span class="pre">/usr/local/etc/nginx</span></code>).</p>
+operating system. It is typically one of <code class="docutils literal notranslate"><span class="pre">/usr/local/nginx/conf</span></code>,
+<code class="docutils literal notranslate"><span class="pre">/etc/nginx</span></code>, or <code class="docutils literal notranslate"><span class="pre">/usr/local/etc/nginx</span></code>).</p>
 <p>The default configuration may vary depending on your installation source
 (different distribution maintained APT repositories, NGINX maintained APT
 repositories, …). The following is installed when NGINX is installed from the
@@ -570,7 +603,9 @@ the actually loaded configuration by NGINX.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.2 - Identify the included directories/files</strong></p>
+</div>
+<div class="section" id="identify-the-included-directories-files">
+<h3>1.2 - Identify the included directories/files<a class="headerlink" href="#identify-the-included-directories-files" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference external" href="http://nginx.org/en/docs/ngx_core_module.html#include">http://nginx.org/en/docs/ngx_core_module.html#include</a></p>
 <p><a class="reference external" href="https://docs.nginx.com/nginx/admin-guide/basic-functionality/managing-configuration-files/">https://docs.nginx.com/nginx/admin-guide/basic-functionality/managing-configuration-files/</a></p>
 <p><a class="reference external" href="https://www.f5.com/company/blog/nginx/deploying-nginx-plus-as-an-api-gateway-part-1#organize-config">https://www.f5.com/company/blog/nginx/deploying-nginx-plus-as-an-api-gateway-part-1#organize-config</a></p>
@@ -722,7 +757,9 @@ inheritance concept, please keep reading to understand how the context works.</p
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.2 - Describe directive inheritance and overriding properties</strong></p>
+</div>
+<div class="section" id="describe-directive-inheritance-and-overriding-properties">
+<h3>1.2 - Describe directive inheritance and overriding properties<a class="headerlink" href="#describe-directive-inheritance-and-overriding-properties" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference external" href="https://docs.nginx.com/nginx/admin-guide/basic-functionality/managing-configuration-files/">https://docs.nginx.com/nginx/admin-guide/basic-functionality/managing-configuration-files/</a></p>
 <p><a class="reference external" href="https://www.slingacademy.com/article/nginx-base-module-directives-complete-guide/#Variables_and_Inheritance_in_NGINX">https://www.slingacademy.com/article/nginx-base-module-directives-complete-guide/#Variables_and_Inheritance_in_NGINX</a></p>
 <p><a class="reference external" href="https://blog.martinfjordvald.com/understanding-the-nginx-configuration-inheritance-model/">https://blog.martinfjordvald.com/understanding-the-nginx-configuration-inheritance-model/</a></p>
@@ -867,13 +904,15 @@ would other directives.</p>
 <div class="line"><br /></div>
 </div>
 </div>
+</div>
 <div class="section" id="objective-1-3-demonstrate-how-to-manage-user-permissions">
 <h2>Objective - 1.3 Demonstrate how to manage user permissions<a class="headerlink" href="#objective-1-3-demonstrate-how-to-manage-user-permissions" title="Permalink to this headline">¶</a></h2>
 <div class="line-block">
 <div class="line"><br /></div>
 <div class="line"><br /></div>
 </div>
-<p id="user-context-identification"><strong>1.3 - Identify user context (i.e. using the configuration file)</strong></p>
+<div class="section" id="user-context-identification">
+<span id="identify-user-context-i-e-using-the-configuration-file"></span><h3>1.3 - Identify user context (i.e. using the configuration file)<a class="headerlink" href="#user-context-identification" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference external" href="https://nginx.org/en/docs/ngx_core_module.html#user">https://nginx.org/en/docs/ngx_core_module.html#user</a></p>
 <p><a class="reference external" href="https://stackoverflow.com/questions/42329261/running-nginx-as-non-root-user">https://stackoverflow.com/questions/42329261/running-nginx-as-non-root-user</a></p>
 <p><strong>The user directive</strong></p>
@@ -887,7 +926,9 @@ on ports above 1024.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.3 - Describe how and when to give read/write/execute access</strong></p>
+</div>
+<div class="section" id="describe-how-and-when-to-give-read-write-execute-access">
+<h3>1.3 - Describe how and when to give read/write/execute access<a class="headerlink" href="#describe-how-and-when-to-give-read-write-execute-access" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference external" href="https://www.slingacademy.com/article/nginx-user-and-group-explained-with-examples/">https://www.slingacademy.com/article/nginx-user-and-group-explained-with-examples/</a></p>
 <p><a class="reference external" href="https://linuxize.com/post/chmod-command-in-linux/">https://linuxize.com/post/chmod-command-in-linux/</a></p>
 <p><strong>NGINX users and tasks</strong></p>
@@ -936,7 +977,9 @@ configuration will give you information about problematic access write
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.3 - Describe how to run NGINX as a specific user type</strong></p>
+</div>
+<div class="section" id="describe-how-to-run-nginx-as-a-specific-user-type">
+<h3>1.3 - Describe how to run NGINX as a specific user type<a class="headerlink" href="#describe-how-to-run-nginx-as-a-specific-user-type" title="Permalink to this headline">¶</a></h3>
 <p>As describe in <a class="reference internal" href="#user-context-identification">user context identification</a>, the <code class="docutils literal notranslate"><span class="pre">user</span></code> directive in the
 configuration file defines the Linux user under which the NGINX worker will
 run. Changing this to the desired user allows to run the NGINX as a specific
@@ -945,7 +988,9 @@ for the system to run.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.3 - Describe the relationship between NGINX processes and users</strong></p>
+</div>
+<div class="section" id="describe-the-relationship-between-nginx-processes-and-users">
+<h3>1.3 - Describe the relationship between NGINX processes and users<a class="headerlink" href="#describe-the-relationship-between-nginx-processes-and-users" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference external" href="http://haifux.org/lectures/84-sil/users-processes-files-and-permissions/users-perms-lec.html">http://haifux.org/lectures/84-sil/users-processes-files-and-permissions/users-perms-lec.html</a></p>
 <p><a class="reference external" href="http://nginx.org/en/docs/control.html">http://nginx.org/en/docs/control.html</a></p>
 <p><strong>Linux processes</strong></p>
@@ -989,16 +1034,20 @@ our case, the <code class="docutils literal notranslate"><span class="pre">root<
 <div class="line"><br /></div>
 </div>
 </div>
+</div>
 <div class="section" id="objective-1-4-manage-shared-memory-zones">
 <h2>Objective - 1.4 Manage shared memory zones<a class="headerlink" href="#objective-1-4-manage-shared-memory-zones" title="Permalink to this headline">¶</a></h2>
 <div class="line-block">
 <div class="line"><br /></div>
 <div class="line"><br /></div>
 </div>
-<p><strong>1.4 - Describe how and why NGINX uses shared memory zones</strong></p>
+<div class="section" id="describe-how-and-why-nginx-uses-shared-memory-zones">
+<span id="module1-shared-memory-zones"></span><h3>1.4 - Describe how and why NGINX uses shared memory zones<a class="headerlink" href="#describe-how-and-why-nginx-uses-shared-memory-zones" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference external" href="https://stackoverflow.com/questions/38295426/what-does-the-shared-memory-zone-mean-in-nginx">https://stackoverflow.com/questions/38295426/what-does-the-shared-memory-zone-mean-in-nginx</a></p>
 <p><a class="reference external" href="https://nginx.org/en/docs/dev/development_guide.html#shared_memory">https://nginx.org/en/docs/dev/development_guide.html#shared_memory</a></p>
 <p><a class="reference external" href="https://thelinuxcode.com/using_mmap_function_linux/">https://thelinuxcode.com/using_mmap_function_linux/</a></p>
+<p>DEJONGHE, NGINX COOKBOOK Advanced Recipes for High -Performance Load
+Balancing., 34</p>
 <p><strong>Shared memory zones in Linux</strong></p>
 <p>Getting back to basics, system oriented software use system calls to ask their
 host operating system to allocate memory for them. Usually, for simple
@@ -1069,18 +1118,22 @@ use. <a class="reference internal" href="#cookbook-p34" id="id1">[COOKBOOK_P34]<
 -Performance Load Balancing., 34.</td></tr>
 </tbody>
 </table>
-<p><strong>1.4 - Describe why directives use a shared memory zone</strong></p>
-<p>The above example and description also answers this aspect. We could summarize
-this by the following: for some specific needs (such as consistent rate
-limiting), NGINX workers need to share very efficiently information for quickly
-reading and writing data and efficiently serve or block clients. Shared memory
-zones allow defining and assign OS backed memory zones that can be written and
-read by multiple NGINX workers. Doing so, they can share and update each other
-to fulfil the contract of some directives (such as rate limiting) with an
-efficient inter process communication channel.</p>
+</div>
+<div class="section" id="describe-why-directives-use-a-shared-memory-zone">
+<h3>1.4 - Describe why directives use a shared memory zone<a class="headerlink" href="#describe-why-directives-use-a-shared-memory-zone" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference internal" href="#module1-shared-memory-zones"><span class="std std-ref">above example and description</span></a> also
+answers this aspect. We could summarize this by the following: for some
+specific needs (such as consistent rate limiting), NGINX workers need to share
+very efficiently information for quickly reading and writing data and
+efficiently serve or block clients. Shared memory zones allow defining and
+assign OS backed memory zones that can be written and read by multiple NGINX
+workers. Doing so, they can share and update each other to fulfil the contract
+of some directives (such as rate limiting) with an efficient inter process
+communication channel.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 <div class="line"><br /></div>
+</div>
 </div>
 </div>
 </div>

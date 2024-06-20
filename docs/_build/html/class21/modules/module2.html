@@ -14,7 +14,7 @@
   <meta name="title" content="F5N2 - Configuration: Knowledge"/>
   <meta name="product" content="Unofficial - F5 Certification Exam Prep Material"/>
   <meta name="version" content=""/>
-  <meta name="updated_date"  content="2024-06-19 03:15:47"/>
+  <meta name="updated_date"  content="2024-06-20 03:51:06"/>
   <meta name="archived" content="Archived documents excluded"/>
   <meta name="doc_type" content="Manual"/>
   <meta name="lifecycle" content="release"/>
@@ -142,10 +142,47 @@
         <span class="nav-sidebartoc">
             <ul>
 <li><a class="reference internal" href="#">F5N2 - Configuration: Knowledge</a><ul>
-<li><a class="reference internal" href="#objective-1-1-configure-nginx-as-a-load-balancer">Objective - 1.1 Configure NGINX as a load balancer</a></li>
-<li><a class="reference internal" href="#objective-1-2-configure-nginx-as-a-content-cache-server">Objective - 1.2 Configure NGINX as a content cache server</a></li>
-<li><a class="reference internal" href="#objective-1-3-configure-nginx-as-a-web-server">Objective - 1.3 Configure NGINX as a web server</a></li>
-<li><a class="reference internal" href="#objective-1-4-manage-shared-memory-zones">Objective - 1.4 Manage shared memory zones</a></li>
+<li><a class="reference internal" href="#objective-1-1-configure-nginx-as-a-load-balancer">Objective - 1.1 Configure NGINX as a load balancer</a><ul>
+<li><a class="reference internal" href="#define-the-load-balancing-pools-systems">1.1 - Define the load balancing pools/systems</a></li>
+<li><a class="reference internal" href="#explain-the-different-load-balancing-algorithms">1.1 - Explain the different load balancing algorithms</a></li>
+<li><a class="reference internal" href="#describe-the-process-used-to-remove-a-server-from-the-pool">1.1 - Describe the process used to remove a server from the pool</a></li>
+<li><a class="reference internal" href="#describe-what-happens-when-a-pool-server-goes-down">1.1 - Describe what happens when a pool server goes down</a></li>
+<li><a class="reference internal" href="#explain-what-is-unique-to-nginx-as-a-load-balancer">1.1 - Explain what is unique to NGINX as a load balancer</a></li>
+<li><a class="reference internal" href="#describe-how-to-configure-security">1.1 - Describe how to configure security</a></li>
+<li><a class="reference internal" href="#modify-or-tune-a-memory-zone-configuration">1.1 - Modify or tune a memory zone configuration</a></li>
+<li><a class="reference internal" href="#describe-how-to-configure-nginx-as-mirroring-server">1.1 - Describe how to configure NGINX as mirroring server</a></li>
+<li><a class="reference internal" href="#describe-how-to-configure-nginx-as-a-layer-4-load-balancer">1.1 - Describe how to configure NGINX as a layer 4 load balancer</a></li>
+<li><a class="reference internal" href="#describe-how-to-configure-nginx-as-an-api-gateway">1.1 - Describe how to configure NGINX as an API Gateway</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#objective-1-2-configure-nginx-as-a-content-cache-server">Objective - 1.2 Configure NGINX as a content cache server</a><ul>
+<li><a class="reference internal" href="#define-a-minimum-retention-policy">1.2 - Define a minimum retention policy</a></li>
+<li><a class="reference internal" href="#describe-how-to-configure-path-regex-routing">1.2 - Describe how to configure path REGEX routing</a></li>
+<li><a class="reference internal" href="#describe-the-why-and-how-of-caching-in-nginx">1.2 - Describe the why and how of caching in NGINX</a></li>
+<li><a class="reference internal" href="#define-the-cache-in-the-http-context">1.2 - Define the cache in the http context</a></li>
+<li><a class="reference internal" href="#enable-the-cache">1.2 - Enable the cache</a></li>
+<li><a class="reference internal" href="#specify-the-content-that-should-be-cached">1.2 - Specify the content that should be cached</a></li>
+<li><a class="reference internal" href="#describe-different-types-of-caching">1.2 - Describe different types of caching</a></li>
+<li><a class="reference internal" href="#explain-what-is-unique-to-nginx-as-a-cache-server">1.2 - Explain what is unique to NGINX as a cache server</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#objective-1-3-configure-nginx-as-a-web-server">Objective - 1.3 Configure NGINX as a web server</a><ul>
+<li><a class="reference internal" href="#demonstrate-how-to-securely-serve-content-http-https">1.3 - Demonstrate how to securely serve content (HTTP/HTTPS)</a></li>
+<li><a class="reference internal" href="#describe-how-server-and-location-work">1.3 - Describe how server and location work</a></li>
+<li><a class="reference internal" href="#explain-what-is-unique-to-nginx-as-a-web-server">1.3 - Explain what is unique to NGINX as a web server</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#objective-1-4-manage-shared-memory-zones">Objective - 1.4 Manage shared memory zones</a><ul>
+<li><a class="reference internal" href="#explain-how-traffic-routing-is-handled-in-nginx-as-a-reverse-proxy">1.4 - Explain how traffic routing is handled in NGINX as a reverse proxy</a></li>
+<li><a class="reference internal" href="#explain-what-is-unique-to-nginx-as-a-reverse-proxy">1.4 - Explain what is unique to NGINX as a reverse proxy</a></li>
+<li><a class="reference internal" href="#configure-encryption">1.4 - Configure encryption</a></li>
+<li><a class="reference internal" href="#demonstrate-how-to-manipulate-headers">1.4 - Demonstrate how to manipulate headers</a></li>
+<li><a class="reference internal" href="#describe-the-difference-between-proxy-set-header-and-add-header">1.4 - Describe the difference between proxy_set_header and add_header</a></li>
+<li><a class="reference internal" href="#id1">1.4 - Modify or tune a memory zone configuration</a></li>
+<li><a class="reference internal" href="#describe-how-to-configure-nginx-as-socket-reserve-proxy">1.4 - Describe how to configure NGINX as socket reserve proxy</a></li>
+<li><a class="reference internal" href="#describe-how-open-source-nginx-handles-health-checks-in-different-situations">1.4 - Describe how open source NGINX handles health checks in different situations</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -207,10 +244,11 @@
 <div class="line"><br /></div>
 <div class="line"><br /></div>
 </div>
-<p><strong>1.1 - Define the load balancing pools/systems</strong></p>
+<div class="section" id="define-the-load-balancing-pools-systems">
+<h3>1.1 - Define the load balancing pools/systems<a class="headerlink" href="#define-the-load-balancing-pools-systems" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference external" href="http://nginx.org/en/docs/http/load_balancing.html">http://nginx.org/en/docs/http/load_balancing.html</a></p>
 <p><a class="reference external" href="https://docs.nginx.com/nginx/admin-guide/load-balancer/tcp-udp-load-balancer/">https://docs.nginx.com/nginx/admin-guide/load-balancer/tcp-udp-load-balancer/</a></p>
-<p><strong>``upstream`` directive</strong></p>
+<p><strong>upstream directive</strong></p>
 <p>Defining a load balancing pool is as simple as writing the <code class="docutils literal notranslate"><span class="pre">upstream</span></code>
 directive in an <code class="docutils literal notranslate"><span class="pre">http</span></code> or <code class="docutils literal notranslate"><span class="pre">stream</span></code> block. Please refer to the referenced
 pages for details.</p>
@@ -241,7 +279,9 @@ and nginx applies HTTP load balancing to distribute the requests.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.1 - Explain the different load balancing algorithms</strong></p>
+</div>
+<div class="section" id="explain-the-different-load-balancing-algorithms">
+<h3>1.1 - Explain the different load balancing algorithms<a class="headerlink" href="#explain-the-different-load-balancing-algorithms" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference external" href="https://docs.nginx.com/nginx/admin-guide/load-balancer/http-load-balancer/#choosing-a-load-balancing-method">https://docs.nginx.com/nginx/admin-guide/load-balancer/http-load-balancer/#choosing-a-load-balancing-method</a></p>
 <p><strong>Different algorithms for different needs</strong></p>
 <p>The referenced resource explains in details each algorithm. The algorithms
@@ -259,7 +299,9 @@ defined weight.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.1 - Describe the process used to remove a server from the pool</strong></p>
+</div>
+<div class="section" id="describe-the-process-used-to-remove-a-server-from-the-pool">
+<h3>1.1 - Describe the process used to remove a server from the pool<a class="headerlink" href="#describe-the-process-used-to-remove-a-server-from-the-pool" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference external" href="https://docs.nginx.com/nginx/admin-guide/load-balancer/http-health-check/#passive-health-checks">https://docs.nginx.com/nginx/admin-guide/load-balancer/http-health-check/#passive-health-checks</a></p>
 <p><a class="reference external" href="https://nginx.org/en/docs/http/load_balancing.html">https://nginx.org/en/docs/http/load_balancing.html</a></p>
 <p><a class="reference external" href="https://nginx.org/en/docs/http/ngx_http_upstream_module.html#server">https://nginx.org/en/docs/http/ngx_http_upstream_module.html#server</a></p>
@@ -312,12 +354,16 @@ one.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.1 - Describe what happens when a pool server goes down</strong></p>
+</div>
+<div class="section" id="describe-what-happens-when-a-pool-server-goes-down">
+<h3>1.1 - Describe what happens when a pool server goes down<a class="headerlink" href="#describe-what-happens-when-a-pool-server-goes-down" title="Permalink to this headline">¶</a></h3>
 <p>This aspect is covered in the previous part on <a class="reference internal" href="#health-check">health check</a>.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.1 - Explain what is unique to NGINX as a load balancer</strong></p>
+</div>
+<div class="section" id="explain-what-is-unique-to-nginx-as-a-load-balancer">
+<h3>1.1 - Explain what is unique to NGINX as a load balancer<a class="headerlink" href="#explain-what-is-unique-to-nginx-as-a-load-balancer" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference external" href="https://www.f5.com/company/events/webinars/nginx-plus-for-load-balancing-30-min">https://www.f5.com/company/events/webinars/nginx-plus-for-load-balancing-30-min</a>
 (from 6:40 to 10:20 notably)</p>
 <p><strong>What are the other load balancing methods</strong></p>
@@ -374,7 +420,9 @@ types of load balancers.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.1 -Describe how to configure security</strong></p>
+</div>
+<div class="section" id="describe-how-to-configure-security">
+<span id="module2-describe-configure-security"></span><h3>1.1 - Describe how to configure security<a class="headerlink" href="#describe-how-to-configure-security" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference external" href="https://docs.nginx.com/nginx/admin-guide/security-controls/">https://docs.nginx.com/nginx/admin-guide/security-controls/</a></p>
 <p><a class="reference external" href="https://docs.nginx.com/nginx/admin-guide/monitoring/logging/">https://docs.nginx.com/nginx/admin-guide/monitoring/logging/</a></p>
 <p><strong>L4-L7 security</strong></p>
@@ -407,7 +455,9 @@ easy to configure log sending to a syslog server.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.1 - Modify or tune a memory zone configuration</strong></p>
+</div>
+<div class="section" id="modify-or-tune-a-memory-zone-configuration">
+<h3>1.1 - Modify or tune a memory zone configuration<a class="headerlink" href="#modify-or-tune-a-memory-zone-configuration" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference external" href="http://nginx.org/en/docs/http/ngx_http_limit_conn_module.html#limit_conn_zone">http://nginx.org/en/docs/http/ngx_http_limit_conn_module.html#limit_conn_zone</a></p>
 <p><a class="reference external" href="http://nginx.org/en/docs/http/ngx_http_limit_req_module.html#limit_req_zone">http://nginx.org/en/docs/http/ngx_http_limit_req_module.html#limit_req_zone</a></p>
 <p><a class="reference external" href="http://nginx.org/en/docs/http/ngx_http_js_module.html#js_shared_dict_zone">http://nginx.org/en/docs/http/ngx_http_js_module.html#js_shared_dict_zone</a></p>
@@ -415,9 +465,9 @@ easy to configure log sending to a syslog server.</p>
 <p><a class="reference external" href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#zone">http://nginx.org/en/docs/http/ngx_http_upstream_module.html#zone</a></p>
 <p><strong>Memory zones in NGINX</strong></p>
 <p>When configuring memory zones in NGINX, we generally refer to shared memory
-zones, as seen and explained in the previous part. To modify or tune these, we
-must first identify where they appear in our NGINX configurations. In NGINX
-OSS, shared memory zones can be configured in the following contexts:</p>
+zones, as seen and explained in <a class="reference internal" href="module1.html#module1-shared-memory-zones"><span class="std std-ref">the previous module</span></a>. To modify or tune these, we must first identify where they
+appear in our NGINX configurations. In NGINX OSS, shared memory zones can be
+configured in the following contexts:</p>
 <ul class="simple">
 <li>The connection limiting: sharing across worker the state of clients
 regarding the amount of connection requests.</li>
@@ -444,7 +494,9 @@ links to the documentation.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.1 - Describe how to configure NGINX as mirroring server</strong></p>
+</div>
+<div class="section" id="describe-how-to-configure-nginx-as-mirroring-server">
+<h3>1.1 - Describe how to configure NGINX as mirroring server<a class="headerlink" href="#describe-how-to-configure-nginx-as-mirroring-server" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference external" href="https://alex.dzyoba.com/blog/nginx-mirror/">https://alex.dzyoba.com/blog/nginx-mirror/</a></p>
 <p><a class="reference external" href="http://nginx.org/en/docs/http/ngx_http_mirror_module.html">http://nginx.org/en/docs/http/ngx_http_mirror_module.html</a></p>
 <p><a class="reference external" href="https://thelinuxnotes.com/index.php/mirroring-requests-to-another-server-with-nginx/">https://thelinuxnotes.com/index.php/mirroring-requests-to-another-server-with-nginx/</a></p>
@@ -489,7 +541,9 @@ picked from the <code class="docutils literal notranslate"><span class="pre">tes
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.1 - Describe how to configure NGINX as a layer 4 load balancer</strong></p>
+</div>
+<div class="section" id="describe-how-to-configure-nginx-as-a-layer-4-load-balancer">
+<h3>1.1 - Describe how to configure NGINX as a layer 4 load balancer<a class="headerlink" href="#describe-how-to-configure-nginx-as-a-layer-4-load-balancer" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference external" href="https://docs.nginx.com/nginx/admin-guide/load-balancer/tcp-udp-load-balancer/">https://docs.nginx.com/nginx/admin-guide/load-balancer/tcp-udp-load-balancer/</a></p>
 <p><strong>TCP/UDP load balancing</strong></p>
 <p>In the same fashion as NGINX can be configured as a Layer 7 (HTTP) load
@@ -522,7 +576,9 @@ hash algorithm by taking the remote client’s address as a key.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.1 - Describe how to configure NGINX as an API Gateway</strong></p>
+</div>
+<div class="section" id="describe-how-to-configure-nginx-as-an-api-gateway">
+<h3>1.1 - Describe how to configure NGINX as an API Gateway<a class="headerlink" href="#describe-how-to-configure-nginx-as-an-api-gateway" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference external" href="https://www.f5.com/company/blog/nginx/deploying-nginx-plus-as-an-api-gateway-part-1">https://www.f5.com/company/blog/nginx/deploying-nginx-plus-as-an-api-gateway-part-1</a></p>
 <p><a class="reference external" href="https://www.f5.com/company/blog/nginx/deploying-nginx-plus-as-an-api-gateway-part-2-protecting-backend-services">https://www.f5.com/company/blog/nginx/deploying-nginx-plus-as-an-api-gateway-part-2-protecting-backend-services</a></p>
 <p><a class="reference external" href="https://www.f5.com/company/blog/nginx/deploying-nginx-plus-as-an-api-gateway-part-3-publishing-grpc-services">https://www.f5.com/company/blog/nginx/deploying-nginx-plus-as-an-api-gateway-part-3-publishing-grpc-services</a></p>
@@ -585,13 +641,15 @@ and efficient API gateway.</p>
 <div class="line"><br /></div>
 </div>
 </div>
+</div>
 <div class="section" id="objective-1-2-configure-nginx-as-a-content-cache-server">
 <h2>Objective - 1.2 Configure NGINX as a content cache server<a class="headerlink" href="#objective-1-2-configure-nginx-as-a-content-cache-server" title="Permalink to this headline">¶</a></h2>
 <div class="line-block">
 <div class="line"><br /></div>
 <div class="line"><br /></div>
 </div>
-<p><strong>1.2 - Define a minimum retention policy</strong></p>
+<div class="section" id="define-a-minimum-retention-policy">
+<h3>1.2 - Define a minimum retention policy<a class="headerlink" href="#define-a-minimum-retention-policy" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference external" href="https://blog.nginx.org/blog/nginx-caching-guide">https://blog.nginx.org/blog/nginx-caching-guide</a></p>
 <p><a class="reference external" href="https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_path">https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_path</a></p>
 <p><strong>Minimum retention policy</strong></p>
@@ -609,7 +667,9 @@ cache if they are not hit often enough and many other cache write are coming)</p
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.2 - Describe how to configure path REGEX routing</strong></p>
+</div>
+<div class="section" id="describe-how-to-configure-path-regex-routing">
+<h3>1.2 - Describe how to configure path REGEX routing<a class="headerlink" href="#describe-how-to-configure-path-regex-routing" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference external" href="https://www.f5.com/company/blog/nginx/regular-expression-tester-nginx">https://www.f5.com/company/blog/nginx/regular-expression-tester-nginx</a></p>
 <p><a class="reference external" href="https://nginx.org/en/docs/http/ngx_http_core_module.html#location">https://nginx.org/en/docs/http/ngx_http_core_module.html#location</a></p>
 <p><a class="reference external" href="https://nginx.org/en/docs/http/request_processing.html">https://nginx.org/en/docs/http/request_processing.html</a></p>
@@ -668,7 +728,9 @@ definitions in NGINX.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.2 - Describe the why and how of caching in NGINX</strong></p>
+</div>
+<div class="section" id="describe-the-why-and-how-of-caching-in-nginx">
+<h3>1.2 - Describe the why and how of caching in NGINX<a class="headerlink" href="#describe-the-why-and-how-of-caching-in-nginx" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference external" href="https://docs.nginx.com/nginx/admin-guide/content-cache/content-caching/">https://docs.nginx.com/nginx/admin-guide/content-cache/content-caching/</a></p>
 <p>Kapranoff, Nginx Troubleshooting, 82.</p>
 <p><a class="reference external" href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html">http://nginx.org/en/docs/http/ngx_http_proxy_module.html</a></p>
@@ -737,10 +799,12 @@ cached ones when possible.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.2 - Define the cache in the http context</strong></p>
+</div>
+<div class="section" id="define-the-cache-in-the-http-context">
+<span id="module2-define-cache"></span><h3>1.2 - Define the cache in the http context<a class="headerlink" href="#define-the-cache-in-the-http-context" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference external" href="https://docs.nginx.com/nginx/admin-guide/content-cache/content-caching/">https://docs.nginx.com/nginx/admin-guide/content-cache/content-caching/</a></p>
 <p><a class="reference external" href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_path">http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_path</a></p>
-<p><strong>Simple cache definition in ``http`` context</strong></p>
+<p><strong>Simple cache definition in http context</strong></p>
 <p>Although many configurations are possible, quickly getting started with NGINX
 default cache is as simple as defining a <code class="docutils literal notranslate"><span class="pre">proxy_cache_path</span></code> directive in the
 <code class="docutils literal notranslate"><span class="pre">http</span> <span class="pre">{}</span></code> context, along with the <code class="docutils literal notranslate"><span class="pre">proxy_cache</span></code> directive in the context
@@ -763,13 +827,13 @@ at <code class="docutils literal notranslate"><span class="pre">/data/nginx/cach
 named <code class="docutils literal notranslate"><span class="pre">mycache</span></code>, a zone of 10 megabytes.</p>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
-<p class="last">Although this is not directly linked to this evaluation point, please please
-note the following: by default the cache keys quite matches the following
-5-tuple <code class="docutils literal notranslate"><span class="pre">$scheme$proxy_host$uri$is_args$args</span></code>. This means that 2 users
-querying <code class="docutils literal notranslate"><span class="pre">https://example.com/myprofile</span></code> should, in the eyes of NGINX, be
-served the same cached content. If Bob’s profile is loaded in the cache, then
-Alice’s request will be served the same cached content page that could
-contain sensible information. To avoid this, defining new cache keys such as
+<p class="last">Although this is not directly linked to this evaluation point, please note
+the following: by default the cache keys quite matches the following 5-tuple
+<code class="docutils literal notranslate"><span class="pre">$scheme$proxy_host$uri$is_args$args</span></code>. This means that 2 users querying
+<code class="docutils literal notranslate"><span class="pre">https://example.com/myprofile</span></code> should, in the eyes of NGINX, be served the
+same cached content. If Bob’s profile is loaded in the cache, then Alice’s
+request will be served the same cached content page that could contain
+sensible information. To avoid this, defining new cache keys such as
 <code class="docutils literal notranslate"><span class="pre">$host$request_uri$cookie_user</span></code> could prevent this issue, assuming you have
 an authentication session cookie named USER and your endpoint is
 authenticated through this cookie. Indeed, Alice and Bob’s cookies will not
@@ -778,20 +842,24 @@ match and therefore, the requests will not be considered identical.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.2 - Enable the cache</strong></p>
-<p>The previous part basically covers this. The caching is actually enabled
-through the <code class="docutils literal notranslate"><span class="pre">proxy_cache</span></code> directive which makes responses from a given
-context actually cached.</p>
+</div>
+<div class="section" id="enable-the-cache">
+<h3>1.2 - Enable the cache<a class="headerlink" href="#enable-the-cache" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference internal" href="#module2-define-cache"><span class="std std-ref">previous part</span></a> basically covers this. The
+caching is actually enabled through the <code class="docutils literal notranslate"><span class="pre">proxy_cache</span></code> directive which makes
+responses from a given context actually cached.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.2 - Specify the content that should be cached</strong></p>
+</div>
+<div class="section" id="specify-the-content-that-should-be-cached">
+<h3>1.2 - Specify the content that should be cached<a class="headerlink" href="#specify-the-content-that-should-be-cached" title="Permalink to this headline">¶</a></h3>
 <p>Kapranoff, Nginx Troubleshooting, 82.</p>
 <p><strong>When caching gets most useful</strong></p>
-<p>This question is of course open ended. However, the caching algorithm is best
+<p>This question is of course open-ended. However, the caching algorithm is best
 when optimizing the following aspects:</p>
 <ul class="simple">
-<li>The cached content should not change often and be long lived static.
+<li>The cached content should not change often and be long-lived static.
 Otherwise you would often have to re-populate your cache or worse, serve
 stale content when it is not desired.</li>
 <li>The cached content should be the one queried often. Indeed, you do not want
@@ -805,14 +873,18 @@ might still allow your service to function and occur minimal impact).</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.2 - Describe different types of caching</strong></p>
-<p>The previous part <strong>1.1 - Describe NGINX as a caching solution</strong> already goes
+</div>
+<div class="section" id="describe-different-types-of-caching">
+<h3>1.2 - Describe different types of caching<a class="headerlink" href="#describe-different-types-of-caching" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference internal" href="module1.html#module1-describe-nginx-caching"><span class="std std-ref">previous module</span></a> already goes
 through details on different types of caching along with references on the
 topic.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.2 - Explain what is unique to NGINX as a cache server</strong></p>
+</div>
+<div class="section" id="explain-what-is-unique-to-nginx-as-a-cache-server">
+<h3>1.2 - Explain what is unique to NGINX as a cache server<a class="headerlink" href="#explain-what-is-unique-to-nginx-as-a-cache-server" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference external" href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_path">http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_path</a></p>
 <p><strong>Interests of caching at the reverse proxy layer</strong></p>
 <p>In the same idea as “what is unique to NGINX” as a load balancer, we, among
@@ -822,8 +894,8 @@ both advantages:</p>
 <ul class="simple">
 <li>It effectively reduces load on the backend servers, as a cache hit results in
 the server not being queried. This can be done with zero modification of the
-upstream server’s code which may be handy when dealing with legacy or non
-controllable applications.</li>
+upstream server’s code which may be handy when dealing with legacy or
+non-controllable applications.</li>
 <li>It leaves control in your hands. A disadvantage of caching on the clients’
 devices is that if you make a mistake (setting a client cache time limit too
 high for example), clients may be left with stale data and wrongly not
@@ -833,13 +905,13 @@ admin, tu purge caches if needed and control it on your end.</li>
 <p><strong>Optimized and controllable caching</strong></p>
 <p>The above is true for any caching implemented by a reverse proxy. NGINX is
 particularly good because it comes with great optimizations (e.g.: the caching
-keys are stored in a shared memory zone, this is non trivial and allows to
+keys are stored in a shared memory zone, this is non-trivial and allows to
 share the cache population work performed by the different workers and leverage
 hardware with high parallelism capabilities) that are very easy to configure
 out of the box.</p>
-<p>On another hands, I think it important to speak about the controllability you
-get when caching with NGINX. Notably, you should visit the documentation page
-about <a class="reference external" href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_path">proxy_cache_path</a>
+<p>On another hands, I think it is important to speak about the controllability
+you get when caching with NGINX. Notably, you should visit the documentation
+page about <a class="reference external" href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_path">proxy_cache_path</a>
 directive. You can for example define parameters on how and when to purge
 files, along with directives controlling how should concurrent workers fetching
 a cacheable data behave. This allows you to define your own thresholds between
@@ -850,13 +922,149 @@ performance bonus, depending on your business needs.</p>
 <div class="line"><br /></div>
 </div>
 </div>
+</div>
 <div class="section" id="objective-1-3-configure-nginx-as-a-web-server">
 <h2>Objective - 1.3 Configure NGINX as a web server<a class="headerlink" href="#objective-1-3-configure-nginx-as-a-web-server" title="Permalink to this headline">¶</a></h2>
 <div class="line-block">
 <div class="line"><br /></div>
 <div class="line"><br /></div>
 </div>
-<p><strong>1.3 - Demonstrate how to securely serve content (HTTP/HTTPS)</strong></p>
+<div class="section" id="demonstrate-how-to-securely-serve-content-http-https">
+<h3>1.3 - Demonstrate how to securely serve content (HTTP/HTTPS)<a class="headerlink" href="#demonstrate-how-to-securely-serve-content-http-https" title="Permalink to this headline">¶</a></h3>
+<p>DEJONGHE, NGINX COOKBOOK Advanced Recipes for High -Performance Load
+Balancing., 77.</p>
+<p><a class="reference external" href="https://nginx.org/en/docs/http/configuring_https_servers.html">https://nginx.org/en/docs/http/configuring_https_servers.html</a></p>
+<p><a class="reference external" href="https://docs.nginx.com/nginx/admin-guide/security-controls/">https://docs.nginx.com/nginx/admin-guide/security-controls/</a></p>
+<p>Kapranoff, Nginx Troubleshooting, 117.</p>
+<p><a class="reference external" href="https://www.cyberciti.biz/tips/linux-unix-bsd-nginx-webserver-security.html">https://www.cyberciti.biz/tips/linux-unix-bsd-nginx-webserver-security.html</a></p>
+<p><a class="reference external" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy">https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy</a></p>
+<p><a class="reference external" href="https://blog.nginx.org/blog/http-strict-transport-security-hsts-and-nginx">https://blog.nginx.org/blog/http-strict-transport-security-hsts-and-nginx</a></p>
+<p><strong>General security aspects</strong></p>
+<p>The <a class="reference internal" href="#module2-describe-configure-security"><span class="std std-ref">previous part</span></a> already gives
+insights on what settings can be adjusted to control security aspects of an
+HTTP/HTTPS server. Security of course is a tremendously vast topic and we could
+not cover it all in this point. We will try to cover the most important aspects
+and, as the objective asks for demonstrative capabilities, mostly provide
+detailed examples of concrete security configurations.</p>
+<p><strong>Authentication</strong></p>
+<p>NGINX OSS proposes 2 ways to authenticate requests and protect locations based
+on authentication + authorization rules: HTTP Basic authentication and
+sub-request results. You will find more details on this in :ref:` module 3
+&lt;module3 demonstrate authenticate&gt;`.</p>
+<p><strong>Client-Reverse Proxy flux security</strong></p>
+<p>Securing the connection between the connecting client and NGINX can be achieved
+with the various capabilities for setting up NGINX as an HTTPS server. You will
+find more details on this point in <a class="reference internal" href="module3.html#module3-configure-certificates"><span class="std std-ref">module 3</span></a>.</p>
+<p><strong>Reverse Proxy-Upstream servers security</strong></p>
+<p>In order to make sure the communication between NGINX and the upstream servers
+is secured, one can configure HTTPS communication between NGINX and the
+upstream server when proxy passing the requests. The following example shows
+how to do it:</p>
+<div class="highlight-NGINX notranslate"><div class="highlight"><pre><span></span><span class="k">location</span> <span class="s">/</span> <span class="p">{</span>
+  <span class="kn">proxy_pass</span> <span class="s">https://upstream.example.com</span><span class="p">;</span>
+  <span class="kn">proxy_ssl_verify</span> <span class="no">on</span><span class="p">;</span>
+  <span class="kn">proxy_ssl_protocols</span> <span class="s">TLSv1.3</span><span class="p">;</span>
+
+  <span class="kn">proxy_ssl_certificate</span>     <span class="s">/etc/nginx/client.pem</span><span class="p">;</span>
+  <span class="kn">proxy_ssl_certificate_key</span> <span class="s">/etc/nginx/client.key</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Note that the <code class="docutils literal notranslate"><span class="pre">proxy_pass</span></code> directive uses the <code class="docutils literal notranslate"><span class="pre">https</span></code> scheme, which enables
+HTTPS with the upstream. The <code class="docutils literal notranslate"><span class="pre">proxy_ssl_verify</span></code> directive is set to <code class="docutils literal notranslate"><span class="pre">on</span></code> to
+make sure that NGINX verifies the upstream server’s certificate (<cite>by default
+&lt;https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_ssl_verify&gt;</cite>,
+this is set to <code class="docutils literal notranslate"><span class="pre">off</span></code>). The <code class="docutils literal notranslate"><span class="pre">proxy_ssl_protocols</span></code> limits the accepted TLS
+version to be used to negotiate the TLS communication.</p>
+<p>On another hand, the <code class="docutils literal notranslate"><span class="pre">proxy_ssl_certificate</span></code> and
+<code class="docutils literal notranslate"><span class="pre">proxy_ssl_certificate_key</span></code> define the certificate and key to be used by
+NGINX for setting up a mTLS communication with the upstream server. Indeed, by
+default, only the upstream server must authenticate with its certificate toward
+NGINX. With both these directives, NGINX presents its own certificate to the
+upstream server to ensure the upstream can authenticate the reverse proxy,
+which could be used to perform authorization decisions.</p>
+<p><strong>IP based protections</strong></p>
+<p>When a client connects to NGINX, their IP address is retrieved and can be used
+by NGINX to enforce restrictions based on different rules (geoIP, manually
+defined decisions, etc.). <a class="reference internal" href="module3.html#module3-restrict-ip"><span class="std std-ref">Module 3</span></a> goes further
+into details on how to restrict access based on IP addresses.</p>
+<p><strong>HTTP specific security features</strong></p>
+<p>HTTP and its evolution comes with many specifications, headers and other quirks
+dedicated to security. We could not go over all of them, but it is worth
+mentioning some common hardening features allowed by NGINX. Ideally, the
+upstream servers should be able to define the correct HTTP headers to ensure
+secure content delivery: the upstream is the most tightly intertwined with the
+application logic, it knows what content should be allowed and how. However,
+the power of NGINX is its ability to cope with upstream server not able to add
+such security options.</p>
+<dl class="docutils">
+<dt>Secure Cross-Origin Resources Sharing (CORS)</dt>
+<dd><p class="first">The following diagram from <a class="reference external" href="https://developer.mozilla.org/en-US/docs/Web/http/CORS">Mozilla’s documentation</a> presents what is
+meant by CORS and when it occurs.</p>
+<a class="reference internal image-reference" href="../../_images/cors_principle.png"><img alt="Diagram presenting CORS principle" src="../../_images/cors_principle.png" style="height: 500px;" /></a>
+<p>Basically, if your server serves resources from another domain (say, you host
+images or scripts used as resources for pages in a websites hosted at
+<code class="docutils literal notranslate"><span class="pre">site1.example.com</span></code> and <code class="docutils literal notranslate"><span class="pre">site2.example.com</span></code>), you will need to enable
+CORS for the web clients to be able to fetch the resources you host that are
+referred to in the pages served by <code class="docutils literal notranslate"><span class="pre">site1.example.com</span></code> and
+<code class="docutils literal notranslate"><span class="pre">site2.example.com</span></code>.</p>
+<div class="last highlight-NGINX notranslate"><div class="highlight"><pre><span></span><span class="k">map</span> <span class="nv">$request_method</span> <span class="nv">$cors_method</span> <span class="p">{</span>
+  <span class="kn">OPTIONS</span> <span class="mi">11</span><span class="p">;</span>
+  <span class="kn">GET</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="kn">POST</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="kn">default</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">server</span> <span class="p">{</span>
+  <span class="c1"># ...</span>
+  <span class="kn">location</span> <span class="s">/</span> <span class="p">{</span>
+    <span class="kn">if</span> <span class="s">(</span><span class="nv">$cors_method</span> <span class="p">~</span> <span class="sr">&#39;1&#39;)</span> <span class="p">{</span>
+    <span class="kn">add_header</span> <span class="s">&#39;Access-Control-Allow-Methods&#39;</span>
+      <span class="s">&#39;GET,POST,OPTIONS&#39;</span><span class="p">;</span>
+    <span class="kn">add_header</span> <span class="s">&#39;Access-Control-Allow-Origin&#39;</span>
+      <span class="s">&#39;*.example.com&#39;</span><span class="p">;</span>
+    <span class="kn">add_header</span> <span class="s">&#39;Access-Control-Allow-Headers&#39;</span>
+      <span class="s">&#39;DNT,Keep-Alive,</span> <span class="s">User-Agent,</span> <span class="s">X-Requested-With,</span> <span class="s">If-Modified-Since,</span> <span class="s">Cache-Control,</span> <span class="s">Content-Type&#39;</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="kn">if</span> <span class="s">(</span><span class="nv">$cors_method</span> <span class="p">=</span> <span class="s">&#39;11&#39;)</span> <span class="p">{</span>
+      <span class="kn">add_header</span> <span class="s">&#39;Access-Control-Max-Age&#39;</span> <span class="mi">1728000</span><span class="p">;</span>
+      <span class="kn">add_header</span> <span class="s">&#39;Content-Type&#39;</span> <span class="s">&#39;text/plain</span><span class="p">;</span> <span class="kn">charset=UTF-8&#39;</span><span class="p">;</span>
+      <span class="kn">add_header</span> <span class="s">&#39;Content-Length&#39;</span> <span class="mi">0</span><span class="p">;</span>
+      <span class="kn">return</span> <span class="mi">204</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</dd>
+<dt>Clickjacking and Cross-Site Scripting (XSS) protection</dt>
+<dd>Clickjacking refers to an attack where a user is tricked into clicking on a
+link from a different source that what they think (for example, clicking on a
+“Submit” button inside an iFrame when they think the button belongs to the
+top level page and not an iFrame). XSS is is a security exploit which allows
+an attacker to inject into a website malicious client-side code. This code is
+executed by the victims and lets the attackers bypass access controls and
+impersonate users. HTTP proposes the standardized <strong>Content-Security-Policy</strong>
+header to solve these. This one consists of directives where the client
+receives indication as of which resources are allowed to be fetched from
+where. The <code class="docutils literal notranslate"><span class="pre">add_header</span> <span class="pre">Content-Security-Policy</span> <span class="pre">&quot;&lt;directive&gt;</span> <span class="pre">&lt;value&gt;;&quot;;</span></code>
+NGINX directive allows setting up this header on HTTP responses served to the
+client. The reader is advised to dig deeper in this topic by looking at
+<a class="reference external" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy">documentation</a>
+and <a class="reference external" href="https://content-security-policy.com/examples/nginx/">examples</a>.</dd>
+<dt>HTTP Strict Transport Security</dt>
+<dd>HTTP Strict Transport Security is an HTTP header indicating to a web client
+that the host it contacted must be contacted through HTTPS only, and caches
+this information for a certain (generally long) amount of time. This reduces
+the attack surface available for an attacker in the middle aiming to
+intercept initial plain HTTP requests and impersonate these. Indeed, after
+this header is received once, the client is protected and knows that a plain
+HTTP response is suspicious and should not be trusted. In order to ensure
+this, NGINX can, with the directive <code class="docutils literal notranslate"><span class="pre">add_header</span> <span class="pre">Strict-Transport-Security</span>
+<span class="pre">“max-age=31536000;</span> <span class="pre">includeSubDomains”</span> <span class="pre">always;</span></code>, add the HTTP
+Strict-Transport-Security header to all responses sent back to the client.</dd>
+</dl>
+<p><strong>Location security and magic links</strong></p>
+<p><strong>Logging</strong></p>
 <p><em>TODO</em></p>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -867,16 +1075,21 @@ content. (REGEX, and variables)</strong></p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.3 - Describe how server and location work</strong></p>
+</div>
+<div class="section" id="describe-how-server-and-location-work">
+<h3>1.3 - Describe how server and location work<a class="headerlink" href="#describe-how-server-and-location-work" title="Permalink to this headline">¶</a></h3>
 <p><em>TODO</em></p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.3 - Explain what is unique to NGINX as a web server</strong></p>
+</div>
+<div class="section" id="explain-what-is-unique-to-nginx-as-a-web-server">
+<h3>1.3 - Explain what is unique to NGINX as a web server<a class="headerlink" href="#explain-what-is-unique-to-nginx-as-a-web-server" title="Permalink to this headline">¶</a></h3>
 <p><em>TODO</em></p>
 <div class="line-block">
 <div class="line"><br /></div>
 <div class="line"><br /></div>
+</div>
 </div>
 </div>
 <div class="section" id="objective-1-4-manage-shared-memory-zones">
@@ -885,47 +1098,62 @@ content. (REGEX, and variables)</strong></p>
 <div class="line"><br /></div>
 <div class="line"><br /></div>
 </div>
-<p><strong>1.4 - Explain how traffic routing is handled in NGINX as a reverse proxy</strong></p>
+<div class="section" id="explain-how-traffic-routing-is-handled-in-nginx-as-a-reverse-proxy">
+<h3>1.4 - Explain how traffic routing is handled in NGINX as a reverse proxy<a class="headerlink" href="#explain-how-traffic-routing-is-handled-in-nginx-as-a-reverse-proxy" title="Permalink to this headline">¶</a></h3>
 <p><em>TODO</em></p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.4 - Explain what is unique to NGINX as a reverse proxy</strong></p>
+</div>
+<div class="section" id="explain-what-is-unique-to-nginx-as-a-reverse-proxy">
+<h3>1.4 - Explain what is unique to NGINX as a reverse proxy<a class="headerlink" href="#explain-what-is-unique-to-nginx-as-a-reverse-proxy" title="Permalink to this headline">¶</a></h3>
 <p><em>TODO</em></p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.4 - Configure encryption</strong></p>
+</div>
+<div class="section" id="configure-encryption">
+<h3>1.4 - Configure encryption<a class="headerlink" href="#configure-encryption" title="Permalink to this headline">¶</a></h3>
 <p><em>TODO</em></p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.4 - Demonstrate how to manipulate headers</strong></p>
+</div>
+<div class="section" id="demonstrate-how-to-manipulate-headers">
+<h3>1.4 - Demonstrate how to manipulate headers<a class="headerlink" href="#demonstrate-how-to-manipulate-headers" title="Permalink to this headline">¶</a></h3>
 <p><em>TODO</em></p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.4 - Describe the difference between proxy_set_header and add_header</strong></p>
+</div>
+<div class="section" id="describe-the-difference-between-proxy-set-header-and-add-header">
+<h3>1.4 - Describe the difference between proxy_set_header and add_header<a class="headerlink" href="#describe-the-difference-between-proxy-set-header-and-add-header" title="Permalink to this headline">¶</a></h3>
 <p><em>TODO</em></p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.4 - Modify or tune a memory zone configuration</strong></p>
+</div>
+<div class="section" id="id1">
+<h3>1.4 - Modify or tune a memory zone configuration<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <p><em>TODO</em></p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.4 - Describe how to configure NGINX as socket reserve proxy</strong></p>
+</div>
+<div class="section" id="describe-how-to-configure-nginx-as-socket-reserve-proxy">
+<h3>1.4 - Describe how to configure NGINX as socket reserve proxy<a class="headerlink" href="#describe-how-to-configure-nginx-as-socket-reserve-proxy" title="Permalink to this headline">¶</a></h3>
 <p><em>TODO</em></p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>1.4 - Describe how open source NGINX handles health checks in different
-situations</strong></p>
+</div>
+<div class="section" id="describe-how-open-source-nginx-handles-health-checks-in-different-situations">
+<h3>1.4 - Describe how open source NGINX handles health checks in different situations<a class="headerlink" href="#describe-how-open-source-nginx-handles-health-checks-in-different-situations" title="Permalink to this headline">¶</a></h3>
 <p><em>TODO</em></p>
 <div class="line-block">
 <div class="line"><br /></div>
 <div class="line"><br /></div>
+</div>
 </div>
 </div>
 </div>

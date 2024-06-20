@@ -15,7 +15,8 @@ Objective - 1.1 Configure NGINX as a load balancer
 |
 |
 
-**1.1 - Define the load balancing pools/systems**
+1.1 - Define the load balancing pools/systems
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 http://nginx.org/en/docs/http/load_balancing.html
 
@@ -55,7 +56,8 @@ and nginx applies HTTP load balancing to distribute the requests.
 
 |
 
-**1.1 - Explain the different load balancing algorithms**
+1.1 - Explain the different load balancing algorithms
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 https://docs.nginx.com/nginx/admin-guide/load-balancer/http-load-balancer/#choosing-a-load-balancing-method
 
@@ -76,8 +78,8 @@ defined weight.
 
 |
 
-**1.1 - Describe the process used to remove a server from the pool**
-
+1.1 - Describe the process used to remove a server from the pool
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 https://docs.nginx.com/nginx/admin-guide/load-balancer/http-health-check/#passive-health-checks
 
 https://nginx.org/en/docs/http/load_balancing.html
@@ -138,14 +140,14 @@ one.
 
 |
 
-**1.1 - Describe what happens when a pool server goes down**
-
+1.1 - Describe what happens when a pool server goes down
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This aspect is covered in the previous part on `health check`_.
 
 |
 
-**1.1 - Explain what is unique to NGINX as a load balancer**
-
+1.1 - Explain what is unique to NGINX as a load balancer
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 https://www.f5.com/company/events/webinars/nginx-plus-for-load-balancing-30-min
 (from 6:40 to 10:20 notably)
 
@@ -220,7 +222,8 @@ types of load balancers.
 
 .. _module2 describe configure security:
 
-**1.1 - Describe how to configure security**
+1.1 - Describe how to configure security
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 https://docs.nginx.com/nginx/admin-guide/security-controls/
 
@@ -257,7 +260,8 @@ easy to configure log sending to a syslog server.
 
 |
 
-**1.1 - Modify or tune a memory zone configuration**
+1.1 - Modify or tune a memory zone configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 http://nginx.org/en/docs/http/ngx_http_limit_conn_module.html#limit_conn_zone
 
@@ -305,7 +309,8 @@ links to the documentation.
 
 |
 
-**1.1 - Describe how to configure NGINX as mirroring server**
+1.1 - Describe how to configure NGINX as mirroring server
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 https://alex.dzyoba.com/blog/nginx-mirror/
 
@@ -363,7 +368,8 @@ picked from the ``test_backend`` pool.
 
 |
 
-**1.1 - Describe how to configure NGINX as a layer 4 load balancer**
+1.1 - Describe how to configure NGINX as a layer 4 load balancer
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 https://docs.nginx.com/nginx/admin-guide/load-balancer/tcp-udp-load-balancer/
 
@@ -401,7 +407,8 @@ hash algorithm by taking the remote client's address as a key.
 
 |
 
-**1.1 - Describe how to configure NGINX as an API Gateway**
+1.1 - Describe how to configure NGINX as an API Gateway
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 https://www.f5.com/company/blog/nginx/deploying-nginx-plus-as-an-api-gateway-part-1
 
@@ -471,7 +478,8 @@ Objective - 1.2 Configure NGINX as a content cache server
 |
 |
 
-**1.2 - Define a minimum retention policy**
+1.2 - Define a minimum retention policy
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 https://blog.nginx.org/blog/nginx-caching-guide
 
@@ -495,7 +503,8 @@ cache if they are not hit often enough and many other cache write are coming)
 
 |
 
-**1.2 - Describe how to configure path REGEX routing**
+1.2 - Describe how to configure path REGEX routing
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 https://www.f5.com/company/blog/nginx/regular-expression-tester-nginx
 
@@ -565,7 +574,8 @@ definitions in NGINX.
 
 |
 
-**1.2 - Describe the why and how of caching in NGINX**
+1.2 - Describe the why and how of caching in NGINX
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 https://docs.nginx.com/nginx/admin-guide/content-cache/content-caching/
 
@@ -643,7 +653,8 @@ cached ones when possible.
 
 .. _module2 define cache:
 
-**1.2 - Define the cache in the http context**
+1.2 - Define the cache in the http context
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 https://docs.nginx.com/nginx/admin-guide/content-cache/content-caching/
 
@@ -692,7 +703,8 @@ named ``mycache``, a zone of 10 megabytes.
 
 |
 
-**1.2 - Enable the cache**
+1.2 - Enable the cache
+~~~~~~~~~~~~~~~~~~~~~~
 
 The :ref:`previous part <module2 define cache>` basically covers this. The
 caching is actually enabled through the ``proxy_cache`` directive which makes
@@ -700,7 +712,8 @@ responses from a given context actually cached.
 
 |
 
-**1.2 - Specify the content that should be cached**
+1.2 - Specify the content that should be cached
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Kapranoff, Nginx Troubleshooting, 82.
 
@@ -723,7 +736,8 @@ might still allow your service to function and occur minimal impact).
 
 |
 
-**1.2 - Describe different types of caching**
+1.2 - Describe different types of caching
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The :ref:`previous module <module1 describe nginx caching>` already goes
 through details on different types of caching along with references on the
@@ -731,7 +745,8 @@ topic.
 
 |
 
-**1.2 - Explain what is unique to NGINX as a cache server**
+1.2 - Explain what is unique to NGINX as a cache server
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_path
 
@@ -780,7 +795,8 @@ Objective - 1.3 Configure NGINX as a web server
 |
 |
 
-**1.3 - Demonstrate how to securely serve content (HTTP/HTTPS)**
+1.3 - Demonstrate how to securely serve content (HTTP/HTTPS)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 DEJONGHE, NGINX COOKBOOK Advanced Recipes for High -Performance Load
 Balancing., 77.
@@ -880,7 +896,7 @@ Secure Cross-Origin Resources Sharing (CORS)
     :alt: Diagram presenting CORS principle
     :height: 500px
 
-  
+
 
 Clickjacking and Cross-Site Scripting (XSS) protection
   Clickjacking refers to an attack where a user is tricked into clicking on a
@@ -926,13 +942,15 @@ content. (REGEX, and variables)**
 
 |
 
-**1.3 - Describe how server and location work**
+1.3 - Describe how server and location work
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *TODO*
 
 |
 
-**1.3 - Explain what is unique to NGINX as a web server**
+1.3 - Explain what is unique to NGINX as a web server
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *TODO*
 
@@ -945,50 +963,57 @@ Objective - 1.4 Manage shared memory zones
 |
 |
 
-**1.4 - Explain how traffic routing is handled in NGINX as a reverse proxy**
+1.4 - Explain how traffic routing is handled in NGINX as a reverse proxy
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *TODO*
 
 |
 
-**1.4 - Explain what is unique to NGINX as a reverse proxy**
+1.4 - Explain what is unique to NGINX as a reverse proxy
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *TODO*
 
 |
 
-**1.4 - Configure encryption**
+1.4 - Configure encryption
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *TODO*
 
 |
 
-**1.4 - Demonstrate how to manipulate headers**
+1.4 - Demonstrate how to manipulate headers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *TODO*
 
 |
 
-**1.4 - Describe the difference between proxy_set_header and add_header**
+1.4 - Describe the difference between proxy_set_header and add_header
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *TODO*
 
 |
 
-**1.4 - Modify or tune a memory zone configuration**
+1.4 - Modify or tune a memory zone configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *TODO*
 
 |
 
-**1.4 - Describe how to configure NGINX as socket reserve proxy**
+1.4 - Describe how to configure NGINX as socket reserve proxy
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *TODO*
 
 |
 
-**1.4 - Describe how open source NGINX handles health checks in different
-situations**
+1.4 - Describe how open source NGINX handles health checks in different situations
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *TODO*
 

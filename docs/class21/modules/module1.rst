@@ -34,7 +34,8 @@ Objective - 1.1 Given a scenario identify when to use NGINX
 |
 |
 
-**1.1 - Describe NGINX as a web server**
+1.1 - Describe NGINX as a web server
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 https://nginx.org/en/
 
@@ -75,7 +76,8 @@ would serve content from the host's ``/www/data`` directory (for example, a
 
 |
 
-**1.1 - Describe NGINX as a reverse proxy**
+1.1 - Describe NGINX as a reverse proxy
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 https://www.cloudflare.com/learning/cdn/glossary/reverse-proxy/
 
@@ -126,7 +128,9 @@ specified as a domain name or an IP address.
 
 |
 
-**1.1 - Describe NGINX as a load balancer**
+1.1 - Describe NGINX as a load balancer
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 https://www.cloudflare.com/learning/performance/what-is-load-balancing/
 
@@ -191,7 +195,8 @@ and nginx applies HTTP load balancing to distribute the requests.
 
 .. _module1 describe nginx caching:
 
-**1.1 - Describe NGINX as a caching solution**
+1.1 - Describe NGINX as a caching solution
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 https://aws.amazon.com/caching/
 
@@ -255,7 +260,8 @@ content served by an application when it acts as a reverse proxy.
 
 |
 
-**1.1 - Describe NGINX as an API gateway**
+1.1 - Describe NGINX as an API gateway
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 https://www.redhat.com/en/topics/api/what-does-an-api-gateway-do
 
@@ -312,7 +318,8 @@ Objective - 1.2 Explain the NGINX configuration directory structure
 |
 |
 
-**1.2 - Identify the default NGINX core config file**
+1.2 - Identify the default NGINX core config file
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 https://docs.nginx.com/nginx/admin-guide/basic-functionality/managing-configuration-files/
 
@@ -327,8 +334,8 @@ installing NGINX, a default core config file will be created and configure a
 default NGINX web server. By default, the file is named ``nginx.conf`` and for
 NGINX Plus is placed in the ``/etc/nginx directory``. (For NGINX Open Source,
 the location depends on the package system used to install NGINX and the
-operating system. It is typically one of ``/usr/local/nginx/conf``, ``/etc/nginx``,
-or ``/usr/local/etc/nginx``).
+operating system. It is typically one of ``/usr/local/nginx/conf``,
+``/etc/nginx``, or ``/usr/local/etc/nginx``).
 
 The default configuration may vary depending on your installation source
 (different distribution maintained APT repositories, NGINX maintained APT
@@ -376,7 +383,8 @@ the actually loaded configuration by NGINX.
 
 |
 
-**1.2 - Identify the included directories/files**
+1.2 - Identify the included directories/files
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 http://nginx.org/en/docs/ngx_core_module.html#include
 
@@ -511,7 +519,8 @@ inheritance concept, please keep reading to understand how the context works.
 
 |
 
-**1.2 - Describe directive inheritance and overriding properties**
+1.2 - Describe directive inheritance and overriding properties
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 https://docs.nginx.com/nginx/admin-guide/basic-functionality/managing-configuration-files/
 
@@ -648,7 +657,7 @@ following example shows it:
             rewrite ^ /static.php; # Executes unless inner location matches.
 
             location ~ \.php$ {
-                fastcgi_pass backend; # Outer location context rewrite is not executed.	
+                fastcgi_pass backend; # Outer location context rewrite is not executed.
             }
         }
     }
@@ -683,7 +692,8 @@ Objective - 1.3 Demonstrate how to manage user permissions
 
 .. _user context identification:
 
-**1.3 - Identify user context (i.e. using the configuration file)**
+1.3 - Identify user context (i.e. using the configuration file)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 https://nginx.org/en/docs/ngx_core_module.html#user
 
@@ -701,7 +711,8 @@ on ports above 1024.
 
 |
 
-**1.3 - Describe how and when to give read/write/execute access**
+1.3 - Describe how and when to give read/write/execute access
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 https://www.slingacademy.com/article/nginx-user-and-group-explained-with-examples/
 
@@ -767,7 +778,8 @@ configuration will give you information about problematic access write
 
 |
 
-**1.3 - Describe how to run NGINX as a specific user type**
+1.3 - Describe how to run NGINX as a specific user type
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 As describe in `user context identification`_, the ``user`` directive in the
 configuration file defines the Linux user under which the NGINX worker will
@@ -777,7 +789,8 @@ for the system to run.
 
 |
 
-**1.3 - Describe the relationship between NGINX processes and users**
+1.3 - Describe the relationship between NGINX processes and users
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 http://haifux.org/lectures/84-sil/users-processes-files-and-permissions/users-perms-lec.html
 
@@ -839,7 +852,8 @@ Objective - 1.4 Manage shared memory zones
 
 .. _module1 shared memory zones:
 
-**1.4 - Describe how and why NGINX uses shared memory zones**
+1.4 - Describe how and why NGINX uses shared memory zones
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 https://stackoverflow.com/questions/38295426/what-does-the-shared-memory-zone-mean-in-nginx
 
@@ -931,7 +945,8 @@ use. [COOKBOOK_P34]_
 .. [COOKBOOK_P34] DEJONGHE, NGINX COOKBOOK Advanced Recipes for High
     -Performance Load Balancing., 34.
 
-**1.4 - Describe why directives use a shared memory zone**
+1.4 - Describe why directives use a shared memory zone
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The :ref:`above example and description <module1 shared memory zones>` also
 answers this aspect. We could summarize this by the following: for some

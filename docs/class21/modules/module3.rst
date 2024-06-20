@@ -15,28 +15,29 @@ Objective - 1.1 Demonstrate how to manage connections and bandwidth
 |
 |
 
-**1.1 - Describe the difference between rate limiting and bandwidth
-throttling**
+1.1 - Describe the difference between rate limiting and bandwidth throttling
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *TODO*
 
 |
 
-**1.1 - Demonstrate how to limit the amount of connections that are made to the
-NGINX server and its upstreams**
+1.1 - Demonstrate how to limit the amount of connections that are made to the NGINX server and its upstreams
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *TODO*
 
 |
 
-**1.1 -Demonstrate how to set a bandwidth limit**
+1.1 - Demonstrate how to set a bandwidth limit
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *TODO*
 
 |
 
-**1.1 - Understand how to enable and optimize keep-alives for the NGINX server
-and its upstreams**
+1.1 - Understand how to enable and optimize keep-alives for the NGINX server and its upstreams
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *TODO*
 
@@ -51,13 +52,15 @@ Objective - 1.2 Demonstrate how to restrict access
 
 .. _module3 restrict ip:
 
-**1.2 - Demonstrate how to restrict access to NGINX based on IP address**
+1.2 - Demonstrate how to restrict access to NGINX based on IP address
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *TODO*
 
 |
 
-**1.2 - Demonstrate how to restrict access to NGINX based on HTTP method**
+1.2 - Demonstrate how to restrict access to NGINX based on HTTP method
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *TODO*
 
@@ -65,7 +68,8 @@ Objective - 1.2 Demonstrate how to restrict access
 
 .. _module3 demonstrate authenticate:
 
-**1.2 - Demonstrate how to authenticate (auth basic / auth request)**
+1.2 - Demonstrate how to authenticate (auth basic / auth request)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *TODO*
 
@@ -92,7 +96,8 @@ On another hand, NGINX proposes another,
 
 |
 
-**1.2 - Demonstrate how to restrict URIs**
+1.2 - Demonstrate how to restrict URIs
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *TODO*
 
@@ -105,25 +110,29 @@ Objective - 1.3 Demonstrate how to configure logging
 |
 |
 
-**1.3 - Demonstrate how to customize the format of log files**
+1.3 - Demonstrate how to customize the format of log files
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *TODO*
 
 |
 
-**1.3 - Demonstrate how to customize the location of log files**
+1.3 - Demonstrate how to customize the location of log files
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *TODO*
 
 |
 
-**1.3 - Demonstrate how to set log levels (severity)**
+1.3 - Demonstrate how to set log levels (severity)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *TODO*
 
 |
 
-**1.3 - Describe the difference between an error log and an access log**
+1.3 - Describe the difference between an error log and an access log
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *TODO*
 
@@ -138,26 +147,29 @@ Objective - 1.4 Demonstrate how to configure certificates
 |
 |
 
-**1.4 - Define the difference between a server certificate and a client
-certificate**
+1.4 - Define the difference between a server certificate and a client certificate
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *TODO*
 
 |
 
-**1.4 - Describe the components necessary to use an SSL certificate**
+1.4 - Describe the components necessary to use an SSL certificate
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *TODO*
 
 |
 
-**1.4 - Configure encryption**
+1.4 - Configure encryption
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *TODO*
 
 |
 
-**1.4 - Describe how to protect the SSL certificate and key**
+1.4 - Describe how to protect the SSL certificate and key
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *TODO*
 
@@ -170,26 +182,29 @@ Objective - 1.5 Demonstrate how to enable HTTPS and associated security settings
 |
 |
 
-**1.5 - Compare the advantages of TLS termination, end to end encryption, and
-TLS passthrough**
+1.5 - Compare the advantages of TLS termination, end to end encryption, and TLS passthrough
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *TODO*
 
 |
 
-**1.5 - Demonstrate how to enable TLS encryption**
+1.5 - Demonstrate how to enable TLS encryption
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *TODO*
 
 |
 
-**1.5 -Enable/Disable ciphers and TLS version**
+1.5 - Enable/Disable ciphers and TLS version
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *TODO*
 
 |
 
-**1.5 - Describe how force all traffic to redirect to HTTPS**
+1.5 - Describe how force all traffic to redirect to HTTPS
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *TODO*
 

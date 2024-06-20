@@ -847,6 +847,9 @@ https://nginx.org/en/docs/dev/development_guide.html#shared_memory
 
 https://thelinuxcode.com/using_mmap_function_linux/
 
+DEJONGHE, NGINX COOKBOOK Advanced Recipes for High -Performance Load
+Balancing., 34
+
 **Shared memory zones in Linux**
 
 Getting back to basics, system oriented software use system calls to ask their
@@ -930,14 +933,15 @@ use. [COOKBOOK_P34]_
 
 **1.4 - Describe why directives use a shared memory zone**
 
-The above example and description also answers this aspect. We could summarize
-this by the following: for some specific needs (such as consistent rate
-limiting), NGINX workers need to share very efficiently information for quickly
-reading and writing data and efficiently serve or block clients. Shared memory
-zones allow defining and assign OS backed memory zones that can be written and
-read by multiple NGINX workers. Doing so, they can share and update each other
-to fulfil the contract of some directives (such as rate limiting) with an
-efficient inter process communication channel.
+The :ref:`above example and description <module1 shared memory zones>` also
+answers this aspect. We could summarize this by the following: for some
+specific needs (such as consistent rate limiting), NGINX workers need to share
+very efficiently information for quickly reading and writing data and
+efficiently serve or block clients. Shared memory zones allow defining and
+assign OS backed memory zones that can be written and read by multiple NGINX
+workers. Doing so, they can share and update each other to fulfil the contract
+of some directives (such as rate limiting) with an efficient inter process
+communication channel.
 
 |
 |

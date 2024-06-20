@@ -270,9 +270,9 @@ http://nginx.org/en/docs/http/ngx_http_upstream_module.html#zone
 **Memory zones in NGINX**
 
 When configuring memory zones in NGINX, we generally refer to shared memory
-zones, as seen and explained in the previous part. To modify or tune these, we
-must first identify where they appear in our NGINX configurations. In NGINX
-OSS, shared memory zones can be configured in the following contexts:
+zones, as seen and explained in `the previous part <>`_. To modify or tune
+these, we must first identify where they appear in our NGINX configurations. In
+NGINX OSS, shared memory zones can be configured in the following contexts:
 
 - The connection limiting: sharing across worker the state of clients
   regarding the amount of connection requests.
@@ -673,13 +673,13 @@ named ``mycache``, a zone of 10 megabytes.
 
 .. warning::
 
-  Although this is not directly linked to this evaluation point, please please
-  note the following: by default the cache keys quite matches the following
-  5-tuple ``$scheme$proxy_host$uri$is_args$args``. This means that 2 users
-  querying ``https://example.com/myprofile`` should, in the eyes of NGINX, be
-  served the same cached content. If Bob's profile is loaded in the cache, then
-  Alice's request will be served the same cached content page that could
-  contain sensible information. To avoid this, defining new cache keys such as
+  Although this is not directly linked to this evaluation point, please note
+  the following: by default the cache keys quite matches the following 5-tuple
+  ``$scheme$proxy_host$uri$is_args$args``. This means that 2 users querying
+  ``https://example.com/myprofile`` should, in the eyes of NGINX, be served the
+  same cached content. If Bob's profile is loaded in the cache, then Alice's
+  request will be served the same cached content page that could contain
+  sensible information. To avoid this, defining new cache keys such as
   ``$host$request_uri$cookie_user`` could prevent this issue, assuming you have
   an authentication session cookie named USER and your endpoint is
   authenticated through this cookie. Indeed, Alice and Bob's cookies will not
@@ -701,10 +701,10 @@ Kapranoff, Nginx Troubleshooting, 82.
 
 **When caching gets most useful**
 
-This question is of course open ended. However, the caching algorithm is best
+This question is of course open-ended. However, the caching algorithm is best
 when optimizing the following aspects:
 
-- The cached content should not change often and be long lived static.
+- The cached content should not change often and be long-lived static.
   Otherwise you would often have to re-populate your cache or worse, serve
   stale content when it is not desired.
 - The cached content should be the one queried often. Indeed, you do not want
@@ -739,8 +739,8 @@ both advantages:
 
 - It effectively reduces load on the backend servers, as a cache hit results in
   the server not being queried. This can be done with zero modification of the
-  upstream server's code which may be handy when dealing with legacy or non
-  controllable applications.
+  upstream server's code which may be handy when dealing with legacy or
+  non-controllable applications.
 - It leaves control in your hands. A disadvantage of caching on the clients'
   devices is that if you make a mistake (setting a client cache time limit too
   high for example), clients may be left with stale data and wrongly not
@@ -751,14 +751,14 @@ both advantages:
 
 The above is true for any caching implemented by a reverse proxy. NGINX is
 particularly good because it comes with great optimizations (e.g.: the caching
-keys are stored in a shared memory zone, this is non trivial and allows to
+keys are stored in a shared memory zone, this is non-trivial and allows to
 share the cache population work performed by the different workers and leverage
 hardware with high parallelism capabilities) that are very easy to configure
 out of the box.
 
-On another hands, I think it important to speak about the controllability you
-get when caching with NGINX. Notably, you should visit the documentation page
-about `proxy_cache_path
+On another hands, I think it is important to speak about the controllability
+you get when caching with NGINX. Notably, you should visit the documentation
+page about `proxy_cache_path
 <http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_path>`_
 directive. You can for example define parameters on how and when to purge
 files, along with directives controlling how should concurrent workers fetching

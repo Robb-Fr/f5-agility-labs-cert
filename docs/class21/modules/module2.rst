@@ -21,7 +21,7 @@ http://nginx.org/en/docs/http/load_balancing.html
 
 https://docs.nginx.com/nginx/admin-guide/load-balancer/tcp-udp-load-balancer/
 
-**``upstream`` directive**
+**upstream directive**
 
 Defining a load balancing pool is as simple as writing the ``upstream``
 directive in an ``http`` or ``stream`` block. Please refer to the referenced
@@ -218,7 +218,9 @@ types of load balancers.
 
 |
 
-**1.1 -Describe how to configure security**
+.. _module2 describe configure security:
+
+**1.1 - Describe how to configure security**
 
 https://docs.nginx.com/nginx/admin-guide/security-controls/
 
@@ -647,7 +649,7 @@ https://docs.nginx.com/nginx/admin-guide/content-cache/content-caching/
 
 http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_path
 
-**Simple cache definition in ``http`` context**
+**Simple cache definition in http context**
 
 Although many configurations are possible, quickly getting started with NGINX
 default cache is as simple as defining a ``proxy_cache_path`` directive in the
@@ -779,6 +781,84 @@ Objective - 1.3 Configure NGINX as a web server
 |
 
 **1.3 - Demonstrate how to securely serve content (HTTP/HTTPS)**
+
+DEJONGHE, NGINX COOKBOOK Advanced Recipes for High -Performance Load
+Balancing., 77.
+
+https://nginx.org/en/docs/http/configuring_https_servers.html
+
+https://docs.nginx.com/nginx/admin-guide/security-controls/
+
+Kapranoff, Nginx Troubleshooting, 117.
+
+**General security aspects**
+
+The :ref:`previous part <module2 describe configure security>` already gives
+insights on what settings can be adjusted to control security aspects of an
+HTTP/HTTPS server. Security of course is a tremendously vast topic and we could
+not cover it all in this point. We will try to cover the most important aspects
+and, as the objective asks for demonstrative capabilities, mostly provide
+detailed examples of concrete security configurations.
+
+**Authentication**
+
+NGINX OSS proposes 2 ways to authenticate requests and protect locations based
+on authentication + authorization rules: HTTP Basic authentication and
+sub-request results. You will find more details on this in :ref:` module 3
+<module3 demonstrate authenticate>`.
+
+**Client-Reverse Proxy flux security**
+
+Securing the connection between the connecting client and NGINX can be achieved
+with the various capabilities for setting up NGINX as an HTTPS server. You will
+find more details on this point in :ref:`module 3 <module3 configure
+certificates>`.
+
+**Reverse Proxy-Upstream servers security**
+
+In order to make sure the communication between NGINX and the upstream servers
+is secured, one can configure HTTPS communication between NGINX and the
+upstream server when proxy passing the requests. The following example shows
+how to do it:
+
+.. code-block:: NGINX
+
+  location / {
+    proxy_pass https://upstream.example.com;
+    proxy_ssl_verify on;
+    proxy_ssl_protocols TLSv1.3;
+
+    proxy_ssl_certificate     /etc/nginx/client.pem;
+    proxy_ssl_certificate_key /etc/nginx/client.key;
+  }
+
+Note that the ``proxy_pass`` directive uses the ``https`` scheme, which enables
+HTTPS with the upstream. The ``proxy_ssl_verify`` directive is set to ``on`` to
+make sure that NGINX verifies the upstream server's certificate (`by default
+<https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_ssl_verify>`,
+this is set to ``off``). The ``proxy_ssl_protocols`` limits the accepted TLS
+version to be used to negotiate the TLS communication.
+
+On another hand, the ``proxy_ssl_certificate`` and
+``proxy_ssl_certificate_key`` define the certificate and key to be used by
+NGINX for setting up a mTLS communication with the upstream server. Indeed, by
+default, only the upstream server must authenticate with its certificate toward
+NGINX. With both these directives, NGINX presents its own certificate to the
+upstream server to ensure the upstream can authenticate the reverse proxy,
+which could be used to perform authorization decisions.
+
+**IP based protections**
+
+When a client connects to NGINX, their IP address is retrieved and can be used
+by NGINX to enforce restrictions based on different rules (geoIP, manually
+defined decisions, etc.). :ref:`Module 3 <module3 restrict ip>` goes further
+into details on how to restrict access based on IP addresses.
+
+**Securing Cross-Origin Resources Sharing (CORS)**
+
+**Location security and magic links**
+
+**Logging**
 
 *TODO*
 

@@ -791,6 +791,12 @@ https://docs.nginx.com/nginx/admin-guide/security-controls/
 
 Kapranoff, Nginx Troubleshooting, 117.
 
+https://www.cyberciti.biz/tips/linux-unix-bsd-nginx-webserver-security.html
+
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
+
+https://blog.nginx.org/blog/http-strict-transport-security-hsts-and-nginx
+
 **General security aspects**
 
 The :ref:`previous part <module2 describe configure security>` already gives
@@ -854,7 +860,56 @@ by NGINX to enforce restrictions based on different rules (geoIP, manually
 defined decisions, etc.). :ref:`Module 3 <module3 restrict ip>` goes further
 into details on how to restrict access based on IP addresses.
 
-**Securing Cross-Origin Resources Sharing (CORS)**
+**HTTP specific security features**
+
+HTTP and its evolution comes with many specifications, headers and other quirks
+dedicated to security. We could not go over all of them, but it is worth
+mentioning some common hardening features allowed by NGINX. Ideally, the
+upstream servers should be able to define the correct HTTP headers to ensure
+secure content delivery: the upstream is the most tightly intertwined with the
+application logic, it knows what content should be allowed and how. However,
+the power of NGINX is its ability to cope with upstream server not able to add
+such security options.
+
+Secure Cross-Origin Resources Sharing (CORS)
+  The following diagram from `Mozilla's documentation
+  <https://developer.mozilla.org/en-US/docs/Web/http/CORS>`_ presents what is
+  meant by CORS and when it occurs.
+
+  .. image:: /_static/n1-n4/cors_principle.png
+    :alt: Diagram presenting CORS principle
+    :height: 500px
+
+  
+
+Clickjacking and Cross-Site Scripting (XSS) protection
+  Clickjacking refers to an attack where a user is tricked into clicking on a
+  link from a different source that what they think (for example, clicking on a
+  "Submit" button inside an iFrame when they think the button belongs to the
+  top level page and not an iFrame). XSS is is a security exploit which allows
+  an attacker to inject into a website malicious client-side code. This code is
+  executed by the victims and lets the attackers bypass access controls and
+  impersonate users. HTTP proposes the standardized **Content-Security-Policy**
+  header to solve these. This one consists of directives where the client
+  receives indication as of which resources are allowed to be fetched from
+  where. The ``add_header Content-Security-Policy "<directive> <value>;";``
+  NGINX directive allows setting up this header on HTTP responses served to the
+  client. The reader is advised to dig deeper in this topic by looking at
+  `documentation
+  <https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy>`_
+  and `examples <https://content-security-policy.com/examples/nginx/>`_.
+
+HTTP Strict Transport Security
+  HTTP Strict Transport Security is an HTTP header indicating to a web client
+  that the host it contacted must be contacted through HTTPS only, and caches
+  this information for a certain (generally long) amount of time. This reduces
+  the attack surface available for an attacker in the middle aiming to
+  intercept initial plain HTTP requests and impersonate these. Indeed, after
+  this header is received once, the client is protected and knows that a plain
+  HTTP response is suspicious and should not be trusted. In order to ensure
+  this, NGINX can, with the directive ``add_header Strict-Transport-Security
+  “max-age=31536000; includeSubDomains” always;``, add the HTTP
+  Strict-Transport-Security header to all responses sent back to the client.
 
 **Location security and magic links**
 

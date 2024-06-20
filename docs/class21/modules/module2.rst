@@ -896,7 +896,40 @@ Secure Cross-Origin Resources Sharing (CORS)
     :alt: Diagram presenting CORS principle
     :height: 500px
 
+  Basically, if your server serves resources from another domain (say, you host
+  images or scripts used as resources for pages in a websites hosted at
+  ``site1.example.com`` and ``site2.example.com``), you will need to enable
+  CORS for the web clients to be able to fetch the resources you host that are
+  referred to in the pages served by ``site1.example.com`` and
+  ``site2.example.com``.
 
+  .. code-block:: NGINX
+
+    map $request_method $cors_method {
+      OPTIONS 11;
+      GET 1;
+      POST 1;
+      default 0;
+    }
+    server {
+      # ...
+      location / {
+        if ($cors_method ~ '1') {
+        add_header 'Access-Control-Allow-Methods'
+          'GET,POST,OPTIONS';
+        add_header 'Access-Control-Allow-Origin'
+          '*.example.com';
+        add_header 'Access-Control-Allow-Headers'
+          'DNT,Keep-Alive, User-Agent, X-Requested-With, If-Modified-Since, Cache-Control, Content-Type';
+        }
+        if ($cors_method = '11') {
+          add_header 'Access-Control-Max-Age' 1728000;
+          add_header 'Content-Type' 'text/plain; charset=UTF-8';
+          add_header 'Content-Length' 0;
+          return 204;
+        }
+      }
+    }
 
 Clickjacking and Cross-Site Scripting (XSS) protection
   Clickjacking refers to an attack where a user is tricked into clicking on a

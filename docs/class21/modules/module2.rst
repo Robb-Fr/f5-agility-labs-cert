@@ -503,6 +503,8 @@ cache if they are not hit often enough and many other cache write are coming)
 
 |
 
+.. _module2 configure routing:
+
 1.2 - Describe how to configure path REGEX routing
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -799,7 +801,7 @@ Objective - 1.3 Configure NGINX as a web server
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 DEJONGHE, NGINX COOKBOOK Advanced Recipes for High -Performance Load
-Balancing., 77.
+Balancing., 77, 84-88.
 
 https://nginx.org/en/docs/http/configuring_https_servers.html
 
@@ -857,7 +859,7 @@ how to do it:
 Note that the ``proxy_pass`` directive uses the ``https`` scheme, which enables
 HTTPS with the upstream. The ``proxy_ssl_verify`` directive is set to ``on`` to
 make sure that NGINX verifies the upstream server's certificate (`by default
-<https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_ssl_verify>`,
+<https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_ssl_verify>`_,
 this is set to ``off``). The ``proxy_ssl_protocols`` limits the accepted TLS
 version to be used to negotiate the TLS communication.
 
@@ -920,7 +922,7 @@ Secure Cross-Origin Resources Sharing (CORS)
         add_header 'Access-Control-Allow-Origin'
           '*.example.com';
         add_header 'Access-Control-Allow-Headers'
-          'DNT,Keep-Alive, User-Agent, X-Requested-With, If-Modified-Since, Cache-Control, Content-Type';
+          'DNT, Keep-Alive, User-Agent, X-Requested-With, If-Modified-Since, Cache-Control, Content-Type';
         }
         if ($cors_method = '11') {
           add_header 'Access-Control-Max-Age' 1728000;
@@ -954,31 +956,148 @@ HTTP Strict Transport Security
   this information for a certain (generally long) amount of time. This reduces
   the attack surface available for an attacker in the middle aiming to
   intercept initial plain HTTP requests and impersonate these. Indeed, after
-  this header is received once, the client is protected and knows that a plain
-  HTTP response is suspicious and should not be trusted. In order to ensure
-  this, NGINX can, with the directive ``add_header Strict-Transport-Security
-  “max-age=31536000; includeSubDomains” always;``, add the HTTP
-  Strict-Transport-Security header to all responses sent back to the client.
+  this header is received once, the client is protected and knows that at least
+  for ``max-age`` seconds that a plain HTTP response is suspicious and should
+  not be trusted. In order to ensure this, NGINX can, with the directive
+  ``add_header Strict-Transport-Security “max-age=31536000; includeSubDomains”
+  always;``, add the HTTP Strict-Transport-Security header to all responses
+  sent back to the client.
 
-**Location security and magic links**
+**Location security and secure links**
+
+In order to protect a location, NGINX can make use of the features in its
+`ngx_http_secure_link_module
+<https://nginx.org/en/docs/http/ngx_http_secure_link_module.html>`_.
+
+Basically, this module allows to protect a location by requiring the requested
+URI contains some non easily guessable value, making it hard for automated
+scanner to easily access the files at that location.
+
+This can be implemented by 2 different modes: The first mode is enabled by the
+``secure_link_secret`` directive and is used to check authenticity of requested
+links as well as protect resources from unauthorized access. The second mode
+(0.8.50) is enabled by the ``secure_link`` and ``secure_link_md5`` directives
+and is also used to limit lifetime of links.
+
+The following configuration makes use of the ``secure_link_secret`` directive:
+
+.. code-block:: NGINX
+
+  location /resources {
+    secure_link_secret mySecret;
+    if ($secure_link = "") { return 403; }
+    rewrite ^ /secured/$secure_link;
+  }
+  location /secured/ {
+    internal;
+    root /var/www;
+  }
+
+In order to make use of a secure link, one must place the files to be protected
+inside the ``/var/www/secured`` folder. With this in place, accessing, for
+example, the ``/var/www/secured/index.html`` file would require using the
+following URL:
+``your.server.url/resources/a53bee08a4bf0bbea978ddf736363a12/index.html``. Here
+is what happens when this request is received by NGINX:
+
+- NGINX matches the location ``/resources`` from its configuration
+- It discovers this location is protected by a secret, as of the presence of
+  the ``secure_link_secret`` directive.
+- It takes the secret word (in that case, ``mySecret``) and the remaining of
+  the accessed URI (in that case, ``index.html``), concatenates those and
+  hashes it with the MD5 procedure. In bash, you could perform this operation
+  with the following code:
+
+.. code-block:: bash
+
+  echo -n 'index.htmlmySecret' | openssl md5 -hex
+
+- If the computed hash matches the string between ``resources/`` and
+  ``/index.html`` in the URI, it proceeds, otherwise it returns a 403 error.
+- After validating the URI, NGINX can ``rewrite`` the URI by replacing it (from
+  the beginning, per the ``^`` argument) by another location's prefix (in that
+  case, ``/secured/``) and appending the content of the ``$secure_link``
+  variable. This variable contains, if the validation failed, an empty string,
+  and if the validation succeeded, the remaining of the URI after the hash (in
+  that case, ``index.html``).
+- Making the location ``/secured/`` internal, only NGINX generated requests
+  (through internal redirects) can access it. Therefore, thanks to the above
+  ``rewrite`` directive, only secure links can reach the files located in the
+  secure folder, and the client accessing
+  ``your.server.url/resources/a53bee08a4bf0bbea978ddf736363a12/index.html`` can
+  in the end be served the file stored at ``/var/www/secured/index.html``.
+
+Using the ``secure_link`` and ``secure_link_md5`` directives follows the same
+general idea but with more control over some aspects of the link, notably
+allowing to define an expiration date for example. The module documentation
+covers it in more details.
 
 **Logging**
 
-*TODO*
+Logging the important information of received requests is crucial to configure
+your server's security. This topic is covered in more details in :ref:`Module 3
+<module3 configure logging>`.
 
 |
 
-**1.3 - Describe the difference between serving static content and dynamic
-content. (REGEX, and variables)**
+1.3 - Describe the difference between serving static content and dynamic content. (REGEX, and variables)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-*TODO*
+This objective's phrasing is quite weird: dynamic vs. static content clearly,
+in the context of the web, refer to webpages that may have automated evolutions
+and some logic (NodeJS or PHP web stack), while static content should remain
+statically generated, independently of the requests. On another hand, the
+parenthesis and sub-objectives go totally in another direction, talking about
+NGINX's location matching mechanisms. The following `link
+<https://nginxcommunity.slack.com/archives/C071Y9G3L3T/p1720767284864229>`_
+points to a discussion on this subject that you may find enlightening or not.
+
+To answer both aspects:
+
+- NGINX supports dynamic URI matching. This means that the configuration file
+  does not have to write one by one all possible URIs that a server should
+  answer to, but performs some smart matching potentially using REGEX and
+  variables. This is notably what we discussed in `1.2 - Describe how to
+  configure path REGEX routing <module2 configure routing>`.
+- NGINX can act both as a static content server, and a dynamic content reverse
+  proxy. NGINX serves static files using the ``root``, ``index`` and
+  ``try_files`` directives we already encountered. On another hand, the
+  ``proxy_pass`` family of directives allows NGINX to reverse proxy connections
+  to upstream servers generating dynamic content. NGINX even has optimized
+  proxy passing for certain protocols such as FastCGI with the
+  `ngx_http_fastcgi_module
+  <https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html>` and its
+  ``fastcgi_pass`` directive.
+
+The difference between both is that:
+
+- static file's content should not be different between 2 requests. The content
+  should only evolve if someone replaces the files at the location they are
+  being served from on the machine hosting NGINX.
+- dynamic content is expected to serve different files between 2 requests. This
+  can for example be implemented with the PHP programming language that can
+  read a request and a ``.php`` file to be served, and perform dynamic actions
+  to make the page evolve depending on request's parameters (e.g.:
+  Authorization, User-Agent or Cookie headers), or even depending on other
+  aspects (e.g.: the time at which the request is processed)
+
+NGINX has features for handling both aspects.
 
 |
 
 1.3 - Describe how server and location work
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-*TODO*
+For this objective, if you are already comfortable with the previous part you
+should have a better idea on how to tackle this.
+
+It however can be interesting to note the actual definition of server and
+location blocks. First, note that the ``server`` directive belongs to both the
+http and stream modules, while the ``location`` directive can only be found and
+only makes sense in the http module (there is no notion of URI above the OSI
+layer 7 where the HTTP protocol lies).
+
+
 
 |
 
@@ -990,8 +1109,8 @@ content. (REGEX, and variables)**
 |
 |
 
-Objective - 1.4 Manage shared memory zones
-------------------------------------------
+Objective - Configure NGINX as a reverse proxy
+----------------------------------------------
 
 |
 |

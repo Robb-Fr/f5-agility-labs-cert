@@ -104,6 +104,8 @@ On another hand, NGINX proposes another,
 |
 |
 
+.. _module3 configure logging:
+
 Objective - 1.3 Demonstrate how to configure logging
 ----------------------------------------------------
 

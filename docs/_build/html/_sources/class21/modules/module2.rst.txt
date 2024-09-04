@@ -485,6 +485,11 @@ https://blog.nginx.org/blog/nginx-caching-guide
 
 https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_path
 
+https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_use_stale
+
+DEJONGHE, NGINX COOKBOOK Advanced Recipes for High -Performance Load
+Balancing., 41-41.
+
 **Minimum retention policy**
 
 When speaking of a caching system, a minimum retention policy refers to the
@@ -497,9 +502,26 @@ cache insertion.
 
 **NGINX cache minimum retention**
 
-*TODO* (I can't see how to do this, I see a maximum cache retention through the
-``inactive=time`` directive, but to me files can always be quickly evicted from
-cache if they are not hit often enough and many other cache write are coming)
+Strictly speaking, I cannot see how to configure NGINX in a way that makes it
+purposefully enforce a minimum retention policy. The closest aspect of NGINX
+that may coincide with this policy is the ability for NGINX to serve cached
+stale content in case of an error.
+
+.. code-block:: NGINX
+
+  proxy_cache_use_stale error timeout invalid_header updating
+    http_500 http_502 http_503 http_504
+    http_403 http_404 http_429;
+
+The above directive indicates that NGINX should use cache content, even if it
+is stale, upon upstream servers responding error codes 500, 502, 503, 504, 403,
+404 or 429. It also specifies that NGINX should do the same in case the
+upstream request timed out, it answered with invalid headers, it encountered an
+error or also when the cache is being updated (so that NGINX can answer before
+the cache gets fully updated but with a stale response).
+
+The parameters are the ones found in the variable `proxy_next_upstream
+<https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_next_upstream>`_.
 
 |
 
@@ -1057,7 +1079,7 @@ To answer both aspects:
 - NGINX supports dynamic URI matching. This means that the configuration file
   does not have to write one by one all possible URIs that a server should
   answer to, but performs some smart matching potentially using REGEX and
-  variables. This is notably what we discussed in `1.2 - Describe how to
+  variables. This is notably what we discussed in :ref:`1.2 - Describe how to
   configure path REGEX routing <module2 configure routing>`.
 - NGINX can act both as a static content server, and a dynamic content reverse
   proxy. NGINX serves static files using the ``root``, ``index`` and
@@ -1088,6 +1110,14 @@ NGINX has features for handling both aspects.
 1.3 - Describe how server and location work
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+https://nginx.org/en/docs/http/request_processing.html
+
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Messages
+
+https://nginx.org/en/docs/http/server_names.html
+
+**Server and Location blocks**
+
 For this objective, if you are already comfortable with the previous part you
 should have a better idea on how to tackle this.
 
@@ -1097,14 +1127,76 @@ http and stream modules, while the ``location`` directive can only be found and
 only makes sense in the http module (there is no notion of URI above the OSI
 layer 7 where the HTTP protocol lies).
 
+**Server**
 
+A ``server`` block sets the configuration for a "Virtual Server" (if you come
+from the F5 Big IP world, you can very easily compare these to the LTM Virtual
+Servers). It is "virtual", in the sense that there are not really one server
+process and stack per server bloc, NGINX makes sure to optimize this part, and
+it is a "server", in the sense that it listens to incoming requests. The most
+amazing part about how NGINX treats ``server`` block lies in how requests are
+processed and assigned to a virtual server: instead of just considering an
+IP+Port association to define uniquely a server, NGINX is able to consider
+other aspects. This means that N servers may be able to listen on the same
+IP+Port pair, but NGINX will still be able to correctly associate requests to
+one or another depending on the context.
+
+- TLS SNI: on a stream or http server using TLS, NGINX is able to associate
+  requests by reading the TLS' extension "Server Name Identification" (SNI) if
+  it is compiled with the correct options (you can check the output of ``nginx
+  -V`` and see if there is mention of SNI in the options).
+- HTTP Host header: on a http server only, NGINX can read from the request's
+  header "Host" the value and associate the request to a specific server block
+  if it can match this value to a server's ``server_name``. Note that
+  ``server_name`` support wildcard (*) so you may catch many hostnames with a
+  single server block.
+
+**Location**
+
+A location is another concept. It first can only live inside a server block
+living in a http block, and it uses the HTTP request target from the HTTP
+Request line to define which location should be matched.
+
+Recall the content from :ref:`URI routing part <module2 configure routing>` to
+learn about the different quirks and possibilities for making dynamic routing
+between different location block inside a server.
+
+Locations differ from server in that they are binded to a server, location
+blocks only exist in the context of a server. When a request is coming to
+NGINX, it first maps it to a virtual server, and then eventually matches a
+location inside that server to define how to process the request. Both are
+blocks that can contain various directives to give specifications on how to
+process incoming requests.
 
 |
 
 1.3 - Explain what is unique to NGINX as a web server
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-*TODO*
+There are of course many ways to see why NGINX is unique as a web server. I
+notably think, regarding the points we studied for this objective, the 3 most
+important ones are the following:
+
+- Performance: NGINX is reputably known for its performances. As written by
+  `Andrew Alexeev <https://aosabook.org/en/v2/nginx.html>`_, NGINX was written
+  with in mind solving the `C10K problem
+  <https://en.wikipedia.org/wiki/C10k_problem>`_ at a time this could barely be
+  achieved with Apache. Therefore, NGINX has performance in its core design and
+  handles requests in an optimized way (mostly on BSD and Linux based
+  platforms). This sets it apart from its historical ancestor Apache.
+- Security: NGINX comes with many security features as you could see in this
+  part. The most powerful one probably is implementing HTTPS and making it
+  quite easy to setup with reasonably secure defaults: you just need to provide
+  a path to a key and a certificate, NGINX can handle the rest. This is not
+  especially rare in reverse proxies, but NGINX, with its design and all other
+  controls it gives for security, is a reputably secure reverse proxy.
+- Flexibility: The previous part emphasizes how you can, with simple and file
+  based directives, define complex and useful behaviour matching various
+  possible architectures for your application delivery. If you come from the F5
+  Big IP world, you probably blew your mind realizing you do not need to have a
+  virtual server dedicated to routing: you can here directly create a virtual
+  server per application and make them all listen on HTTP/HTTPS standard ports
+  while letting NGINX match request to virtual server using SNI or Host header.
 
 |
 |
@@ -1157,7 +1249,7 @@ Objective - Configure NGINX as a reverse proxy
 
 |
 
-1.4 - Describe how to configure NGINX as socket reserve proxy
+1.4 - Describe how to configure NGINX as socket reverse proxy
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *TODO*

@@ -14,7 +14,7 @@
   <meta name="title" content="F5N2 - Configuration: Knowledge"/>
   <meta name="product" content="Unofficial - F5 Certification Exam Prep Material"/>
   <meta name="version" content=""/>
-  <meta name="updated_date"  content="2024-09-06 03:05:59"/>
+  <meta name="updated_date"  content="2024-09-06 03:57:36"/>
   <meta name="archived" content="Archived documents excluded"/>
   <meta name="doc_type" content="Manual"/>
   <meta name="lifecycle" content="release"/>
@@ -1464,6 +1464,7 @@ adds headers to the response sent to the client.</p>
 </div>
 <div class="section" id="id1">
 <h3>1.4 - Modify or tune a memory zone configuration<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="https://docs.nginx.com/nginx/admin-guide/load-balancer/http-load-balancer/#sharing-data-with-multiple-worker-processes">https://docs.nginx.com/nginx/admin-guide/load-balancer/http-load-balancer/#sharing-data-with-multiple-worker-processes</a></p>
 <p><em>TODO</em></p>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -1478,7 +1479,47 @@ adds headers to the response sent to the client.</p>
 </div>
 <div class="section" id="describe-how-open-source-nginx-handles-health-checks-in-different-situations">
 <h3>1.4 - Describe how open source NGINX handles health checks in different situations<a class="headerlink" href="#describe-how-open-source-nginx-handles-health-checks-in-different-situations" title="Permalink to this headline">¶</a></h3>
-<p><em>TODO</em></p>
+<p><a class="reference external" href="https://docs.nginx.com/nginx/admin-guide/load-balancer/http-health-check/">https://docs.nginx.com/nginx/admin-guide/load-balancer/http-health-check/</a></p>
+<p><a class="reference external" href="https://docs.nginx.com/nginx/admin-guide/load-balancer/tcp-health-check/">https://docs.nginx.com/nginx/admin-guide/load-balancer/tcp-health-check/</a></p>
+<p><a class="reference external" href="https://docs.nginx.com/nginx/admin-guide/load-balancer/udp-health-check/">https://docs.nginx.com/nginx/admin-guide/load-balancer/udp-health-check/</a></p>
+<p><a class="reference external" href="https://nginx.org/en/docs/http/ngx_http_upstream_module.html#server">https://nginx.org/en/docs/http/ngx_http_upstream_module.html#server</a></p>
+<p><strong>NGINX OSS handles passive health checks</strong></p>
+<p>First, as the certification cover NGINX OSS only, note that many features
+related to health checks are therefore not covered (active health checks,
+server drains, slow starts, etc.).</p>
+<p>NGINX handling passive health checks means that, when reverse-proxying
+connections, if it realizes that the upstream server does not respond, it will
+not stand there and keep sending new connections to this backend. NGINX will
+internally flag this server as down for a certain amount of time, and not send
+requests to it again until it gets considered up again.</p>
+<p>If the upstream group is in a shared memory zone, the upstream servers’ state
+is shared among NGINX workers, making the server unavailability available to
+all workers and preventing, when having N workers, having N times trials to
+proxy client request to a failed server but do this only once.</p>
+<p>The handling of health check is quite similar for each protocol (HTTP, TCP or
+UDP).</p>
+<p>Health check are handled only when using upstream block. The <code class="docutils literal notranslate"><span class="pre">server</span></code>
+directive has options to precise health check behaviour for a certain server:
+<code class="docutils literal notranslate"><span class="pre">max_fails</span></code> and <code class="docutils literal notranslate"><span class="pre">fail_timeout</span></code>.</p>
+<p>In the following example, if NGINX fails to send a request to a server or does
+not receive a response from it 3 times in 30 seconds, it marks the server as
+unavailable for 30 seconds:</p>
+<div class="highlight-NGINX notranslate"><div class="highlight"><pre><span></span><span class="k">upstream</span> <span class="s">backend</span> <span class="p">{</span>
+  <span class="kn">server</span> <span class="s">backend1.example.com</span><span class="p">;</span>
+  <span class="kn">server</span> <span class="s">backend2.example.com</span> <span class="s">max_fails=3</span> <span class="s">fail_timeout=30s</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Note that if there is only a single server in a group, the fail_timeout and
+max_fails parameters are ignored and the server is never marked unavailable.</p>
+<p>By default, <code class="docutils literal notranslate"><span class="pre">max_fails=1</span></code> and <code class="docutils literal notranslate"><span class="pre">fail_timeout=10s</span></code>. Also note that
+<code class="docutils literal notranslate"><span class="pre">fail_timeout</span></code> defines both, the time NGINX waits before considering the
+server timed out, and the time during which a server is flagged as down after
+it has reached that timeout. This aspect can be surprising.</p>
+<p><strong>Health checking for HTTP, TCP and UDP upstream servers</strong></p>
+<p>HTTP, TCP and UDP passive health checks are configured with the same
+parameters, the only difference is that the upstream server group would be
+created in a <code class="docutils literal notranslate"><span class="pre">stream</span></code> or an <code class="docutils literal notranslate"><span class="pre">http</span></code> block.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 <div class="line"><br /></div>

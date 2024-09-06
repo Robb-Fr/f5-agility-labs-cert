@@ -1429,6 +1429,8 @@ They are not operating on the same aspects of HTTP (request vs. response).
 1.4 - Modify or tune a memory zone configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+https://docs.nginx.com/nginx/admin-guide/load-balancer/http-load-balancer/#sharing-data-with-multiple-worker-processes
+
 *TODO*
 
 |
@@ -1443,7 +1445,62 @@ They are not operating on the same aspects of HTTP (request vs. response).
 1.4 - Describe how open source NGINX handles health checks in different situations
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-*TODO*
+https://docs.nginx.com/nginx/admin-guide/load-balancer/http-health-check/
+
+https://docs.nginx.com/nginx/admin-guide/load-balancer/tcp-health-check/
+
+https://docs.nginx.com/nginx/admin-guide/load-balancer/udp-health-check/
+
+https://nginx.org/en/docs/http/ngx_http_upstream_module.html#server
+
+**NGINX OSS handles passive health checks**
+
+First, as the certification cover NGINX OSS only, note that many features
+related to health checks are therefore not covered (active health checks,
+server drains, slow starts, etc.).
+
+NGINX handling passive health checks means that, when reverse-proxying
+connections, if it realizes that the upstream server does not respond, it will
+not stand there and keep sending new connections to this backend. NGINX will
+internally flag this server as down for a certain amount of time, and not send
+requests to it again until it gets considered up again.
+
+If the upstream group is in a shared memory zone, the upstream servers' state
+is shared among NGINX workers, making the server unavailability available to
+all workers and preventing, when having N workers, having N times trials to
+proxy client request to a failed server but do this only once.
+
+The handling of health check is quite similar for each protocol (HTTP, TCP or
+UDP).
+
+Health check are handled only when using upstream block. The ``server``
+directive has options to precise health check behaviour for a certain server:
+``max_fails`` and ``fail_timeout``.
+
+In the following example, if NGINX fails to send a request to a server or does
+not receive a response from it 3 times in 30 seconds, it marks the server as
+unavailable for 30 seconds:
+
+.. code-block:: NGINX
+
+  upstream backend {
+    server backend1.example.com;
+    server backend2.example.com max_fails=3 fail_timeout=30s;
+  }
+
+Note that if there is only a single server in a group, the fail_timeout and
+max_fails parameters are ignored and the server is never marked unavailable.
+
+By default, ``max_fails=1`` and ``fail_timeout=10s``. Also note that
+``fail_timeout`` defines both, the time NGINX waits before considering the
+server timed out, and the time during which a server is flagged as down after
+it has reached that timeout. This aspect can be surprising.
+
+**Health checking for HTTP, TCP and UDP upstream servers**
+
+HTTP, TCP and UDP passive health checks are configured with the same
+parameters, the only difference is that the upstream server group would be
+created in a ``stream`` or an ``http`` block.
 
 |
 |

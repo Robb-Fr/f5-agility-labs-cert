@@ -819,6 +819,8 @@ Objective - 1.3 Configure NGINX as a web server
 |
 |
 
+.. _module2 securely serve content:
+
 1.3 - Demonstrate how to securely serve content (HTTP/HTTPS)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -1210,35 +1212,217 @@ Objective - Configure NGINX as a reverse proxy
 1.4 - Explain how traffic routing is handled in NGINX as a reverse proxy
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-*TODO*
+https://nginx.org/en/docs/http/request_processing.html
+
+https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/
+
+https://nginx.org/en/docs/http/ngx_http_upstream_module.html
+
+**Routing to upstream in NGINX**
+
+As you have seen from the previous Objective, routing in NGINX begins be
+assigning a request to a virtual server, then to a location block in the case
+of and http server.
+
+In the case of a reverse proxy, the same applies, the difference lies in the
+request's proxying to an upstream server. Inside a location block, you can pass
+a request to upstream server using the ``proxy_pass`` directive. Other
+``*_pass`` directive allow to pass to non HTTP upstream servers. The remaining
+of the routing depends on this communication with the upstream server.
+
+Note that you can not only pass to a specific upstream address or domain, but
+also to an upstream group, defined by the ``upstream`` directive. Recall what
+you learnt in the :ref:`Previous module <module 1 nginx load balancer>` to know
+about how the load balancing is handled and which server is selected for
+sending the request to.
+
+**Specificities and quirks related to upstream routing**
+
+The following points are hard to organize and classify as they are quite
+specific to NGINX and how to passes requests upstream in details, but you may
+find these interesting and will probably some day encounter issues related to
+these:
+
+- Passing request headers: by default, NGINX redefines two header fields in
+  proxied requests, “Host” and “Connection”, and eliminates the header fields
+  whose values are empty strings. “Host” is set to the $proxy_host variable,
+  and “Connection” is set to close. This can be a source of L7 routing issues
+  because your upstream server may need to know the original Host header sent
+  by the client, or have other information such as the client's real IP address
+  (indicated by HTTP headers such as X-Real-IP, X-Forwarded-For, or Forwarded).
+  To solve these, you can use the ``proxy_set_header`` directive.
+- Choosing an outgoing IP address. Because your NGINX instance may be reachable
+  through multiple IPs, you may need to give specific source IP to your
+  upstream server for tackling routing issues. The ``proxy_bind`` directive
+  solves precisely this.
+- Dynamically resolving upstream's IP. By default, if you put your upstream
+  servers in an ``upstream`` group, you can use the ``server`` directive to
+  define your upstream servers by the IP, domain name or UNIX socket address.
+  Note that the domain name resolution, by default, only occurs on NGINX
+  configuration reload, and does not monitor changes made to the DNS record
+  before the next reload. This can be solved in NGINX Plus commercial
+  subscription, with the ``resolve`` option of the ``server`` directive, but
+  not easily and cleanly in NGINX OSS. If your domain name resolves to multiple
+  IP addresses, NGINX will consider multiple upstream server and round robin
+  through them as if you added each IP by hand.
+- Caching and upstream bypassing. If you configure caching of upstream server's
+  responses, requests are not necessarily proxied to upstream server and may
+  totally bypass this step, cutting the routing path at NGINX.
 
 |
 
 1.4 - Explain what is unique to NGINX as a reverse proxy
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-*TODO*
+https://medium.com/@mak0024/nginx-as-a-reverse-proxy-benefits-and-best-practices-928863bfd317
+
+**NGINX strengths**
+
+NGINX is unique as a reverse proxy by how it exploits its strengths. Here are
+some points recalling how NGINX especially shines:
+
+- Performance: as we explained regarding the Web Server capabilities of NGINX,
+  performances are crucial for a reverse proxy and NGINX can leverage its web
+  server performances in that regard. Notably, NGINX can be configured with
+  different proxy passing protocols, optimized for certain tasks which makes
+  NGINX a powerful reverse proxy. NGINX can also manage caching easily and use
+  cached response to answer faster and reduce load on the upstream servers.
+- Flexibility: as we have seen with NGINX as a web server, NGINX configuration
+  is flexible. This also benefits the reverse proxy aspects of NGINX, as it
+  allows us to easily make operations such as manipulating headers, load
+  balancing, handle upstream errors etc. All the NGINX configuration can easily
+  be tracked with the configuration files which is a great strength of NGINX.
+- Security features: reverse proxies have the ability to act as Web Application
+  Firewall, which, to some small but powerful extends, applies to NGINX.
+  Indeed, rate limiting, IP restrictions, HTTP endpoints and methods
+  restrictions are all part of NGINX tools for protecting the upstream servers.
+
+Some of these features can be found in other products, but NGINX particularly
+shines in grouping them all together in a lightweight and Open Source software.
 
 |
 
 1.4 - Configure encryption
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-*TODO*
+DEJONGHE, NGINX COOKBOOK Advanced Recipes for High -Performance Load
+Balancing., 77, 84-88.
+
+https://docs.nginx.com/nginx/admin-guide/security-controls/securing-http-traffic-upstream/
+
+https://docs.nginx.com/nginx/admin-guide/security-controls/securing-tcp-traffic-upstream/
+
+In the context of this part, configuring encryption specifically for reverse
+proxying seems to refer to encrypting traffic between NGINX and the upstream
+servers (configuring encryption between the client and NGINX is covered in the
+:ref:`Web Server part <module2 securely serve content>`)
+
+**Securing HTTP traffic to upstream**
+
+To encrypt HTTP traffic to upstream servers, the simplest configuration is to
+specify "https://" in front of the server in option to the ``proxy_pass``
+directive. This will make sure, as long as upstream servers can present an
+HTTPS certificate, that the communication is encrypted.
+
+Note however that, regarding authentication, by default NGINX does not verify
+with its CAs the signature of the presented certificate. ``proxy_ssl_verify``
+option allows to enforce this.
+
+**Securing TCP traffic to upstream**
+
+Similarly to the above for HTTPS, you may use SSL in TCP to encrypt layer 4
+stream to upstream servers, it being HTTP or not. In that case, you should not
+specify HTTP but just add another directive in the same block as your
+``proxy_pass`` directive: ``proxy_ssl  on;``.
+
+Again, the upstream's certificate is not verified by default, which should be
+enabled by ``proxy_ssl_verify on;``.
+
+Note that here, as the objective only specifies "encryption", we do not focus
+on authentication. For making NGINX authenticate toward the upstream servers,
+take a look at the :ref:`Certificate related section of module 3 <module3
+configure certificates>`
 
 |
 
 1.4 - Demonstrate how to manipulate headers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-*TODO*
+https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_set_header
+
+https://nginx.org/en/docs/http/ngx_http_headers_module.html
+
+**Modify response headers produced by upstream before they reach the client**
+
+In the context of NGINX being used as a reverse proxy, to manipulate headers in
+NGINX, there are 2 main approaches: modifying headers from the upstream
+received response, or modifying the request headers before they are passed to
+the upstream server.
+
+You can add as many headers as desired to a response using the directives from
+the ``ngx_http_headers_module``.
+
+.. code-block:: NGINX
+
+  add_header Cache-Control private;
+
+Adds a "Cache-Control" header with the "private" value (which indicates that
+the response is client specific and can be cached but not in a cache shared
+among users).
+
+To remove headers from a response, the ``proxy_hide_header`` allows to remove
+any specified from the response. Note that by default, "Date", "Server",
+"X-Pad" and "X-Accel-..." headers are removed.
+
+``proxy_ignore_headers`` allows to make NGINX ignore headers that would
+otherwise instruct it to perform some actions (redirects, cache control, etc.).
+The following fields can be ignored: “X-Accel-Redirect”, “X-Accel-Expires”,
+“X-Accel-Limit-Rate” (1.1.6), “X-Accel-Buffering” (1.1.6), “X-Accel-Charset”
+(1.1.6), “Expires”, “Cache-Control”, “Set-Cookie” (0.8.44), and “Vary” (1.7.7).
+
+**Modify the request headers produced by client before they reach the upstream
+server**
+
+On the other side, you may want to modify HTTP headers before they could reach
+the upstream server. For this, your main tool is the ``proxy_set_header``
+directive. As the name suggests, it does not just adds headers but allows
+redefining the received headers.
+
+By default, 2 fields are automatically redefined, as if the following
+directives were a default:
+
+.. code-block:: NGINX
+
+  proxy_set_header Host       $proxy_host;
+  proxy_set_header Connection close;
+
+This allows to use the upstream's server name as Host (you will very often need
+to redefine this to ``$host`` or ``$http_host`` in order for the upstream
+server to see the client's original requested Host). It also ensures the
+connection is closed after the transaction and prevents keeping unwanted
+keepalived connections. This makes sure that Keep-Alive is explicitly
+configured.
+
+By default, the request headers received by the client are passed but this can
+be modified through the ``proxy_pass_request_header`` directive.
+
+If you want to explicitly prevent one specific header from being passed to the
+upstream, the following allows you to do so:
+
+.. code-block:: NGINX
+
+  proxy_set_header Accept-Encoding "";
 
 |
 
 1.4 - Describe the difference between proxy_set_header and add_header
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-*TODO*
+You may have got it from the above, but basically ``proxy_set_header`` modifies
+the request headers before they are passed to upstream, while ``add_header``
+adds headers to the response sent to the client.
+
+They are not operating on the same aspects of HTTP (request vs. response).
 
 |
 

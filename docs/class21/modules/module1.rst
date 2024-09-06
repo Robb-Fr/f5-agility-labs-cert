@@ -128,6 +128,8 @@ specified as a domain name or an IP address.
 
 |
 
+.. _module 1 nginx load balancer:
+
 1.1 - Describe NGINX as a load balancer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

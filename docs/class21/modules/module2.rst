@@ -4,7 +4,27 @@ F5N2 - Configuration: Knowledge
 |
 |
 
-*TODO*
+Exam summary
+------------
+
+The F5 NGINX Configuration: knowledge exam is one of four NGINX exams
+candidates are required to pass to achieve the F5 Certified, Administrator,
+NGINX. The exams may be taken in any order. The NGINX certification is based on
+NGINX Open Source Software, not NGINX+.
+
+The F5 NGINX Management exam ensures that the candidates have the skills and
+understanding necessary for day-to-day management of an NGINX web server
+platform.
+
+This module goes through all the elements evaluated as specified in the exam
+blueprint and gives insights, details but above all resources to guide
+candidates in their study for these exams.
+
+The covered material explores the content of the Configuration: Knowledge exam,
+axed around **knowing how to handle use cases with configuration directives**.
+Although you will read here as much insight as I could grasp from the various
+sources, you are strongly advised to **read by yourself the very rich
+documentation** details as it is the core of the evaluated material.
 
 |
 |
@@ -25,7 +45,7 @@ https://docs.nginx.com/nginx/admin-guide/load-balancer/tcp-udp-load-balancer/
 **upstream directive**
 
 Defining a load balancing pool is as simple as writing the ``upstream``
-directive in an ``http`` or ``stream`` block. Please refer to the referenced
+directive in a ``http`` or ``stream`` block. Please refer to the referenced
 pages for details.
 
  The simplest configuration for load balancing with nginx may look like the
@@ -255,7 +275,7 @@ detailed in the linked documentation.
   enable options.
 
 Also, considering observability as a security property, take note of the
-logging configuration of NGINX, notably its centralisation capabilities with
+logging configuration of NGINX, notably its centralization capabilities with
 easy to configure log sending to a syslog server.
 
 |
@@ -294,7 +314,7 @@ configured in the following contexts:
 
 **What can be configured and tuned**
 
-In each of the aforementioned contexts, different directives allow to configure
+In each of the aforementioned contexts, different directives allow configuring
 the shared memory zones corresponding. For most of these, this zone has only 2
 parameters: a name (used to identify a same zone multiple times in the config),
 and a size in bytes.
@@ -324,15 +344,14 @@ In the context of reverse proxying, request mirroring refers to making the
 reverse proxy, proxy requests to a mirroring server, "as if" it was an actual
 backend upstream server. However, the specificity lies in the fact that NGINX
 does not actually forward the mirror server's response back to the client. This
-for example allows to test a new, off-production backend server with real
+for example allows testing a new, off-production backend server with real
 clients' requests and assess its functionalities before pushing it to
 production.
 
-The following diagram from `Alex Dzyoba's
-blog <https://alex.dzyoba.com/blog/nginx-mirror/>`_ provides a visual
-representation of a mirroring setup where NGINX would both, proxy the actual
-client's request to the real backend server, as well as mirroring this request
-to a test server.
+The following diagram from `Alex Dzyoba's blog
+<https://alex.dzyoba.com/blog/nginx-mirror/>`_ provides a visual representation
+of a mirroring setup where NGINX would both, proxy the actual client's request
+to the real backend server, and mirroring this request to a test server.
 
 .. image:: /_static/n1-n4/nginx-mirror-mirror-setup.png
     :height: 400px
@@ -668,7 +687,7 @@ points that we will immediately answer:
     matching value is found or if the cached content is stale, NGINX will
     forward the request to an upstream server.
 
-These are the basics of how NGINX allows to cache the content when placed as a
+These are the basics of how NGINX allows caching the content when placed as a
 reverse proxy: it stores in its own file system the files served by upstream to
 client, and tries to match incoming requests with the cached ones, serving the
 cached ones when possible.
@@ -795,8 +814,7 @@ both advantages:
 
 The above is true for any caching implemented by a reverse proxy. NGINX is
 particularly good because it comes with great optimizations (e.g.: the caching
-keys are stored in a shared memory zone, this is non-trivial and allows to
-share the cache population work performed by the different workers and leverage
+keys are stored in a shared memory zone, this is non-trivial and allows sharing the cache population work performed by the different workers and leverage
 hardware with high parallelism capabilities) that are very easy to configure
 out of the box.
 
@@ -843,10 +861,10 @@ https://blog.nginx.org/blog/http-strict-transport-security-hsts-and-nginx
 
 The :ref:`previous part <module2 describe configure security>` already gives
 insights on what settings can be adjusted to control security aspects of an
-HTTP/HTTPS server. Security of course is a tremendously vast topic and we could
-not cover it all in this point. We will try to cover the most important aspects
-and, as the objective asks for demonstrative capabilities, mostly provide
-detailed examples of concrete security configurations.
+HTTP/HTTPS server. Security of course is a tremendously vast topic, and we
+could not cover it all in this point. We will try to cover the most important
+aspects and, as the objective asks for demonstrative capabilities, mostly
+provide detailed examples of concrete security configurations.
 
 **Authentication**
 
@@ -904,7 +922,7 @@ into details on how to restrict access based on IP addresses.
 
 **HTTP specific security features**
 
-HTTP and its evolution comes with many specifications, headers and other quirks
+HTTP and its evolution come with many specifications, headers and other quirks
 dedicated to security. We could not go over all of them, but it is worth
 mentioning some common hardening features allowed by NGINX. Ideally, the
 upstream servers should be able to define the correct HTTP headers to ensure
@@ -923,7 +941,7 @@ Secure Cross-Origin Resources Sharing (CORS)
     :height: 500px
 
   Basically, if your server serves resources from another domain (say, you host
-  images or scripts used as resources for pages in a websites hosted at
+  images or scripts used as resources for pages in a website hosted at
   ``site1.example.com`` and ``site2.example.com``), you will need to enable
   CORS for the web clients to be able to fetch the resources you host that are
   referred to in the pages served by ``site1.example.com`` and
@@ -961,7 +979,7 @@ Clickjacking and Cross-Site Scripting (XSS) protection
   Clickjacking refers to an attack where a user is tricked into clicking on a
   link from a different source that what they think (for example, clicking on a
   "Submit" button inside an iFrame when they think the button belongs to the
-  top level page and not an iFrame). XSS is is a security exploit which allows
+  top level page and not an iFrame). XSS is a security exploit which allows
   an attacker to inject into a website malicious client-side code. This code is
   executed by the victims and lets the attackers bypass access controls and
   impersonate users. HTTP proposes the standardized **Content-Security-Policy**
@@ -993,7 +1011,7 @@ In order to protect a location, NGINX can make use of the features in its
 `ngx_http_secure_link_module
 <https://nginx.org/en/docs/http/ngx_http_secure_link_module.html>`_.
 
-Basically, this module allows to protect a location by requiring the requested
+Basically, this module allows protecting a location by requiring the requested
 URI contains some non easily guessable value, making it hard for automated
 scanner to easily access the files at that location.
 
@@ -1188,7 +1206,7 @@ important ones are the following:
   platforms). This sets it apart from its historical ancestor Apache.
 - Security: NGINX comes with many security features as you could see in this
   part. The most powerful one probably is implementing HTTPS and making it
-  quite easy to setup with reasonably secure defaults: you just need to provide
+  quite easy to set up with reasonably secure defaults: you just need to provide
   a path to a key and a certificate, NGINX can handle the rest. This is not
   especially rare in reverse proxies, but NGINX, with its design and all other
   controls it gives for security, is a reputably secure reverse proxy.
@@ -1239,7 +1257,7 @@ sending the request to.
 **Specificities and quirks related to upstream routing**
 
 The following points are hard to organize and classify as they are quite
-specific to NGINX and how to passes requests upstream in details, but you may
+specific to NGINX and how to pass requests upstream in details, but you may
 find these interesting and will probably some day encounter issues related to
 these:
 
@@ -1263,7 +1281,7 @@ these:
   before the next reload. This can be solved in NGINX Plus commercial
   subscription, with the ``resolve`` option of the ``server`` directive, but
   not easily and cleanly in NGINX OSS. If your domain name resolves to multiple
-  IP addresses, NGINX will consider multiple upstream server and round robin
+  IP addresses, NGINX will consider multiple upstream server and round-robin
   through them as if you added each IP by hand.
 - Caching and upstream bypassing. If you configure caching of upstream server's
   responses, requests are not necessarily proxied to upstream server and may
@@ -1326,7 +1344,7 @@ HTTPS certificate, that the communication is encrypted.
 
 Note however that, regarding authentication, by default NGINX does not verify
 with its CAs the signature of the presented certificate. ``proxy_ssl_verify``
-option allows to enforce this.
+option allows enforcing this.
 
 **Securing TCP traffic to upstream**
 
@@ -1370,11 +1388,11 @@ Adds a "Cache-Control" header with the "private" value (which indicates that
 the response is client specific and can be cached but not in a cache shared
 among users).
 
-To remove headers from a response, the ``proxy_hide_header`` allows to remove
+To remove headers from a response, the ``proxy_hide_header`` allows removing
 any specified from the response. Note that by default, "Date", "Server",
 "X-Pad" and "X-Accel-..." headers are removed.
 
-``proxy_ignore_headers`` allows to make NGINX ignore headers that would
+``proxy_ignore_headers`` allows making NGINX ignore headers that would
 otherwise instruct it to perform some actions (redirects, cache control, etc.).
 The following fields can be ignored: “X-Accel-Redirect”, “X-Accel-Expires”,
 “X-Accel-Limit-Rate” (1.1.6), “X-Accel-Buffering” (1.1.6), “X-Accel-Charset”
@@ -1385,7 +1403,7 @@ server**
 
 On the other side, you may want to modify HTTP headers before they could reach
 the upstream server. For this, your main tool is the ``proxy_set_header``
-directive. As the name suggests, it does not just adds headers but allows
+directive. As the name suggests, it does not just add headers but allows
 redefining the received headers.
 
 By default, 2 fields are automatically redefined, as if the following
@@ -1403,7 +1421,7 @@ connection is closed after the transaction and prevents keeping unwanted
 keepalived connections. This makes sure that Keep-Alive is explicitly
 configured.
 
-By default, the request headers received by the client are passed but this can
+By default, the request headers received by the client are passed, but this can
 be modified through the ``proxy_pass_request_header`` directive.
 
 If you want to explicitly prevent one specific header from being passed to the
@@ -1431,14 +1449,88 @@ They are not operating on the same aspects of HTTP (request vs. response).
 
 https://docs.nginx.com/nginx/admin-guide/load-balancer/http-load-balancer/#sharing-data-with-multiple-worker-processes
 
-*TODO*
+https://nginx.org/en/docs/http/ngx_http_upstream_module.html#zone
+
+**Memory zone for reverse proxying**
+
+Shared memory zones in the context of NGINX can be used in multiple contexts
+(shared rate limiting, shared caching, shared upstream state, etc.)
+
+In the context of NGINX being used as a reverse proxy, we will assume here that
+memory zone here refers to the memory zone to be defined in the ``upstream {}``
+block context (as other usages seem more related to other uses of NGINX).
+
+Shared memory zones in the context of upstream groups allow NGINX to share
+information and state related to the upstream load balancing state among the
+different workers. As explained in :ref:`the module 1 <module1 shared memory
+zones>`, sharing memory zones is an efficient way for NGINX to share
+information among its workers and prevent redoing the same work when successive
+requests are handled by different workers. For example, if an upstream group
+contains 4 members, and we want the N NGINX workers to load balance between
+these upstream servers in a round robin fashion, the N NGINX workers need to
+make sure they don't all re-do the round-robin work, but rather hit each server
+one after the other. Shared memory zone allow for example to do this.
+
+**Modify or tune a shared memory zone of an upstream group**
+
+Defining a shared memory zone for the upstream context is done with the
+``zone`` directive. It accepts 2 parameters: a name, required, and a size,
+optional. Using the same name for different zones allows to reuse a shared
+memory zone (eventually to optimize the used memory). For the size parameter,
+fine tuning it depends on multiple parameters, the documentation however
+provides some guidance on how it can be optimized for the use cases:
+
+As an example, with the sticky_route session persistence method and a single
+health check enabled, a 256-KB zone can accommodate information about the
+indicated number of upstream servers:
+
+- 128 servers (each defined as an IP-address:port pair)
+- 88 servers (each defined as hostname:port pair where the hostname resolves to
+  a single IP address)
+- 12 servers (each defined as hostname:port pair where the hostname resolves to
+  multiple IP addresses)
 
 |
 
 1.4 - Describe how to configure NGINX as socket reverse proxy
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-*TODO*
+https://nginx.org/en/docs/http/websocket.html
+
+**Web sockets in NGINX**
+
+In order to use NGINX as a reverse proxy when your backend server uses web
+sockets will work easily. You however must apply a specific configuration:
+since the "Upgrade" HTTP header, used to configure web sockets, is a hop-by-hop
+header, it is not expected to be passed by default from the client to the
+upstream servers.
+
+To handle this, NGINX uses a special procedure that can be configured with the
+following example code:
+
+.. code-block:: NGINX
+
+  http {
+    map $http_upgrade $connection_upgrade {
+        default upgrade;
+        ''      close;
+    }
+
+    server {
+        ...
+
+        location /chat/ {
+            proxy_pass http://backend;
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection $connection_upgrade;
+        }
+    }
+
+Here, the usage of ``proxy_set_header`` allows to override the "Upgrade" and
+the "Connection" header to reflect the client's intentions. The client's
+intention are read from the "Upgrade" header and put in a new variable
+``$connection_upgrade``.
 
 |
 
@@ -1489,7 +1581,7 @@ unavailable for 30 seconds:
   }
 
 Note that if there is only a single server in a group, the fail_timeout and
-max_fails parameters are ignored and the server is never marked unavailable.
+max_fails parameters are ignored, and the server is never marked unavailable.
 
 By default, ``max_fails=1`` and ``fail_timeout=10s``. Also note that
 ``fail_timeout`` defines both, the time NGINX waits before considering the
@@ -1500,7 +1592,7 @@ it has reached that timeout. This aspect can be surprising.
 
 HTTP, TCP and UDP passive health checks are configured with the same
 parameters, the only difference is that the upstream server group would be
-created in a ``stream`` or an ``http`` block.
+created in a ``stream`` or a ``http`` block.
 
 |
 |

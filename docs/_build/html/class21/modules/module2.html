@@ -14,7 +14,7 @@
   <meta name="title" content="F5N2 - Configuration: Knowledge"/>
   <meta name="product" content="Unofficial - F5 Certification Exam Prep Material"/>
   <meta name="version" content=""/>
-  <meta name="updated_date"  content="2024-09-06 03:57:36"/>
+  <meta name="updated_date"  content="2024-09-10 03:00:59"/>
   <meta name="archived" content="Archived documents excluded"/>
   <meta name="doc_type" content="Manual"/>
   <meta name="lifecycle" content="release"/>
@@ -142,6 +142,7 @@
         <span class="nav-sidebartoc">
             <ul>
 <li><a class="reference internal" href="#">F5N2 - Configuration: Knowledge</a><ul>
+<li><a class="reference internal" href="#exam-summary">Exam summary</a></li>
 <li><a class="reference internal" href="#objective-1-1-configure-nginx-as-a-load-balancer">Objective - 1.1 Configure NGINX as a load balancer</a><ul>
 <li><a class="reference internal" href="#define-the-load-balancing-pools-systems">1.1 - Define the load balancing pools/systems</a></li>
 <li><a class="reference internal" href="#explain-the-different-load-balancing-algorithms">1.1 - Explain the different load balancing algorithms</a></li>
@@ -234,10 +235,27 @@
 <div class="line"><br /></div>
 <div class="line"><br /></div>
 </div>
-<p><em>TODO</em></p>
+<div class="section" id="exam-summary">
+<h2>Exam summary<a class="headerlink" href="#exam-summary" title="Permalink to this headline">¶</a></h2>
+<p>The F5 NGINX Configuration: knowledge exam is one of four NGINX exams
+candidates are required to pass to achieve the F5 Certified, Administrator,
+NGINX. The exams may be taken in any order. The NGINX certification is based on
+NGINX Open Source Software, not NGINX+.</p>
+<p>The F5 NGINX Management exam ensures that the candidates have the skills and
+understanding necessary for day-to-day management of an NGINX web server
+platform.</p>
+<p>This module goes through all the elements evaluated as specified in the exam
+blueprint and gives insights, details but above all resources to guide
+candidates in their study for these exams.</p>
+<p>The covered material explores the content of the Configuration: Knowledge exam,
+axed around <strong>knowing how to handle use cases with configuration directives</strong>.
+Although you will read here as much insight as I could grasp from the various
+sources, you are strongly advised to <strong>read by yourself the very rich
+documentation</strong> details as it is the core of the evaluated material.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 <div class="line"><br /></div>
+</div>
 </div>
 <div class="section" id="objective-1-1-configure-nginx-as-a-load-balancer">
 <h2>Objective - 1.1 Configure NGINX as a load balancer<a class="headerlink" href="#objective-1-1-configure-nginx-as-a-load-balancer" title="Permalink to this headline">¶</a></h2>
@@ -251,7 +269,7 @@
 <p><a class="reference external" href="https://docs.nginx.com/nginx/admin-guide/load-balancer/tcp-udp-load-balancer/">https://docs.nginx.com/nginx/admin-guide/load-balancer/tcp-udp-load-balancer/</a></p>
 <p><strong>upstream directive</strong></p>
 <p>Defining a load balancing pool is as simple as writing the <code class="docutils literal notranslate"><span class="pre">upstream</span></code>
-directive in an <code class="docutils literal notranslate"><span class="pre">http</span></code> or <code class="docutils literal notranslate"><span class="pre">stream</span></code> block. Please refer to the referenced
+directive in a <code class="docutils literal notranslate"><span class="pre">http</span></code> or <code class="docutils literal notranslate"><span class="pre">stream</span></code> block. Please refer to the referenced
 pages for details.</p>
 <blockquote>
 <div>The simplest configuration for load balancing with nginx may look like the
@@ -451,7 +469,7 @@ upstream servers with again, simple defaults and some granular control to
 enable options.</li>
 </ul>
 <p>Also, considering observability as a security property, take note of the
-logging configuration of NGINX, notably its centralisation capabilities with
+logging configuration of NGINX, notably its centralization capabilities with
 easy to configure log sending to a syslog server.</p>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -482,7 +500,7 @@ requests parameters with cached content location on the disk.</li>
 pools for updating their status (alive, down, served X times, …)</li>
 </ul>
 <p><strong>What can be configured and tuned</strong></p>
-<p>In each of the aforementioned contexts, different directives allow to configure
+<p>In each of the aforementioned contexts, different directives allow configuring
 the shared memory zones corresponding. For most of these, this zone has only 2
 parameters: a name (used to identify a same zone multiple times in the config),
 and a size in bytes.</p>
@@ -506,14 +524,12 @@ links to the documentation.</p>
 reverse proxy, proxy requests to a mirroring server, “as if” it was an actual
 backend upstream server. However, the specificity lies in the fact that NGINX
 does not actually forward the mirror server’s response back to the client. This
-for example allows to test a new, off-production backend server with real
+for example allows testing a new, off-production backend server with real
 clients’ requests and assess its functionalities before pushing it to
 production.</p>
-<p>The following diagram from <a class="reference external" href="https://alex.dzyoba.com/blog/nginx-mirror/">Alex Dzyoba’s
-blog</a> provides a visual
-representation of a mirroring setup where NGINX would both, proxy the actual
-client’s request to the real backend server, as well as mirroring this request
-to a test server.</p>
+<p>The following diagram from <a class="reference external" href="https://alex.dzyoba.com/blog/nginx-mirror/">Alex Dzyoba’s blog</a> provides a visual representation
+of a mirroring setup where NGINX would both, proxy the actual client’s request
+to the real backend server, and mirroring this request to a test server.</p>
 <a class="reference internal image-reference" href="../../_images/nginx-mirror-mirror-setup.png"><img alt="Diagram of a mirroring server setup with NGINX" src="../../_images/nginx-mirror-mirror-setup.png" style="height: 400px;" /></a>
 <p><strong>Configure NGINX to mirror requests</strong></p>
 <p>NGINX uses the directives from the <code class="docutils literal notranslate"><span class="pre">ngx_http_mirror_module</span></code> to implement the
@@ -809,7 +825,7 @@ forward the request to an upstream server.</li>
 </ul>
 </li>
 </ul>
-<p>These are the basics of how NGINX allows to cache the content when placed as a
+<p>These are the basics of how NGINX allows caching the content when placed as a
 reverse proxy: it stores in its own file system the files served by upstream to
 client, and tries to match incoming requests with the cached ones, serving the
 cached ones when possible.</p>
@@ -922,8 +938,7 @@ admin, tu purge caches if needed and control it on your end.</li>
 <p><strong>Optimized and controllable caching</strong></p>
 <p>The above is true for any caching implemented by a reverse proxy. NGINX is
 particularly good because it comes with great optimizations (e.g.: the caching
-keys are stored in a shared memory zone, this is non-trivial and allows to
-share the cache population work performed by the different workers and leverage
+keys are stored in a shared memory zone, this is non-trivial and allows sharing the cache population work performed by the different workers and leverage
 hardware with high parallelism capabilities) that are very easy to configure
 out of the box.</p>
 <p>On another hands, I think it is important to speak about the controllability
@@ -959,10 +974,10 @@ Balancing., 77, 84-88.</p>
 <p><strong>General security aspects</strong></p>
 <p>The <a class="reference internal" href="#module2-describe-configure-security"><span class="std std-ref">previous part</span></a> already gives
 insights on what settings can be adjusted to control security aspects of an
-HTTP/HTTPS server. Security of course is a tremendously vast topic and we could
-not cover it all in this point. We will try to cover the most important aspects
-and, as the objective asks for demonstrative capabilities, mostly provide
-detailed examples of concrete security configurations.</p>
+HTTP/HTTPS server. Security of course is a tremendously vast topic, and we
+could not cover it all in this point. We will try to cover the most important
+aspects and, as the objective asks for demonstrative capabilities, mostly
+provide detailed examples of concrete security configurations.</p>
 <p><strong>Authentication</strong></p>
 <p>NGINX OSS proposes 2 ways to authenticate requests and protect locations based
 on authentication + authorization rules: HTTP Basic authentication and
@@ -1005,7 +1020,7 @@ by NGINX to enforce restrictions based on different rules (geoIP, manually
 defined decisions, etc.). <a class="reference internal" href="module3.html#module3-restrict-ip"><span class="std std-ref">Module 3</span></a> goes further
 into details on how to restrict access based on IP addresses.</p>
 <p><strong>HTTP specific security features</strong></p>
-<p>HTTP and its evolution comes with many specifications, headers and other quirks
+<p>HTTP and its evolution come with many specifications, headers and other quirks
 dedicated to security. We could not go over all of them, but it is worth
 mentioning some common hardening features allowed by NGINX. Ideally, the
 upstream servers should be able to define the correct HTTP headers to ensure
@@ -1019,7 +1034,7 @@ such security options.</p>
 meant by CORS and when it occurs.</p>
 <a class="reference internal image-reference" href="../../_images/cors_principle.png"><img alt="Diagram presenting CORS principle" src="../../_images/cors_principle.png" style="height: 500px;" /></a>
 <p>Basically, if your server serves resources from another domain (say, you host
-images or scripts used as resources for pages in a websites hosted at
+images or scripts used as resources for pages in a website hosted at
 <code class="docutils literal notranslate"><span class="pre">site1.example.com</span></code> and <code class="docutils literal notranslate"><span class="pre">site2.example.com</span></code>), you will need to enable
 CORS for the web clients to be able to fetch the resources you host that are
 referred to in the pages served by <code class="docutils literal notranslate"><span class="pre">site1.example.com</span></code> and
@@ -1056,7 +1071,7 @@ referred to in the pages served by <code class="docutils literal notranslate"><s
 <dd>Clickjacking refers to an attack where a user is tricked into clicking on a
 link from a different source that what they think (for example, clicking on a
 “Submit” button inside an iFrame when they think the button belongs to the
-top level page and not an iFrame). XSS is is a security exploit which allows
+top level page and not an iFrame). XSS is a security exploit which allows
 an attacker to inject into a website malicious client-side code. This code is
 executed by the victims and lets the attackers bypass access controls and
 impersonate users. HTTP proposes the standardized <strong>Content-Security-Policy</strong>
@@ -1083,7 +1098,7 @@ sent back to the client.</dd>
 <p><strong>Location security and secure links</strong></p>
 <p>In order to protect a location, NGINX can make use of the features in its
 <a class="reference external" href="https://nginx.org/en/docs/http/ngx_http_secure_link_module.html">ngx_http_secure_link_module</a>.</p>
-<p>Basically, this module allows to protect a location by requiring the requested
+<p>Basically, this module allows protecting a location by requiring the requested
 URI contains some non easily guessable value, making it hard for automated
 scanner to easily access the files at that location.</p>
 <p>This can be implemented by 2 different modes: The first mode is enabled by the
@@ -1258,7 +1273,7 @@ handles requests in an optimized way (mostly on BSD and Linux based
 platforms). This sets it apart from its historical ancestor Apache.</li>
 <li>Security: NGINX comes with many security features as you could see in this
 part. The most powerful one probably is implementing HTTPS and making it
-quite easy to setup with reasonably secure defaults: you just need to provide
+quite easy to set up with reasonably secure defaults: you just need to provide
 a path to a key and a certificate, NGINX can handle the rest. This is not
 especially rare in reverse proxies, but NGINX, with its design and all other
 controls it gives for security, is a reputably secure reverse proxy.</li>
@@ -1303,7 +1318,7 @@ about how the load balancing is handled and which server is selected for
 sending the request to.</p>
 <p><strong>Specificities and quirks related to upstream routing</strong></p>
 <p>The following points are hard to organize and classify as they are quite
-specific to NGINX and how to passes requests upstream in details, but you may
+specific to NGINX and how to pass requests upstream in details, but you may
 find these interesting and will probably some day encounter issues related to
 these:</p>
 <ul class="simple">
@@ -1327,7 +1342,7 @@ configuration reload, and does not monitor changes made to the DNS record
 before the next reload. This can be solved in NGINX Plus commercial
 subscription, with the <code class="docutils literal notranslate"><span class="pre">resolve</span></code> option of the <code class="docutils literal notranslate"><span class="pre">server</span></code> directive, but
 not easily and cleanly in NGINX OSS. If your domain name resolves to multiple
-IP addresses, NGINX will consider multiple upstream server and round robin
+IP addresses, NGINX will consider multiple upstream server and round-robin
 through them as if you added each IP by hand.</li>
 <li>Caching and upstream bypassing. If you configure caching of upstream server’s
 responses, requests are not necessarily proxied to upstream server and may
@@ -1383,7 +1398,7 @@ directive. This will make sure, as long as upstream servers can present an
 HTTPS certificate, that the communication is encrypted.</p>
 <p>Note however that, regarding authentication, by default NGINX does not verify
 with its CAs the signature of the presented certificate. <code class="docutils literal notranslate"><span class="pre">proxy_ssl_verify</span></code>
-option allows to enforce this.</p>
+option allows enforcing this.</p>
 <p><strong>Securing TCP traffic to upstream</strong></p>
 <p>Similarly to the above for HTTPS, you may use SSL in TCP to encrypt layer 4
 stream to upstream servers, it being HTTP or not. In that case, you should not
@@ -1415,10 +1430,10 @@ the <code class="docutils literal notranslate"><span class="pre">ngx_http_header
 <p>Adds a “Cache-Control” header with the “private” value (which indicates that
 the response is client specific and can be cached but not in a cache shared
 among users).</p>
-<p>To remove headers from a response, the <code class="docutils literal notranslate"><span class="pre">proxy_hide_header</span></code> allows to remove
+<p>To remove headers from a response, the <code class="docutils literal notranslate"><span class="pre">proxy_hide_header</span></code> allows removing
 any specified from the response. Note that by default, “Date”, “Server”,
 “X-Pad” and “X-Accel-…” headers are removed.</p>
-<p><code class="docutils literal notranslate"><span class="pre">proxy_ignore_headers</span></code> allows to make NGINX ignore headers that would
+<p><code class="docutils literal notranslate"><span class="pre">proxy_ignore_headers</span></code> allows making NGINX ignore headers that would
 otherwise instruct it to perform some actions (redirects, cache control, etc.).
 The following fields can be ignored: “X-Accel-Redirect”, “X-Accel-Expires”,
 “X-Accel-Limit-Rate” (1.1.6), “X-Accel-Buffering” (1.1.6), “X-Accel-Charset”
@@ -1427,7 +1442,7 @@ The following fields can be ignored: “X-Accel-Redirect”, “X-Accel-Expires�
 server</strong></p>
 <p>On the other side, you may want to modify HTTP headers before they could reach
 the upstream server. For this, your main tool is the <code class="docutils literal notranslate"><span class="pre">proxy_set_header</span></code>
-directive. As the name suggests, it does not just adds headers but allows
+directive. As the name suggests, it does not just add headers but allows
 redefining the received headers.</p>
 <p>By default, 2 fields are automatically redefined, as if the following
 directives were a default:</p>
@@ -1441,7 +1456,7 @@ server to see the client’s original requested Host). It also ensures the
 connection is closed after the transaction and prevents keeping unwanted
 keepalived connections. This makes sure that Keep-Alive is explicitly
 configured.</p>
-<p>By default, the request headers received by the client are passed but this can
+<p>By default, the request headers received by the client are passed, but this can
 be modified through the <code class="docutils literal notranslate"><span class="pre">proxy_pass_request_header</span></code> directive.</p>
 <p>If you want to explicitly prevent one specific header from being passed to the
 upstream, the following allows you to do so:</p>
@@ -1465,14 +1480,76 @@ adds headers to the response sent to the client.</p>
 <div class="section" id="id1">
 <h3>1.4 - Modify or tune a memory zone configuration<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference external" href="https://docs.nginx.com/nginx/admin-guide/load-balancer/http-load-balancer/#sharing-data-with-multiple-worker-processes">https://docs.nginx.com/nginx/admin-guide/load-balancer/http-load-balancer/#sharing-data-with-multiple-worker-processes</a></p>
-<p><em>TODO</em></p>
+<p><a class="reference external" href="https://nginx.org/en/docs/http/ngx_http_upstream_module.html#zone">https://nginx.org/en/docs/http/ngx_http_upstream_module.html#zone</a></p>
+<p><strong>Memory zone for reverse proxying</strong></p>
+<p>Shared memory zones in the context of NGINX can be used in multiple contexts
+(shared rate limiting, shared caching, shared upstream state, etc.)</p>
+<p>In the context of NGINX being used as a reverse proxy, we will assume here that
+memory zone here refers to the memory zone to be defined in the <code class="docutils literal notranslate"><span class="pre">upstream</span> <span class="pre">{}</span></code>
+block context (as other usages seem more related to other uses of NGINX).</p>
+<p>Shared memory zones in the context of upstream groups allow NGINX to share
+information and state related to the upstream load balancing state among the
+different workers. As explained in <a class="reference internal" href="module1.html#module1-shared-memory-zones"><span class="std std-ref">the module 1</span></a>, sharing memory zones is an efficient way for NGINX to share
+information among its workers and prevent redoing the same work when successive
+requests are handled by different workers. For example, if an upstream group
+contains 4 members, and we want the N NGINX workers to load balance between
+these upstream servers in a round robin fashion, the N NGINX workers need to
+make sure they don’t all re-do the round-robin work, but rather hit each server
+one after the other. Shared memory zone allow for example to do this.</p>
+<p><strong>Modify or tune a shared memory zone of an upstream group</strong></p>
+<p>Defining a shared memory zone for the upstream context is done with the
+<code class="docutils literal notranslate"><span class="pre">zone</span></code> directive. It accepts 2 parameters: a name, required, and a size,
+optional. Using the same name for different zones allows to reuse a shared
+memory zone (eventually to optimize the used memory). For the size parameter,
+fine tuning it depends on multiple parameters, the documentation however
+provides some guidance on how it can be optimized for the use cases:</p>
+<p>As an example, with the sticky_route session persistence method and a single
+health check enabled, a 256-KB zone can accommodate information about the
+indicated number of upstream servers:</p>
+<ul class="simple">
+<li>128 servers (each defined as an IP-address:port pair)</li>
+<li>88 servers (each defined as hostname:port pair where the hostname resolves to
+a single IP address)</li>
+<li>12 servers (each defined as hostname:port pair where the hostname resolves to
+multiple IP addresses)</li>
+</ul>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="describe-how-to-configure-nginx-as-socket-reverse-proxy">
 <h3>1.4 - Describe how to configure NGINX as socket reverse proxy<a class="headerlink" href="#describe-how-to-configure-nginx-as-socket-reverse-proxy" title="Permalink to this headline">¶</a></h3>
-<p><em>TODO</em></p>
+<p><a class="reference external" href="https://nginx.org/en/docs/http/websocket.html">https://nginx.org/en/docs/http/websocket.html</a></p>
+<p><strong>Web sockets in NGINX</strong></p>
+<p>In order to use NGINX as a reverse proxy when your backend server uses web
+sockets will work easily. You however must apply a specific configuration:
+since the “Upgrade” HTTP header, used to configure web sockets, is a hop-by-hop
+header, it is not expected to be passed by default from the client to the
+upstream servers.</p>
+<p>To handle this, NGINX uses a special procedure that can be configured with the
+following example code:</p>
+<div class="highlight-NGINX notranslate"><div class="highlight"><pre><span></span><span class="k">http</span> <span class="p">{</span>
+  <span class="kn">map</span> <span class="nv">$http_upgrade</span> <span class="nv">$connection_upgrade</span> <span class="p">{</span>
+      <span class="kn">default</span> <span class="s">upgrade</span><span class="p">;</span>
+      <span class="kn">&#39;&#39;</span>      <span class="s">close</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="kn">server</span> <span class="p">{</span>
+      <span class="kn">...</span>
+
+      <span class="s">location</span> <span class="s">/chat/</span> <span class="p">{</span>
+          <span class="kn">proxy_pass</span> <span class="s">http://backend</span><span class="p">;</span>
+          <span class="kn">proxy_http_version</span> <span class="mi">1</span><span class="s">.1</span><span class="p">;</span>
+          <span class="kn">proxy_set_header</span> <span class="s">Upgrade</span> <span class="nv">$http_upgrade</span><span class="p">;</span>
+          <span class="kn">proxy_set_header</span> <span class="s">Connection</span> <span class="nv">$connection_upgrade</span><span class="p">;</span>
+      <span class="p">}</span>
+  <span class="p">}</span>
+</pre></div>
+</div>
+<p>Here, the usage of <code class="docutils literal notranslate"><span class="pre">proxy_set_header</span></code> allows to override the “Upgrade” and
+the “Connection” header to reflect the client’s intentions. The client’s
+intention are read from the “Upgrade” header and put in a new variable
+<code class="docutils literal notranslate"><span class="pre">$connection_upgrade</span></code>.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -1511,7 +1588,7 @@ unavailable for 30 seconds:</p>
 </pre></div>
 </div>
 <p>Note that if there is only a single server in a group, the fail_timeout and
-max_fails parameters are ignored and the server is never marked unavailable.</p>
+max_fails parameters are ignored, and the server is never marked unavailable.</p>
 <p>By default, <code class="docutils literal notranslate"><span class="pre">max_fails=1</span></code> and <code class="docutils literal notranslate"><span class="pre">fail_timeout=10s</span></code>. Also note that
 <code class="docutils literal notranslate"><span class="pre">fail_timeout</span></code> defines both, the time NGINX waits before considering the
 server timed out, and the time during which a server is flagged as down after
@@ -1519,7 +1596,7 @@ it has reached that timeout. This aspect can be surprising.</p>
 <p><strong>Health checking for HTTP, TCP and UDP upstream servers</strong></p>
 <p>HTTP, TCP and UDP passive health checks are configured with the same
 parameters, the only difference is that the upstream server group would be
-created in a <code class="docutils literal notranslate"><span class="pre">stream</span></code> or an <code class="docutils literal notranslate"><span class="pre">http</span></code> block.</p>
+created in a <code class="docutils literal notranslate"><span class="pre">stream</span></code> or a <code class="docutils literal notranslate"><span class="pre">http</span></code> block.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 <div class="line"><br /></div>

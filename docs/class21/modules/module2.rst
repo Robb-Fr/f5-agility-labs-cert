@@ -608,9 +608,9 @@ with it. The following points can be surprising:
 - The first matched REGEX stops the matching check process: the order matters
   and there is not such thing as longest matched REGEX (fortunately so)
 
-Among other points. The referenced [blog
-post](https://www.f5.com/company/blog/nginx/regular-expression-tester-nginx)
-from Rick Nelson gathers interesting examples and an explanation for a tester
+Among other points. The referenced `blog post
+<https://www.f5.com/company/blog/nginx/regular-expression-tester-nginx>`_ from
+Rick Nelson gathers interesting examples and an explanation for a tester
 software you can run to check which routes match a given REGEX location. Check
 examples from the NGINX documentation to familiarize with REGEX and locations
 definitions in NGINX.
@@ -621,6 +621,8 @@ definitions in NGINX.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 https://docs.nginx.com/nginx/admin-guide/content-cache/content-caching/
+
+https://blog.nginx.org/blog/nginx-caching-guide
 
 Kapranoff, Nginx Troubleshooting, 82.
 
@@ -1108,7 +1110,7 @@ To answer both aspects:
   to upstream servers generating dynamic content. NGINX even has optimized
   proxy passing for certain protocols such as FastCGI with the
   `ngx_http_fastcgi_module
-  <https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html>` and its
+  <https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html>`_ and its
   ``fastcgi_pass`` directive.
 
 The difference between both is that:
